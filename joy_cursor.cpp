@@ -1,6 +1,4 @@
-#define SD_CS     10
-#define JOY_VERT  A9 // should connect A9 to pin VRx
-#define JOY_HORIZ A8 // should connect A8 to pin VRy
+
 
 #include <Arduino.h>
 #include <Adafruit_GFX.h>
@@ -13,15 +11,11 @@
 
 MCUFRIEND_kbv tft;
 
-#define DISPLAY_WIDTH  480
-#define DISPLAY_HEIGHT 320
-#define YEG_SIZE 2048
+
 
 lcd_image_t yegImage = { "yeg-big.lcd", YEG_SIZE, YEG_SIZE };
 
-#define JOY_CENTER   512
-#define JOY_DEADZONE 64
-#define CURSOR_SIZE  9
+
 // global variables for cursor position
 int cursorX, cursorY;
 
