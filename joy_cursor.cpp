@@ -80,7 +80,10 @@ void moveMapPatch(bool xl, bool xr, bool yt, bool yb) {
   if (!xr) {currentPatchX += MAP_WIDTH; cursorX = crsB;}
   if (!yt) {currentPatchY -= MAP_HEIGHT; cursorY = MAP_HEIGHT - crsB;}
   if (!yb) {currentPatchY += MAP_HEIGHT; cursorY = crsB;}
+  currentPatchX = constrain(currentPatchX, 0, YEG_SIZE - MAP_WIDTH);
+  currentPatchY = constrain(currentPatchY, 0, YEG_SIZE - MAP_HEIGHT);
   drawMap(); redrawCursor();
+
 }
 
 void processJoystick() {
@@ -94,15 +97,15 @@ void processJoystick() {
   bool xInRightBnd = cursorX <= MAP_WIDTH - 1 - cRad;
   bool yInTopBnd = cursorY >= cRad; 
   bool yInBottomBnd = cursorY <= MAP_HEIGHT - 1 - cRad;
-
-  if (xInLeftBnd && xInRightBnd && yInTopBnd && yInBottomBnd) {
+  if (!xInLeftBnd || !xInRightBnd || !yInTopBnd || !yInBottomBnd) {
+    if (currentPatchX != 0 && currentPatchX != YEG_SIZE - MAP_WIDTH)
+    moveMapPatch(xInLeftBnd, xInRightBnd, yInTopBnd, yInBottomBnd);
+  } else {
     // will only redraw map when the cursor moves to prevent the cursor from flickering
     if (tempX != cursorX || tempY != cursorY) {
       redrawMapBg(tempX, tempY);
       redrawCursor();
     }
-  } else {
-    moveMapPatch(xInLeftBnd, xInRightBnd, yInTopBnd, yInBottomBnd);
   } 
 }
 
