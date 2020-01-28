@@ -78,46 +78,35 @@ void moveMapPatch(bool xl, bool xr, bool yt, bool yb) {
   if (!xr) {currentPatchX += MAP_WIDTH; cursorX = crsB;}
   if (!yt) {currentPatchY -= MAP_HEIGHT; cursorY = MAP_HEIGHT - crsB;}
   if (!yb) {currentPatchY += MAP_HEIGHT; cursorY = crsB;}
+  // find a better way to constrain bruh
   currentPatchX = constrain(currentPatchX, 0, YEG_SIZE - MAP_WIDTH);
   currentPatchY = constrain(currentPatchY, 0, YEG_SIZE - MAP_HEIGHT);
   drawMap(); redrawCursor();
 }
 
-// checks if the edge of the Edmonton map is loaded
-char inMapBounds() {
-  if (currentPatchX == 0) return 'L';
-  else if (currentPatchX == YEG_SIZE - MAP_WIDTH) return 'R';
-  else if (currentPatchY == 0) return 'T';
-  else if (currentPatchY == YEG_SIZE - MAP_HEIGHT) return 'B'; 
-  return '\0';
-} 
-
-void clampCursor(char bound) {
-  switch (bound) {
-    case 'L':
-      if (cursorX < C_RAD) {
-        cursorX = C_RAD;  
-      }
-      break;
-    case 'R':
-      if (cursorX > MAP_WIDTH - 1 - C_RAD) {
-        cursorX = MAP_WIDTH - 1 - C_RAD;  
-      }
-      break;
-    case 'T':
-      if (cursorY < C_RAD) {
-        cursorY = C_RAD;  
-      }
-      break;
-    case 'B':
-      if (cursorY > MAP_HEIGHT - 1 -C_RAD) {
-        cursorY = MAP_HEIGHT - 1 - C_RAD;  
-      }
-      break;
-    default:
-      break;
+// clamps the cursor to the map bounds
+void clampMapBounds() {
+  if (currentPatchX == 0) {
+    if (cursorX < C_RAD) {
+      cursorX = C_RAD;  
+    }   
   }
-}
+  if (currentPatchX == YEG_SIZE - MAP_WIDTH) {
+    if (cursorX > MAP_WIDTH - 1 - C_RAD) {
+      cursorX = MAP_WIDTH - 1 - C_RAD;  
+    }
+  }
+  if (currentPatchY == 0) {
+    if (cursorY < C_RAD) {
+      cursorY = C_RAD;  
+    }
+  }
+  if (currentPatchY == YEG_SIZE - MAP_HEIGHT) {
+    if (cursorY > MAP_HEIGHT - 1 - C_RAD) {
+        cursorY = MAP_HEIGHT - 1 - C_RAD;  
+    }
+  } 
+} 
 
 void screenBoundCheck() {
   // checks if the cursor is still in bounds of the screen
@@ -135,7 +124,7 @@ void processJoystick() {
   int tempX = cursorX, tempY = cursorY;
   processAnalog(analogRead(JOY_HORIZ), 'X'); 
   processAnalog(analogRead(JOY_VERT), 'Y');
-  clampCursor(inMapBounds());
+  clampMapBounds();
   screenBoundCheck();
   // will only redraw map when the cursor moves to prevent the cursor from flickering
   if (tempX != cursorX || tempY != cursorY) {
