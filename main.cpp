@@ -8,6 +8,7 @@
 void setup() {
   init();
   Serial.begin(9600);
+  // sets up Arduino for Mode 0
   joySetup();
 }
 
