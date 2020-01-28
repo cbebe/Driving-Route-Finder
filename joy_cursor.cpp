@@ -1,6 +1,3 @@
-
-
-
 #include <Adafruit_GFX.h>
 #include <MCUFRIEND_kbv.h>
 #include <SPI.h>
@@ -89,7 +86,7 @@ void moveMapPatch(bool xl, bool xr, bool yt, bool yb) {
 // checks if the edge of the Edmonton map is loaded
 char inMapBounds() {
   if (currentPatchX == 0) return 'L';
-  else if (currentPatchX == YEG_SIZE - MAP_WIDTH) return 'R'
+  else if (currentPatchX == YEG_SIZE - MAP_WIDTH) return 'R';
   else if (currentPatchY == 0) return 'T';
   else if (currentPatchY == YEG_SIZE - MAP_HEIGHT) return 'B'; 
   return '\0';
@@ -98,19 +95,38 @@ char inMapBounds() {
 void clampCursor(char bound) {
   switch (bound) {
     case 'L':
-      cursorX = C_RAD;
+      if (cursorX < C_RAD) {
+        cursorX = C_RAD;  
+      }
       break;
     case 'R':
-      cursorX = MAP_WIDTH - 1 - C_RAD;
+      if (cursorX > MAP_WIDTH - 1 - C_RAD) {
+        cursorX = MAP_WIDTH - 1 - C_RAD;  
+      }
       break;
     case 'T':
-      cursorY = C_RAD;
+      if (cursorY < C_RAD) {
+        cursorY = C_RAD;  
+      }
       break;
     case 'B':
-      cursorY = MAP_HEIGHT - 1 - C_RAD;
+      if (cursorY > MAP_HEIGHT - 1 -C_RAD) {
+        cursorY = MAP_HEIGHT - 1 - C_RAD;  
+      }
       break;
     default:
       break;
+  }
+}
+
+void screenBoundCheck() {
+  // checks if the cursor is still in bounds of the screen
+  bool xInLeftBnd = cursorX >= C_RAD; 
+  bool xInRightBnd = cursorX <= MAP_WIDTH - 1 - C_RAD;
+  bool yInTopBnd = cursorY >= C_RAD; 
+  bool yInBotBnd = cursorY <= MAP_HEIGHT - 1 - C_RAD;
+  if (!xInLeftBnd || !xInRightBnd || !yInTopBnd || !yInBotBnd) {
+    moveMapPatch(xInLeftBnd, xInRightBnd, yInTopBnd, yInBotBnd);
   }
 }
 
@@ -119,23 +135,8 @@ void processJoystick() {
   int tempX = cursorX, tempY = cursorY;
   processAnalog(analogRead(JOY_HORIZ), 'X'); 
   processAnalog(analogRead(JOY_VERT), 'Y');
-  // checks if the cursor is still in bounds of the screen
-  bool xInLeftBnd = cursorX >= C_RAD; 
-  bool xInRightBnd = cursorX <= MAP_WIDTH - 1 - C_RAD;
-  bool yInTopBnd = cursorY >= C_RAD; 
-  bool yInBotBnd = cursorY <= MAP_HEIGHT - 1 - C_RAD;
-  char bound = inMapBounds();
-
-  if (!xInLeftBnd || !xInRightBnd || !yInTopBnd || !yInBottomBnd) {
-    // if not on the edge of Edmonton map, moves the map patch
-    // else clamps the cursor on the edge of the screen
-    if (!bound) {
-      moveMapPatch(xInLeftBnd, xInRightBnd, yInTopBnd, yInBotBnd);
-    } else {
-      clampCursor(bound);
-    }
-  }
-  
+  clampCursor(inMapBounds());
+  screenBoundCheck();
   // will only redraw map when the cursor moves to prevent the cursor from flickering
   if (tempX != cursorX || tempY != cursorY) {
     redrawMapBg(tempX, tempY);
