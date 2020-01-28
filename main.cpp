@@ -6,6 +6,8 @@
 #include "joy_cursor.h"
 
 void setup() {
+  init();
+  Serial.begin(9600);
   joySetup();
 }
 
@@ -14,5 +16,6 @@ int main() {
   while (1) {
     processJoystick();
   }
+  Serial.end();
   return 0;
 }
