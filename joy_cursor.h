@@ -16,5 +16,6 @@
 #define CURSOR_SIZE  9
 
 void processJoystick();
+void joySetup();
 
 #endif

@@ -6,5 +6,13 @@
 #include "joy_cursor.h"
 
 void setup() {
-  
+  joySetup();
+}
+
+int main() {
+  setup();
+  while (1) {
+    processJoystick();
+  }
+  return 0;
 }

@@ -70,3 +70,28 @@ void processJoystick() {
     redrawCursor();
   }
 }
+
+void joySetup() {
+  init();
+  Serial.begin(9600);
+  uint16_t ID = tft.readID();    // read ID from display
+  Serial.print("ID = 0x");
+  Serial.println(ID, HEX);
+  if (ID == 0xD3D3) ID = 0x9481; // write-only shield  
+  tft.begin(ID);                 // LCD gets ready to work
+	Serial.print("Initializing SD card...");
+	if (!SD.begin(SD_CS)) {
+		Serial.println("failed! Is it inserted properly?");
+		while (true) {}
+	}
+	Serial.println("OK!");
+	tft.setRotation(1); tft.fillScreen(TFT_BLACK);
+	int yegMiddleX = YEG_SIZE/2 - (DISPLAY_WIDTH - 60)/2;
+	int yegMiddleY = YEG_SIZE/2 - DISPLAY_HEIGHT/2;
+	lcd_image_draw(&yegImage, &tft, yegMiddleX, yegMiddleY,
+                 0, 0, DISPLAY_WIDTH - 60, DISPLAY_HEIGHT);
+  // initial cursor position is the middle of the screen
+  cursorX = (DISPLAY_WIDTH - 60)/2;
+  cursorY = DISPLAY_HEIGHT/2;
+  redrawCursor();
+}
