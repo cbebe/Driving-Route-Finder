@@ -47,14 +47,12 @@ void joySetup() {
 
 // redraws map background on previous cursor position to remove black trail
 void redrawMapBg(uint16_t tempX, uint16_t tempY) {
-  int yegMiddleX = YEG_SIZE/2 - MAP_WIDTH/2;
-  int yegMiddleY = YEG_SIZE/2 - MAP_HEIGHT/2;
   int screenPatchX = tempX - CURSOR_SIZE/2;
   // prevents cursor from moving to black column
   screenPatchX = constrain(screenPatchX, 0, MAP_WIDTH - CURSOR_SIZE);
   int screenPatchY = tempY - CURSOR_SIZE/2;
-  lcd_image_draw(&yegImage, &tft, yegMiddleX + screenPatchX, 
-                  yegMiddleY + screenPatchY, screenPatchX, 
+  lcd_image_draw(&yegImage, &tft, currentPatchX + screenPatchX, 
+                  currentPatchY + screenPatchY, screenPatchX, 
                   screenPatchY, CURSOR_SIZE, CURSOR_SIZE);
 }
 // processes analog data and changes the increment 
@@ -77,11 +75,11 @@ void processAnalog(int aVal, char dir) {
 }
 
 void moveMapPatch(bool xl, bool xr, bool yt, bool yb) {
-  int crsB = cRad + 1;
+  int crsB = CURSOR_SIZE/2 + 1;
   if (!xl) {currentPatchX -= MAP_WIDTH; cursorX = MAP_WIDTH - crsB;}
-  if (!xr) {currentPatchX += MAP_WIDTH; cursorX = 0;}
+  if (!xr) {currentPatchX += MAP_WIDTH; cursorX = crsB;}
   if (!yt) {currentPatchY -= MAP_HEIGHT; cursorY = MAP_HEIGHT - crsB;}
-  if (!yb) {currentPatchY += MAP_HEIGHT; cursorY = 0;}
+  if (!yb) {currentPatchY += MAP_HEIGHT; cursorY = crsB;}
   drawMap(); redrawCursor();
 }
 
@@ -92,10 +90,10 @@ void processJoystick() {
   processAnalog(analogRead(JOY_VERT), 'Y');
   int cRad = CURSOR_SIZE/2;
   // checks if the cursor is still in bounds of the screen
-  bool xInLeftBnd = cursorX > cRad; 
-  bool xInRightBnd = cursorX < MAP_WIDTH - 1 - cRad;
-  bool yInTopBnd = cursorY > cRad; 
-  bool yInBottomBnd = cursorY < MAP_HEIGHT - 1 - cRad;
+  bool xInLeftBnd = cursorX >= cRad; 
+  bool xInRightBnd = cursorX <= MAP_WIDTH - 1 - cRad;
+  bool yInTopBnd = cursorY >= cRad; 
+  bool yInBottomBnd = cursorY <= MAP_HEIGHT - 1 - cRad;
 
   if (xInLeftBnd && xInRightBnd && yInTopBnd && yInBottomBnd) {
     // will only redraw map when the cursor moves to prevent the cursor from flickering
