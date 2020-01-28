@@ -73,7 +73,7 @@ void processAnalog(int aVal, char dir) {
   	cursorY += increment;	
   }
 }
-
+// moves map patch depending on which edge of the screen the cursor was touching
 void moveMapPatch(bool xl, bool xr, bool yt, bool yb) {
   int crsB = CURSOR_SIZE/2 + 1;
   if (!xl) {currentPatchX -= MAP_WIDTH; cursorX = MAP_WIDTH - crsB;}
@@ -83,8 +83,15 @@ void moveMapPatch(bool xl, bool xr, bool yt, bool yb) {
   currentPatchX = constrain(currentPatchX, 0, YEG_SIZE - MAP_WIDTH);
   currentPatchY = constrain(currentPatchY, 0, YEG_SIZE - MAP_HEIGHT);
   drawMap(); redrawCursor();
-
 }
+// checks if the edge of the Edmonton map is loaded
+bool inMapBounds() {
+  if (currentPatchX == 0 || currentPatchX == YEG_SIZE - MAP_WIDTH ||
+      currentPatchY == 0 || currentPatchY == YEG_SIZE - MAP_HEIGHT) {
+    return true;
+  }
+  return false;
+} 
 
 void processJoystick() {
   // temp variables to draw map on later
@@ -96,16 +103,24 @@ void processJoystick() {
   bool xInLeftBnd = cursorX >= cRad; 
   bool xInRightBnd = cursorX <= MAP_WIDTH - 1 - cRad;
   bool yInTopBnd = cursorY >= cRad; 
-  bool yInBottomBnd = cursorY <= MAP_HEIGHT - 1 - cRad;
+  bool yInBotBnd = cursorY <= MAP_HEIGHT - 1 - cRad;
+
   if (!xInLeftBnd || !xInRightBnd || !yInTopBnd || !yInBottomBnd) {
-    if (currentPatchX != 0 && currentPatchX != YEG_SIZE - MAP_WIDTH)
-    moveMapPatch(xInLeftBnd, xInRightBnd, yInTopBnd, yInBottomBnd);
-  } else {
-    // will only redraw map when the cursor moves to prevent the cursor from flickering
-    if (tempX != cursorX || tempY != cursorY) {
-      redrawMapBg(tempX, tempY);
-      redrawCursor();
+    // if not on the edge of Edmonton map, moves the map patch
+    // else clamps the cursor on the edge of the screen
+    if (!inMapBounds()) {
+      moveMapPatch(xInLeftBnd, xInRightBnd, yInTopBnd, yInBotBnd);
     }
-  } 
+    else {
+      cursorX = constrain(cursorX, cRad, MAP_WIDTH - 1 - cRad);
+      cursorY = constrain(cursorY, cRad, MAP_HEIGHT - 1 - cRad);
+    }
+  }
+  // will only redraw map when the cursor moves to prevent the cursor from flickering
+  if (tempX != cursorX || tempY != cursorY) {
+    redrawMapBg(tempX, tempY);
+    redrawCursor();
+  }
+   
 }
 
