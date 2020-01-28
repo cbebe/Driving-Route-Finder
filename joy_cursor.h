@@ -16,6 +16,7 @@
 #define JOY_CENTER   512
 #define JOY_DEADZONE 64
 #define CURSOR_SIZE  9
+#define C_RAD 4
 
 void processJoystick();
 void joySetup();
