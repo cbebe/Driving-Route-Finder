@@ -103,7 +103,7 @@ void clampMapBounds() {
   }
   if (currentPatchY == YEG_SIZE - MAP_HEIGHT) {
     if (cursorY > MAP_HEIGHT - 1 - C_RAD) {
-        cursorY = MAP_HEIGHT - 1 - C_RAD;  
+      cursorY = MAP_HEIGHT - 1 - C_RAD;  
     }
   } 
 } 
