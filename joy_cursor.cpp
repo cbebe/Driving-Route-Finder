@@ -73,38 +73,32 @@ void processAnalog(int aVal, char dir) {
 
 // moves map patch depending on which edge of the screen the cursor was touching
 void moveMapPatch(bool xl, bool xr, bool yt, bool yb) {
-  int crsB = C_RAD + 1;
-  if (!xl) {currentPatchX -= MAP_WIDTH; cursorX = MAP_WIDTH - crsB;}
-  if (!xr) {currentPatchX += MAP_WIDTH; cursorX = crsB;}
-  if (!yt) {currentPatchY -= MAP_HEIGHT; cursorY = MAP_HEIGHT - crsB;}
-  if (!yb) {currentPatchY += MAP_HEIGHT; cursorY = crsB;}
-  // find a better way to constrain bruh
+  if (!xl) {currentPatchX -= MAP_WIDTH;}
+  if (!xr) {currentPatchX += MAP_WIDTH;}
+  if (!yt) {currentPatchY -= MAP_HEIGHT;}
+  if (!yb) {currentPatchY += MAP_HEIGHT;}
   currentPatchX = constrain(currentPatchX, 0, YEG_SIZE - MAP_WIDTH);
   currentPatchY = constrain(currentPatchY, 0, YEG_SIZE - MAP_HEIGHT);
+  cursorX = MAP_WIDTH/2; cursorY = MAP_HEIGHT/2;
   drawMap(); redrawCursor();
 }
 
 // clamps the cursor to the map bounds
 void clampMapBounds() {
-  if (currentPatchX == 0) {
-    if (cursorX < C_RAD) {
-      cursorX = C_RAD;  
-    }   
+  if (currentPatchX == 0 && cursorX < C_RAD) {
+    cursorX = C_RAD;  
+  }   
   }
-  if (currentPatchX == YEG_SIZE - MAP_WIDTH) {
-    if (cursorX > MAP_WIDTH - 1 - C_RAD) {
-      cursorX = MAP_WIDTH - 1 - C_RAD;  
-    }
+  if (currentPatchX == YEG_SIZE - MAP_WIDTH && 
+      cursorX > MAP_WIDTH - 1 - C_RAD) {
+    cursorX = MAP_WIDTH - 1 - C_RAD;  
   }
-  if (currentPatchY == 0) {
-    if (cursorY < C_RAD) {
-      cursorY = C_RAD;  
-    }
+  if (currentPatchY == 0 && cursorY < C_RAD) {
+    cursorY = C_RAD;  
   }
-  if (currentPatchY == YEG_SIZE - MAP_HEIGHT) {
-    if (cursorY > MAP_HEIGHT - 1 - C_RAD) {
-      cursorY = MAP_HEIGHT - 1 - C_RAD;  
-    }
+  if (currentPatchY == YEG_SIZE - MAP_HEIGHT &&
+      cursorY > MAP_HEIGHT - 1 - C_RAD) {
+    cursorY = MAP_HEIGHT - 1 - C_RAD;  
   } 
 } 
 
