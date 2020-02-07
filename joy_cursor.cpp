@@ -5,7 +5,6 @@
 #include "lcd_image.h"
 #include "joy_cursor.h"
 
-MCUFRIEND_kbv tft;
 lcd_image_t yegImage = { "yeg-big.lcd", YEG_SIZE, YEG_SIZE };
 
 // global variables for cursor and map positions 

@@ -5,7 +5,7 @@
 #include <SD.h>
 #include "joy_cursor.h"
 
-#define MODE_SWITCH 53
+MCUFRIEND_kbv tft;
 void setup() {
   init();
   Serial.begin(9600);
@@ -18,15 +18,15 @@ void setup() {
 	}
 	tft.setRotation(1); tft.fillScreen(TFT_BLACK);
   joySetup();
-  pinMode(MODE_SWITCH, INPUT);
-  digitalWrite(MODE_SWITCH, HIGH);
+  pinMode(JOY_SEL, INPUT);
+  digitalWrite(JOY_SEL, HIGH);
 }
 
 int main() {
   setup();
   while (1) {
     processJoystick();
-    if (digitalRead(MODE_SWITCH) == LOW) {
+    if (digitalRead(JOY_SEL) == LOW) {
       Mode1();
       joySetup();
     }
