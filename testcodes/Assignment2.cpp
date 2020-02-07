@@ -276,7 +276,7 @@ void get_restaurant_fast(restaurant* ptr, int i) {
   g_prev_block = block;
 
 
-  }
+}
 
 
   // These constants are for the 2048 by 2048 map.
@@ -288,23 +288,23 @@ const int32_t lat_south = 5340953;
 const int32_t lon_west = -11368652;
 const int32_t lon_east = -11333496;
 
-  // These functions convert between x/y map position and lat/lon
-  // (and vice versa.)
-  int32_t x_to_lon(int16_t x) {
-      return map(x, 0, map_width, lon_west, lon_east);
-  }
+// These functions convert between x/y map position and lat/lon
+// (and vice versa.)
+int32_t x_to_lon(int16_t x) {
+    return map(x, 0, map_width, lon_west, lon_east);
+}
 
-  int32_t y_to_lat(int16_t y) {
-      return map(y, 0, map_height, lat_north, lat_south);
-  }
+int32_t y_to_lat(int16_t y) {
+    return map(y, 0, map_height, lat_north, lat_south);
+}
 
-  int16_t lon_to_x(int32_t lon) {
-      return map(lon, lon_west, lon_east, 0, map_width);
-  }
+int16_t lon_to_x(int32_t lon) {
+    return map(lon, lon_west, lon_east, 0, map_width);
+}
 
-  int16_t lat_to_y(int32_t lat) {
-      return map(lat, lat_north, lat_south, 0, map_height);
-  }
+int16_t lat_to_y(int32_t lat) {
+    return map(lat, lat_north, lat_south, 0, map_height);
+}
 
 //calculate distance given the necessary paramaters for x and y
 uint32_t  getdistance (int actualcursorX,int32_t lon,int actualcursorY,int32_t lat) {
@@ -313,10 +313,6 @@ uint32_t  getdistance (int actualcursorX,int32_t lon,int actualcursorY,int32_t l
   uint32_t distance = abs(actualcursorX - lon) + abs(actualcursorY - lat);
   return distance;
 }
-
-
-
-
 
 // Swap two restaurants of RestDist struct
 void swap_rest(RestDist *ptr_rest1, RestDist *ptr_rest2) {
