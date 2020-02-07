@@ -30,7 +30,7 @@ const char* stringsToDisplay[] = {
 	"being"
 };
 
-int highlightedString;
+int highlightedString, oldNum;
 
 // assumes the text size is already 2, text is not wrapping,
 // and that 0 <= index < NUM_LINES
@@ -74,24 +74,30 @@ void setup() {
 	tft.setRotation(1);
 }
 
+void processAnalog(int aVal) {
+  int posBuffer = JOY_CENTER + JOY_DEADZONE;
+  int negBuffer = JOY_CENTER - JOY_DEADZONE;
+	if (aVal > posBuffer) {
+  	oldNum = highlightedString;
+    highlightedString++;
+  } else if (aVal < negBuffer) {
+  	oldNum = highlightedString;
+    highlightedString--;
+  }
+	// draw the old highlighted string normally
+	displayText(oldNum);
+	// highlight the new string
+	displayText(highlightedString);
+}
+
+
 int main() {
 	setup();
 
 	highlightedString = 0;
 	displayAllText();
 	while (1) {
-		if (digitalRead(JOY_SEL) == LOW) {
-			int oldNum = highlightedString;
-			highlightedString++;
-			if (highlightedString > NUM_LINES) {
-				highlightedString = 0;
-			}
-			// draw the old highlighted string normally
-			displayText(oldNum);
-			// highlight the new string
-			displayText(highlightedString);
-			delay(1000);
-		}
+		processAnalog(digitalRead(JOY_VERT));
 		// Challenge: Use joystick to scroll the list and select a line
 	}
 
