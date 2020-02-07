@@ -39,13 +39,13 @@ struct restaurant {
 struct RestDist {
   uint16_t index;
   uint16_t dist;
-}
+};
 
-extern MCUFRIEND_kbv tft; 
 
 void joySetup();
 void mapInit();
 void Mode0();
 void Mode1();
 
+extern MCUFRIEND_kbv tft; 
 #endif

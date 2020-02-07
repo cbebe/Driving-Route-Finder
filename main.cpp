@@ -5,8 +5,8 @@
 #include <SD.h>
 #include "mode0.h"
 
-MCUFRIEND_kbv tft; 
-extern cursorX, cursorY;
+extern MCUFRIEND_kbv tft; 
+extern int cursorX, cursorY;
 
 void setup() {
   init();

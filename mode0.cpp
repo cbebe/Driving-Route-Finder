@@ -5,10 +5,10 @@
 #include "lcd_image.h"
 #include "mode0.h"
 
-extern MCUFRIEND_kbv tft; 
 
 lcd_image_t yegImage = { "yeg-big.lcd", YEG_SIZE, YEG_SIZE };
 
+extern MCUFRIEND_kbv tft; 
 // global variables for cursor and map positions 
 int cursorX, cursorY, currentPatchX, currentPatchY;
 
@@ -63,9 +63,9 @@ void redrawMapBg(uint16_t tempX, uint16_t tempY) {
 void processAnalog(int aVal, char dir) {
   int increment = 0;
   if (aVal > POS_BUFFER) {
-    increment += 1 + (aVal - POS_BUFFER)/(JOY_DEADZONE * 2);
-  } else if (aVal < negBuffer) {
-    increment += -1 +(aVal - NEG_BUFFER)/(JOY_DEADZONE * 2);
+    increment += 1 + (aVal - POS_BUFFER);
+  } else if (aVal < NEG_BUFFER) {
+    increment += -1 +(aVal - NEG_BUFFER);
   }
   // accounts for the inverted X increment
   if (dir == 'X') {

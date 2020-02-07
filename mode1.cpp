@@ -8,8 +8,10 @@ extern MCUFRIEND_kbv tft;
 const char* restaurantNames[21];
 extern int cursorX, cursorY;
 uint32_t pastBlockNum;
+int16_t selectedRest;
 restaurant currentRest;
 restaurant restBlock[8];
+Sd2Card card;
 
 void displayText(int index) {
 	// 15 is the vertical span of a size-2 character
@@ -35,7 +37,7 @@ void displayAllText() {
 	}
 }
 
-void joySelect(int selectedRest, int prevRest) {
+void joySelect(int prevRest) {
   int aVal = analogRead(JOY_VERT);
 	if (aVal > POS_BUFFER || aVal < NEG_BUFFER) {
   	prevRest = selectedRest;
@@ -65,7 +67,7 @@ void swapRest(RestDist *restA, RestDist *restB) {
 }
 
 // implementation of insertion sort from assignment pdf
-void iSort(RestDist *array[], int length) {
+void iSort(RestDist array[], int length) {
   int i = 1;
   while (i < length) {
     int j = i;
@@ -76,7 +78,7 @@ void iSort(RestDist *array[], int length) {
   }
 }
 
-void getRestaurantFast(int restIndex, restaurant* restPtr) {
+void getRestaurantFast(int restIndex, restaurant *restPtr) {
   uint32_t blockNum = REST_START_BLOCK + restIndex/8;
   // only loads from SD card when not on the same block
   if (blockNum != pastBlockNum) {
@@ -88,38 +90,38 @@ void getRestaurantFast(int restIndex, restaurant* restPtr) {
   *restPtr = restBlock[restIndex % 8];
 }
 
-int16_t caclulateDist(restaurant *rest) {
-  restX = map(rest.lat, LAT_NORTH, LAT_SOUTH, 0, YEG_SIZE); 
-  restY = map(rest.lon, LON_WEST, LON_EAST, 0, YEG_SIZE);
+int16_t calculateDist(restaurant *rest) {
+  int16_t restX = map(rest->lat, LAT_NORTH, LAT_SOUTH, 0, YEG_SIZE); 
+  int16_t restY = map(rest->lon, LON_WEST, LON_EAST, 0, YEG_SIZE);
   return abs(restX - cursorX) + abs(restY - cursorY);
 }
 
-void loadAllRestaurants(RestDist *rest_dist) {
+void loadAllRestaurants(RestDist rest_dist[]) {
   for (int i = 0; i < NUM_RESTAURANTS; i++) {
     rest_dist[i].index = i;
-    getRestaurantFast(i, &currentRest)
+    getRestaurantFast(i, &currentRest);
     rest_dist[i].dist = calculateDist(&currentRest);
   }
 }
 
-void loadRestaurants(RestDist *rest_dist) {
+void loadRestaurants(RestDist rest_dist[]) {
   for (int i = 0; i < NUM_LINES; i++) {
-    getRestaurantFast(&currentRest, rest_dist[i].index);
+    getRestaurantFast(rest_dist[i].index, &currentRest);
     restaurantNames[i] = currentRest.name;
   }
 }
 
 void Mode1() {
-	int selectedRest = 0, prevRest;
+	int prevRest; selectedRest = 0;
   RestDist rest_dist[NUM_RESTAURANTS];
-  loadAllRestaurants(&rest_dist);
-  iSort(&rest_dist, NUM_RESTAURANTS);
-  loadRestaurants();
+  loadAllRestaurants(rest_dist);
+  iSort(rest_dist, NUM_RESTAURANTS);
+  loadRestaurants(rest_dist);
 	displayAllText();
 	while (digitalRead(JOY_SEL) == HIGH) {
-		joySelect(selectedRest, prevRest);
+		joySelect(prevRest);
 	}
-  getRestaurantFast(&currentRest, rest_dist[selectedRest].index);
+  getRestaurantFast(rest_dist[selectedRest].index, &currentRest);
   cursorX = map(currentRest.lon, LON_WEST, LON_EAST, 0, YEG_SIZE);
   cursorY = map(currentRest.lat, LAT_NORTH, LAT_SOUTH, 0, YEG_SIZE);
 }

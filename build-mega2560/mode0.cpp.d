@@ -1,5 +1,4 @@
-build-mega2560/userlibs/Adafruit_GFX/Adafruit_GFX.cpp.o: \
- /home/charles/arduino-ua/libraries/Adafruit_GFX/Adafruit_GFX.cpp \
+build-mega2560/mode0.cpp.o: mode0.cpp \
  /home/charles/arduino-ua/libraries/Adafruit_GFX/Adafruit_GFX.h \
  /usr/share/arduino/hardware/arduino//cores/arduino/Arduino.h \
  /usr/share/arduino/hardware/arduino//cores/arduino/binary.h \
@@ -13,4 +12,13 @@ build-mega2560/userlibs/Adafruit_GFX/Adafruit_GFX.cpp.o: \
  /usr/share/arduino/hardware/arduino//variants/mega/pins_arduino.h \
  /usr/share/arduino/hardware/arduino//cores/arduino/Print.h \
  /home/charles/arduino-ua/libraries/Adafruit_GFX/gfxfont.h \
- /home/charles/arduino-ua/libraries/Adafruit_GFX/glcdfont.c
+ /home/charles/arduino-ua/libraries/MCUFRIEND_kbv/MCUFRIEND_kbv.h \
+ /usr/share/arduino/libraries/SPI/SPI.h \
+ /home/charles/arduino-ua/libraries/SD/SD.h \
+ /home/charles/arduino-ua/libraries/SD/utility/SdFat.h \
+ /home/charles/arduino-ua/libraries/SD/utility/Sd2Card.h \
+ /home/charles/arduino-ua/libraries/SD/utility/Sd2PinMap.h \
+ /home/charles/arduino-ua/libraries/SD/utility/SdInfo.h \
+ /home/charles/arduino-ua/libraries/SD/utility/FatStructs.h \
+ /home/charles/arduino-ua/libraries/SD/utility/SdFatUtil.h lcd_image.h \
+ mode0.h

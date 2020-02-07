@@ -1,6 +1,6 @@
 build-mega2560/userlibs/SD/SD.cpp.o: \
- /home/cmput274/arduino-ua/libraries/SD/SD.cpp \
- /home/cmput274/arduino-ua/libraries/SD/SD.h \
+ /home/charles/arduino-ua/libraries/SD/SD.cpp \
+ /home/charles/arduino-ua/libraries/SD/SD.h \
  /usr/share/arduino/hardware/arduino//cores/arduino/Arduino.h \
  /usr/share/arduino/hardware/arduino//cores/arduino/binary.h \
  /usr/share/arduino/hardware/arduino//cores/arduino/WCharacter.h \
@@ -12,10 +12,10 @@ build-mega2560/userlibs/SD/SD.cpp.o: \
  /usr/share/arduino/hardware/arduino//cores/arduino/new.h \
  /usr/share/arduino/hardware/arduino//variants/mega/pins_arduino.h \
  /usr/share/arduino/libraries/SPI/SPI.h \
- /home/cmput274/arduino-ua/libraries/SD/utility/SdFat.h \
- /home/cmput274/arduino-ua/libraries/SD/utility/Sd2Card.h \
- /home/cmput274/arduino-ua/libraries/SD/utility/Sd2PinMap.h \
- /home/cmput274/arduino-ua/libraries/SD/utility/SdInfo.h \
- /home/cmput274/arduino-ua/libraries/SD/utility/FatStructs.h \
+ /home/charles/arduino-ua/libraries/SD/utility/SdFat.h \
+ /home/charles/arduino-ua/libraries/SD/utility/Sd2Card.h \
+ /home/charles/arduino-ua/libraries/SD/utility/Sd2PinMap.h \
+ /home/charles/arduino-ua/libraries/SD/utility/SdInfo.h \
+ /home/charles/arduino-ua/libraries/SD/utility/FatStructs.h \
  /usr/share/arduino/hardware/arduino//cores/arduino/Print.h \
- /home/cmput274/arduino-ua/libraries/SD/utility/SdFatUtil.h
+ /home/charles/arduino-ua/libraries/SD/utility/SdFatUtil.h

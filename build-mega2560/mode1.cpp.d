@@ -1,5 +1,5 @@
-build-mega2560/joy_cursor.cpp.o: joy_cursor.cpp \
- /home/cmput274/arduino-ua/libraries/Adafruit_GFX/Adafruit_GFX.h \
+build-mega2560/mode1.cpp.o: mode1.cpp \
+ /home/charles/arduino-ua/libraries/Adafruit_GFX/Adafruit_GFX.h \
  /usr/share/arduino/hardware/arduino//cores/arduino/Arduino.h \
  /usr/share/arduino/hardware/arduino//cores/arduino/binary.h \
  /usr/share/arduino/hardware/arduino//cores/arduino/WCharacter.h \
@@ -11,14 +11,13 @@ build-mega2560/joy_cursor.cpp.o: joy_cursor.cpp \
  /usr/share/arduino/hardware/arduino//cores/arduino/new.h \
  /usr/share/arduino/hardware/arduino//variants/mega/pins_arduino.h \
  /usr/share/arduino/hardware/arduino//cores/arduino/Print.h \
- /home/cmput274/arduino-ua/libraries/Adafruit_GFX/gfxfont.h \
- /home/cmput274/arduino-ua/libraries/MCUFRIEND_kbv/MCUFRIEND_kbv.h \
+ /home/charles/arduino-ua/libraries/Adafruit_GFX/gfxfont.h \
+ /home/charles/arduino-ua/libraries/MCUFRIEND_kbv/MCUFRIEND_kbv.h \
  /usr/share/arduino/libraries/SPI/SPI.h \
- /home/cmput274/arduino-ua/libraries/SD/SD.h \
- /home/cmput274/arduino-ua/libraries/SD/utility/SdFat.h \
- /home/cmput274/arduino-ua/libraries/SD/utility/Sd2Card.h \
- /home/cmput274/arduino-ua/libraries/SD/utility/Sd2PinMap.h \
- /home/cmput274/arduino-ua/libraries/SD/utility/SdInfo.h \
- /home/cmput274/arduino-ua/libraries/SD/utility/FatStructs.h \
- /home/cmput274/arduino-ua/libraries/SD/utility/SdFatUtil.h lcd_image.h \
- joy_cursor.h
+ /home/charles/arduino-ua/libraries/SD/SD.h \
+ /home/charles/arduino-ua/libraries/SD/utility/SdFat.h \
+ /home/charles/arduino-ua/libraries/SD/utility/Sd2Card.h \
+ /home/charles/arduino-ua/libraries/SD/utility/Sd2PinMap.h \
+ /home/charles/arduino-ua/libraries/SD/utility/SdInfo.h \
+ /home/charles/arduino-ua/libraries/SD/utility/FatStructs.h \
+ /home/charles/arduino-ua/libraries/SD/utility/SdFatUtil.h mode0.h
