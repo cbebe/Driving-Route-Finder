@@ -11,6 +11,8 @@
 #define MAP_WIDTH 420
 #define MAP_HEIGHT 320
 #define YEG_SIZE 2048
+#define BOUND_HEIGHT 315
+#define BOUND_WIDTH 415
 
 #define JOY_CENTER   512
 #define JOY_DEADZONE 64
@@ -18,6 +20,7 @@
 #define C_RAD 4
 
 void processJoystick();
+void processAnalog(int aVal, char dir);
 void joySetup();
 
 #endif

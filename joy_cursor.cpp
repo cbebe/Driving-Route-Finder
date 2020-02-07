@@ -88,26 +88,23 @@ void clampMapBounds() {
   if (currentPatchX == 0 && cursorX < C_RAD) {
     cursorX = C_RAD;  
   }   
-  
-  if (currentPatchX == YEG_SIZE - MAP_WIDTH && 
-      cursorX > MAP_WIDTH - 1 - C_RAD) {
-    cursorX = MAP_WIDTH - 1 - C_RAD;  
+  if (currentPatchX == YEG_SIZE - MAP_WIDTH && cursorX > BOUND_WIDTH) {
+    cursorX = BOUND_HEIGHT;  
   }
   if (currentPatchY == 0 && cursorY < C_RAD) {
     cursorY = C_RAD;  
   }
-  if (currentPatchY == YEG_SIZE - MAP_HEIGHT &&
-      cursorY > MAP_HEIGHT - 1 - C_RAD) {
-    cursorY = MAP_HEIGHT - 1 - C_RAD;  
+  if (currentPatchY == YEG_SIZE - MAP_HEIGHT && cursorY > BOUND_HEIGHT) {
+    cursorY = BOUND_HEIGHT;  
   } 
 } 
 
 void screenBoundCheck() {
   // checks if the cursor is still in bounds of the screen
   bool xInLeftBnd = cursorX >= C_RAD; 
-  bool xInRightBnd = cursorX <= MAP_WIDTH - 1 - C_RAD;
+  bool xInRightBnd = cursorX <= BOUND_WIDTH;
   bool yInTopBnd = cursorY >= C_RAD; 
-  bool yInBotBnd = cursorY <= MAP_HEIGHT - 1 - C_RAD;
+  bool yInBotBnd = cursorY <= BOUND_HEIGHT;
   if (!xInLeftBnd || !xInRightBnd || !yInTopBnd || !yInBotBnd) {
     moveMapPatch(xInLeftBnd, xInRightBnd, yInTopBnd, yInBotBnd);
   }
