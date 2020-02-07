@@ -3,7 +3,10 @@
 #include <MCUFRIEND_kbv.h>
 #include <SPI.h>
 #include <SD.h>
-#include "joy_cursor.h"
+#include "mode0.h"
+
+MCUFRIEND_kbv tft; 
+extern cursorX, cursorY;
 
 void setup() {
   init();
@@ -17,10 +20,10 @@ void setup() {
 int main() {
   setup();
   while (1) {
-    processJoystick();
+    Mode0();
     if (digitalRead(JOY_SEL) == LOW) {
       Mode1();
-      mapInit();
+      mapInit(); // reinitializes map after exiting Mode 1
     }
   }
   Serial.end();

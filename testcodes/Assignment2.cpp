@@ -337,8 +337,6 @@ void ssort(RestDist *rest_dist, int len) {
   }
 }
 
-
-
 void fill_distarray(RestDist *dist) {
 
   for (int i = 0; i < NUM_RESTAURANTS; i++) {
