@@ -18,9 +18,23 @@ MCUFRIEND_kbv tft;
 #define JOY_CENTER   512
 #define JOY_DEADZONE 64
 
-#define NUM_LINES 7
+#define NUM_LINES 21
 
 const char* stringsToDisplay[] = {
+	"I wish",
+	"I could",
+	"show you when you are lonely or in darkness",
+	"the astonishing",
+	"light",
+	"of your own",
+	"being",
+	"I wish",
+	"I could",
+	"show you when you are lonely or in darkness",
+	"the astonishing",
+	"light",
+	"of your own",
+	"being",
 	"I wish",
 	"I could",
 	"show you when you are lonely or in darkness",
