@@ -103,7 +103,7 @@ int main() {
 	highlightedString = 0;
 	displayAllText();
 	while (1) {
-		processAnalog(digitalRead(JOY_VERT));
+		processAnalog(analogRead(JOY_VERT));
 		// Challenge: Use joystick to scroll the list and select a line
 		delay(1000);
 	}
