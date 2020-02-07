@@ -3,13 +3,10 @@
 #include <SPI.h>
 #include <SD.h>
 #include "lcd_image.h"
-#include "mode0.h"
 #include "coordinates.h"
 
 
 lcd_image_t yegImage = { "yeg-big.lcd", YEG_SIZE, YEG_SIZE };
-
-// global variables for cursor and map positions 
 
 // redraws the cursor on the given cursor position
 void redrawCursor() {
@@ -62,9 +59,9 @@ void redrawMapBg(uint16_t tempX, uint16_t tempY) {
 void processAnalog(int aVal, char dir) {
   int increment = 0;
   if (aVal > POS_BUFFER) {
-    increment += 1 + (aVal - POS_BUFFER);
+    increment += 1 + (aVal - POS_BUFFER)/SPEED_DIV;
   } else if (aVal < NEG_BUFFER) {
-    increment += -1 +(aVal - NEG_BUFFER);
+    increment += -1 +(aVal - NEG_BUFFER)/SPEED_DIV;
   }
   // accounts for the inverted X increment
   if (dir == 'X') {
@@ -124,7 +121,6 @@ void Mode0() {
   if (tempX != cursorX || tempY != cursorY) {
     redrawMapBg(tempX, tempY);
     redrawCursor();
-  }
-   
+  }  
 }
 

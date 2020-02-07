@@ -2,7 +2,6 @@
 #include <MCUFRIEND_kbv.h>
 #include <SPI.h>
 #include <SD.h>
-#include "mode0.h"
 #include "coordinates.h"
 
 const char* restaurantNames[21];

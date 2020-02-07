@@ -3,8 +3,6 @@
 #include <MCUFRIEND_kbv.h>
 #include <SPI.h>
 #include <SD.h>
-#include "mode0.h"
-#include "mode1.h"
 #include "coordinates.h"
 
 void setup() {

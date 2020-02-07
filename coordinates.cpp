@@ -3,7 +3,6 @@
 #include <SPI.h>
 #include <SD.h>
 #include "lcd_image.h"
-#include "mode0.h"
 #include "coordinates.h"
 
 MCUFRIEND_kbv tft;
