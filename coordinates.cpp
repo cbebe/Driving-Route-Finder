@@ -7,3 +7,4 @@
 
 MCUFRIEND_kbv tft;
 int cursorX, cursorY, currentPatchX, currentPatchY;
+Sd2Card card;

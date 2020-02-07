@@ -5,6 +5,7 @@
 extern MCUFRIEND_kbv tft; 
 // global variables for cursor and map positions 
 extern int cursorX, cursorY, currentPatchX, currentPatchY;
+extern Sd2Card card;
 
 #define JOY_VERT  A9 // should connect A9 to pin VRx
 #define JOY_HORIZ A8 // should connect A8 to pin VRy
