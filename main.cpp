@@ -28,7 +28,7 @@ int main() {
     processJoystick();
     if (digitalRead(JOY_SEL) == LOW) {
       Mode1();
-      joySetup();
+      mapInit();
     }
   }
   Serial.end();

@@ -25,5 +25,6 @@
 void processJoystick();
 void processAnalog(int aVal, char dir);
 void joySetup();
+void mapInit();
 
 #endif
