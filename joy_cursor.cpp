@@ -125,3 +125,91 @@ void processJoystick() {
    
 }
 
+
+const char* stringsToDisplay[] = {
+	"I wish",
+	"I could",
+	"show you when you are lonely or in darkness",
+	"the astonishing",
+	"light",
+	"of your own",
+	"being",
+	"I wish",
+	"I could",
+	"show you when you are lonely or in darkness",
+	"the astonishing",
+	"light",
+	"of your own",
+	"being",
+	"I wish",
+	"I could",
+	"show you when you are lonely or in darkness",
+	"the astonishing",
+	"light",
+	"of your own",
+	"being"
+};
+
+int highlightedString, oldNum;
+
+// assumes the text size is already 2, text is not wrapping,
+// and that 0 <= index < NUM_LINES
+void displayText(int index) {
+	// 15 is the vertical span of a size-2 character
+	// (including the one pixel of padding below)
+	tft.setCursor(0, 15*index);
+
+	if (index == highlightedString) {
+		tft.setTextColor(TFT_BLACK, TFT_WHITE);
+	}
+	else {
+		tft.setTextColor(TFT_WHITE, TFT_BLACK);
+	}
+	tft.println(stringsToDisplay[index]);
+}
+
+void displayAllText() {
+	tft.fillScreen(TFT_BLACK);
+
+	tft.setTextSize(2);
+	tft.setTextWrap(false); // change to true to see the result
+
+	for (int index = 0; index < NUM_LINES; index++) {
+		displayText(index);
+	}
+}
+
+void processAnalogMode1(int aVal) {
+  int posBuffer = JOY_CENTER + JOY_DEADZONE;
+  int negBuffer = JOY_CENTER - JOY_DEADZONE;
+	if (aVal > posBuffer || aVal < negBuffer) {
+  	oldNum = highlightedString;
+    if (aVal > posBuffer) {
+			highlightedString++;
+			if (highlightedString == NUM_LINES) {
+				highlightedString = 0;
+			}
+		}
+  	else {
+	    highlightedString--;
+			if (highlightedString < 0) {
+				highlightedString = NUM_LINES - 1;
+			}
+  	} 
+		// draw the old highlighted string normally
+		displayText(oldNum);
+		// highlight the new string
+		displayText(highlightedString);
+		delay(500);
+	}
+}
+
+
+void Mode1() {
+	highlightedString = 0;
+	displayAllText();
+	while (digitalRead(JOY_SEL) == HIGH) {
+		processAnalogMode1(analogRead(JOY_VERT));
+		// Challenge: Use joystick to scroll the list and select a line
+	}
+}
