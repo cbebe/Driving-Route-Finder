@@ -189,23 +189,23 @@ void processAnalogMode1(int aVal) {
   int posBuffer = JOY_CENTER + JOY_DEADZONE;
   int negBuffer = JOY_CENTER - JOY_DEADZONE;
 	if (aVal > posBuffer || aVal < negBuffer) {
-  	oldNum = highlightedString;
+  	prevRest = selectedRest;
     if (aVal > posBuffer) {
-			highlightedString++;
-			if (highlightedString == NUM_LINES) {
-				highlightedString = 0;
+			selectedRest++;
+			if (selectedRest == NUM_LINES) {
+				selectedRest = 0;
 			}
 		}
   	else {
-	    highlightedString--;
-			if (highlightedString < 0) {
-				highlightedString = NUM_LINES - 1;
+	    selectedRest--;
+			if (selectedRest < 0) {
+				selectedRest = NUM_LINES - 1;
 			}
   	} 
 		// draw the old highlighted string normally
-		displayText(oldNum);
+		displayText(prevRest);
 		// highlight the new string
-		displayText(highlightedString);
+		displayText(selectedRest);
 		delay(500);
 	}
 }
