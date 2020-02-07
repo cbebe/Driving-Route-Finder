@@ -25,6 +25,7 @@ void drawMap() {
 }
 
 void mapInit() {
+  tft.fillScreen(TFT_BLACK);
   currentPatchX = YEG_SIZE/2 - MAP_WIDTH/2;
 	currentPatchY = YEG_SIZE/2 - MAP_HEIGHT/2;
   drawMap();
@@ -42,7 +43,7 @@ void joySetup() {
 	if (!SD.begin(SD_CS)) {
 		while (true) {}
 	}
-	tft.setRotation(1); tft.fillScreen(TFT_BLACK);
+	tft.setRotation(1); 
   // sets the current map patch to the middle of the Edmonton map
   mapInit();
 }
