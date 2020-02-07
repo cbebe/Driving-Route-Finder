@@ -212,7 +212,7 @@ void processAnalogMode1(int aVal) {
 
 void iSort(&int32_t array[]) {
   int i = 1;
-  while (i < NUM_LINES) {
+  while (i < NUM_RESTAURANTS) {
     int j = i;
     while (j > 0 && A[j-1] > A[j]) {
       swap(A[j], A[j-1]);
@@ -221,6 +221,8 @@ void iSort(&int32_t array[]) {
     i++;
   }
 }
+
+
 
 void Mode1() {
 	selectedRest = 0;
