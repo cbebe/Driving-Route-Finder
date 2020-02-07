@@ -80,9 +80,15 @@ void processAnalog(int aVal) {
 	if (aVal > posBuffer) {
   	oldNum = highlightedString;
     highlightedString++;
+		if (highlightedString == NUM_LINES) {
+			highlightedString = 0;
+		}
   } else if (aVal < negBuffer) {
   	oldNum = highlightedString;
     highlightedString--;
+		if (highlightedString < 0) {
+			highlightedString = NUM_LINES - 1;
+		}
   }
 	// draw the old highlighted string normally
 	displayText(oldNum);
@@ -99,6 +105,7 @@ int main() {
 	while (1) {
 		processAnalog(digitalRead(JOY_VERT));
 		// Challenge: Use joystick to scroll the list and select a line
+		delay(1000);
 	}
 
 	Serial.end();
