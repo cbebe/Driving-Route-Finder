@@ -20,6 +20,12 @@
 #define CURSOR_SIZE  9
 #define C_RAD 4
 
+#define lat_north 5361858
+#define lat_south 5340953
+#define lon_west -11368652
+#define lon_east -11333496
+
+
 #define NUM_LINES 21
 
 void processJoystick();

@@ -156,7 +156,7 @@ const char* stringsToDisplay[] = {
 	"being"
 };
 
-int highlightedString, oldNum;
+int selectedRest, prevRest;
 
 // assumes the text size is already 2, text is not wrapping,
 // and that 0 <= index < NUM_LINES
@@ -165,7 +165,7 @@ void displayText(int index) {
 	// (including the one pixel of padding below)
 	tft.setCursor(0, 15*index);
 
-	if (index == highlightedString) {
+	if (index == selectedRest) {
 		tft.setTextColor(TFT_BLACK, TFT_WHITE);
 	}
 	else {
@@ -210,9 +210,20 @@ void processAnalogMode1(int aVal) {
 	}
 }
 
+void iSort(&int32_t array[]) {
+  int i = 1;
+  while (i < NUM_LINES) {
+    int j = i;
+    while (j > 0 && A[j-1] > A[j]) {
+      swap(A[j], A[j-1]);
+      j--;
+    }
+    i++;
+  }
+}
 
 void Mode1() {
-	highlightedString = 0;
+	selectedRest = 0;
 	displayAllText();
 	while (digitalRead(JOY_SEL) == HIGH) {
 		processAnalogMode1(analogRead(JOY_VERT));
