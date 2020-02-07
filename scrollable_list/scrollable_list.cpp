@@ -81,12 +81,13 @@ int main() {
 	displayAllText();
 	while (1) {
 		if (digitalRead(JOY_SEL) == LOW) {
+			int oldNum = highlightedString;
 			highlightedString++;
 			if (highlightedString > NUM_LINES) {
 				highlightedString = 0;
 			}
 			// draw the old highlighted string normally
-			displayText(highlightedString - 1);
+			displayText(oldNum);
 			// highlight the new string
 			displayText(highlightedString);
 			delay(1000);
