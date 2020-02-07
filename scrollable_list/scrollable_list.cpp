@@ -77,23 +77,26 @@ void setup() {
 void processAnalog(int aVal) {
   int posBuffer = JOY_CENTER + JOY_DEADZONE;
   int negBuffer = JOY_CENTER - JOY_DEADZONE;
-	if (aVal > posBuffer) {
+	if (aVal > posBuffer || aVal < negBuffer) {
   	oldNum = highlightedString;
-    highlightedString++;
-		if (highlightedString == NUM_LINES) {
-			highlightedString = 0;
+    if (aVal > posBuffer) {
+			highlightedString++;
+			if (highlightedString == NUM_LINES) {
+				highlightedString = 0;
+			}
 		}
-  } else if (aVal < negBuffer) {
-  	oldNum = highlightedString;
-    highlightedString--;
-		if (highlightedString < 0) {
-			highlightedString = NUM_LINES - 1;
-		}
-  }
-	// draw the old highlighted string normally
-	displayText(oldNum);
-	// highlight the new string
-	displayText(highlightedString);
+  	else {
+	    highlightedString--;
+			if (highlightedString < 0) {
+				highlightedString = NUM_LINES - 1;
+			}
+  	} 
+		// draw the old highlighted string normally
+		displayText(oldNum);
+		// highlight the new string
+		displayText(highlightedString);
+		delay(500);
+	}
 }
 
 
@@ -105,7 +108,6 @@ int main() {
 	while (1) {
 		processAnalog(analogRead(JOY_VERT));
 		// Challenge: Use joystick to scroll the list and select a line
-		delay(1000);
 	}
 
 	Serial.end();
