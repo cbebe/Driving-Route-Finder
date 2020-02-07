@@ -79,16 +79,20 @@ int main() {
 
 	highlightedString = 0;
 	displayAllText();
-
-	for (highlightedString = 1; highlightedString < NUM_LINES; highlightedString++) {
-		delay(1000);
-		// draw the old highlighted string normally
-		displayText(highlightedString-1);
-		// highlight the new string
-		displayText(highlightedString);
+	while (1) {
+		if (digitalRead(JOY_SEL) == LOW) {
+			highlightedString++;
+			if (highlightedString > NUM_LINES) {
+				highlightedString = 0;
+			}
+			// draw the old highlighted string normally
+			displayText(highlightedString - 1);
+			// highlight the new string
+			displayText(highlightedString);
+			delay(1000);
+		}
+		// Challenge: Use joystick to scroll the list and select a line
 	}
-
-	// Challenge: Use joystick to scroll the list and select a line
 
 	Serial.end();
 
