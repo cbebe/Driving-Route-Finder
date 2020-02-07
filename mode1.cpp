@@ -3,10 +3,9 @@
 #include <SPI.h>
 #include <SD.h>
 #include "mode0.h"
+#include "coordinates.h"
 
-extern MCUFRIEND_kbv tft;
 const char* restaurantNames[21];
-extern int cursorX, cursorY;
 uint32_t pastBlockNum;
 int16_t selectedRest;
 restaurant currentRest;

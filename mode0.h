@@ -47,5 +47,4 @@ void mapInit();
 void Mode0();
 void Mode1();
 
-extern MCUFRIEND_kbv tft; 
 #endif

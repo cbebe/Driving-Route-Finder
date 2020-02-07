@@ -4,13 +4,12 @@
 #include <SD.h>
 #include "lcd_image.h"
 #include "mode0.h"
+#include "coordinates.h"
 
 
 lcd_image_t yegImage = { "yeg-big.lcd", YEG_SIZE, YEG_SIZE };
 
-extern MCUFRIEND_kbv tft; 
 // global variables for cursor and map positions 
-int cursorX, cursorY, currentPatchX, currentPatchY;
 
 // redraws the cursor on the given cursor position
 void redrawCursor() {

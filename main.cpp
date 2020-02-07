@@ -4,9 +4,8 @@
 #include <SPI.h>
 #include <SD.h>
 #include "mode0.h"
-
-extern MCUFRIEND_kbv tft; 
-extern int cursorX, cursorY;
+#include "mode1.h"
+#include "coordinates.h"
 
 void setup() {
   init();
