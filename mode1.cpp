@@ -9,6 +9,7 @@ uint32_t pastBlockNum;
 int16_t selectedRest = 0;
 restaurant currentRest;
 restaurant restBlock[8];
+RestDist rest_dist[NUM_RESTAURANTS];
 
 void getRestaurantFast(int restIndex, restaurant *restPtr) {
   uint32_t blockNum = REST_START_BLOCK + restIndex/8;
@@ -33,6 +34,7 @@ void displayText(int index) {
 	else {
 		tft.setTextColor(TFT_WHITE, TFT_BLACK);
 	}
+  getRestaurantFast(rest_dist[index].index, &currentRest);
 
 	tft.println(currentRest.name);
 }
@@ -107,7 +109,7 @@ void loadAllRestaurants(RestDist rest_dist[]) {
 
 void Mode1() {
 	int prevRest; selectedRest = 0;
-  RestDist rest_dist[NUM_RESTAURANTS];
+
   loadAllRestaurants(rest_dist);
   iSort(rest_dist, NUM_RESTAURANTS);
 	displayAllText(rest_dist);
