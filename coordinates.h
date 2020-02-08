@@ -1,12 +1,6 @@
 #ifndef COORDINATES_H
 #define COORDINATES_H
 
-// object declaration to give access to multiple source files
-extern MCUFRIEND_kbv tft; 
-// global variables for cursor and map positions 
-extern int cursorX, cursorY, currentPatchX, currentPatchY;
-extern Sd2Card card;
-
 #define JOY_VERT  A9 // should connect A9 to pin VRx
 #define JOY_HORIZ A8 // should connect A8 to pin VRy
 #define JOY_SEL 53
@@ -49,10 +43,20 @@ struct RestDist {
   uint16_t dist;
 };
 
+// global declaration to give access to multiple source files
+extern MCUFRIEND_kbv tft; 
+// global variables for cursor and map positions 
+extern int cursorX, cursorY, currentPatchX, currentPatchY;
+// global variables for loading data from sd card
+extern uint32_t pastBlockNum;
+extern restaurant restBlock[8];
+extern Sd2Card card;
+extern RestDist rest_dist[NUM_RESTAURANTS];
 
 void joySetup();
 void mapInit();
 void Mode0();
 void Mode1();
+void getRestaurantFast(int restIndex, restaurant *restPtr);
 
 #endif

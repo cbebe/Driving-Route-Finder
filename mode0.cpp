@@ -14,10 +14,15 @@ void redrawCursor() {
                CURSOR_SIZE, CURSOR_SIZE, TFT_RED);
 }
 
+void drawDots() {
+  
+}
+
 // draws an entire map patch on the screen
 void drawMap() {
   lcd_image_draw(&yegImage, &tft, currentPatchX, currentPatchY,
                  0, 0, MAP_WIDTH, MAP_HEIGHT);
+  // drawDots();
 }
 
 void mapInit() {
@@ -121,6 +126,6 @@ void Mode0() {
   if (tempX != cursorX || tempY != cursorY) {
     redrawMapBg(tempX, tempY);
     redrawCursor();
-  }  
+  }
 }
 

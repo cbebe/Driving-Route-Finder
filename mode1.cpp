@@ -4,24 +4,9 @@
 #include <SD.h>
 #include "coordinates.h"
 
-
-uint32_t pastBlockNum;
-int16_t selectedRest = 0;
+int8_t selectedRest = 0;
 restaurant currentRest;
-restaurant restBlock[8];
-RestDist rest_dist[NUM_RESTAURANTS];
 
-void getRestaurantFast(int restIndex, restaurant *restPtr) {
-  uint32_t blockNum = REST_START_BLOCK + restIndex/8;
-  // only loads from SD card when not on the same block
-  if (blockNum != pastBlockNum) {
-    while (!card.readBlock(blockNum, (uint8_t*) restBlock)) {
-      Serial.println("Read block failed, trying again.");
-    }
-    pastBlockNum = blockNum;
-  }
-  *restPtr = restBlock[restIndex % 8];
-}
 
 void displayText(int index) {
 	// 15 is the vertical span of a size-2 character
@@ -39,7 +24,7 @@ void displayText(int index) {
 	tft.println(currentRest.name);
 }
 
-void displayAllText(RestDist *rest_dist) {
+void displayAllText() {
 	tft.fillScreen(TFT_BLACK);
 	tft.setTextSize(2);
 	tft.setTextWrap(false);
@@ -91,32 +76,20 @@ void iSort(RestDist array[], int length) {
   }
 }
 
+void adjustCoordinates() {
+  getRestaurantFast(rest_dist[selectedRest].index, &currentRest);
+  int positionX = map(currentRest.lon, LON_WEST, LON_EAST, 0, YEG_SIZE);
+  int positionY = map(currentRest.lat, LAT_NORTH, LAT_SOUTH, 0, YEG_SIZE);
 
-
-int16_t calculateDist(restaurant *rest) {
-  int16_t restX = map(rest->lat, LAT_NORTH, LAT_SOUTH, 0, YEG_SIZE); 
-  int16_t restY = map(rest->lon, LON_WEST, LON_EAST, 0, YEG_SIZE);
-  return abs(restX - cursorX) + abs(restY - cursorY);
-}
-
-void loadAllRestaurants(RestDist rest_dist[]) {
-  for (int i = 0; i < NUM_RESTAURANTS; i++) {
-    rest_dist[i].index = i;
-    getRestaurantFast(i, &currentRest);
-    rest_dist[i].dist = calculateDist(&currentRest);
-  }
 }
 
 void Mode1() {
-	int prevRest; selectedRest = 0;
-
-  loadAllRestaurants(rest_dist);
+	int prevRest;
+  loadAllRestaurants();
   iSort(rest_dist, NUM_RESTAURANTS);
-	displayAllText(rest_dist);
+	displayAllText();
 	while (digitalRead(JOY_SEL) == HIGH) {
 		joySelect(prevRest);
 	}
-  getRestaurantFast(rest_dist[selectedRest].index, &currentRest);
-  cursorX = map(currentRest.lon, LON_WEST, LON_EAST, 0, YEG_SIZE);
-  cursorY = map(currentRest.lat, LAT_NORTH, LAT_SOUTH, 0, YEG_SIZE);
+	adjustCoordinates();
 }
