@@ -188,8 +188,8 @@ void processTouchScreen() {
 	int16_t screen_y = map(touch.x, TS_MINY, TS_MAXY, TFT_HEIGHT-1, 0);
 
   // check if rightmost column was touched
-  if (screen_x > MAP_DISP_WIDTH && screen_x < TFT_WIDTH) {
-    if (screen_y > 0 && screen_y < TFT_HEIGHT/2) {
+  if (screen_x > 0 && screen_x < MAP_DISP_WIDTH) {
+    if (screen_y > 0 && screen_y < MAP_DISP_HEIGHT/2) {
       processGetRestaurant(false); // slow touch area
     } else {
       processGetRestaurant(true); // fast touch area

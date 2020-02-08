@@ -35,6 +35,7 @@ void displayAllText() {
 	}
 }
 
+
 void joySelect(int prevRest) {
   int aVal = analogRead(JOY_VERT);
 	if (aVal > POS_BUFFER || aVal < NEG_BUFFER) {
@@ -81,6 +82,20 @@ void adjustCoordinates() {
   int positionX = map(currentRest.lon, LON_WEST, LON_EAST, 0, YEG_SIZE);
   int positionY = map(currentRest.lat, LAT_NORTH, LAT_SOUTH, 0, YEG_SIZE);
 
+}
+
+int16_t calculateDist(restaurant *rest) {
+  int16_t restX = map(rest->lat, LAT_NORTH, LAT_SOUTH, 0, YEG_SIZE); 
+  int16_t restY = map(rest->lon, LON_WEST, LON_EAST, 0, YEG_SIZE);
+  return abs(restX - cursorX) + abs(restY - cursorY);
+}
+
+void loadAllRestaurants(RestDist rest_dist[]) {
+  for (int i = 0; i < NUM_RESTAURANTS; i++) {
+    rest_dist[i].index = i;
+    getRestaurantFast(i, &currentRest);
+    rest_dist[i].dist = calculateDist(&currentRest);
+  }
 }
 
 void Mode1() {

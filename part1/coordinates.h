@@ -1,22 +1,12 @@
 #ifndef COORDINATES_H
 #define COORDINATES_H
 
-#define JOY_VERT  A9 // should connect A9 to pin VRx
-#define JOY_HORIZ A8 // should connect A8 to pin VRy
 #define JOY_SEL 53
-
+#define TFT_WIDTH 480
 #define MAP_WIDTH 420
+#define TFT_HEIGHT 320
 #define MAP_HEIGHT 320
 #define YEG_SIZE 2048
-#define BOUND_HEIGHT 315
-#define BOUND_WIDTH 415
-
-#define POS_BUFFER 576
-#define NEG_BUFFER 448
-#define JOY_DEADZONE 64
-#define SPEED_DIV 128
-#define CURSOR_SIZE  9
-#define C_RAD 4
 
 #define LAT_NORTH 5361858
 #define LAT_SOUTH 5340953
@@ -30,6 +20,22 @@
 #define SD_CS     10
 #define DISPLAY_WIDTH  480
 #define DISPLAY_HEIGHT 320
+
+// touch screen pins, obtained from the documentation
+#define YP A3 // must be an analog pin, use "An" notation!
+#define XM A2 // must be an analog pin, use "An" notation!
+#define YM 9  // can be a digital pin
+#define XP 8  // can be a digital pin
+
+// calibration data for the touch screen, obtained from documentation
+// the minimum/maximum possible readings from the touch point
+#define TS_MINX 100
+#define TS_MINY 120
+#define TS_MAXX 940
+#define TS_MAXY 920
+// thresholds to determine if there was a touch
+#define MINPRESSURE   10
+#define MAXPRESSURE 1000
 
 struct restaurant {
   int32_t lat;
@@ -53,10 +59,11 @@ extern restaurant restBlock[8];
 extern Sd2Card card;
 extern RestDist rest_dist[NUM_RESTAURANTS];
 
+void loadAllRestaurants();
+void getRestaurantFast(int restIndex, restaurant *restPtr);
 void joySetup();
 void mapInit();
 void Mode0();
 void Mode1();
-void getRestaurantFast(int restIndex, restaurant *restPtr);
 
 #endif
