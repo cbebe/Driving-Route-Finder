@@ -28,6 +28,24 @@ void mapInit() {
   redrawCursor();
 }
 
+// setup for tft and map patch
+void joySetup() {
+  uint16_t ID = tft.readID();    // read ID from display
+  if (ID == 0xD3D3) ID = 0x9481; // write-only shield  
+  tft.begin(ID);                 // LCD gets ready to work
+	if (!SD.begin(SD_CS)) {
+		while (true) {}
+	}
+	tft.setRotation(1); 
+  // sets the current map patch to the middle of the Edmonton map
+  currentPatchX = YEG_SIZE/2 - MAP_WIDTH/2;
+	currentPatchY = YEG_SIZE/2 - MAP_HEIGHT/2;
+  // initial cursor position is the middle of the screen
+  cursorX = MAP_WIDTH/2;
+  cursorY = MAP_HEIGHT/2;
+  mapInit();
+}
+
 // redraws map background on previous cursor position to remove black trail
 void redrawMapBg(uint16_t tempX, uint16_t tempY) {
   int screenPatchX = tempX - CUR_RAD;

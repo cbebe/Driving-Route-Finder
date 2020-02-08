@@ -61,8 +61,6 @@ extern RestDist rest_dist[NUM_RESTAURANTS];
 
 void loadAllRestaurants();
 void getRestaurantFast(int restIndex, restaurant *restPtr);
-void joySetup();
-void mapInit();
 void Mode0();
 void Mode1();
 

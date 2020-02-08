@@ -3,6 +3,7 @@
 #include <MCUFRIEND_kbv.h>
 #include <SPI.h>
 #include <SD.h>
+#include "jcursor.h"
 #include "coordinates.h"
 
 
