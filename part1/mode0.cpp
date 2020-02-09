@@ -7,6 +7,7 @@
 #include "coordinates.h"
 #include "jcursor.h"
 
+
 TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 
 void drawDots() {
@@ -17,9 +18,8 @@ void drawDots() {
     getRestaurantFast(i, &currentRest);
     restX = map(currentRest.lon, LON_WEST, LON_EAST, 0, YEG_SIZE);
     restY = map(currentRest.lat, LAT_NORTH, LAT_SOUTH, 0, YEG_SIZE);
-    if ((restX >= currentPatchX && restX <= patchBoundX) &&
-        (restY >= currentPatchY && restY <= patchBoundY)) {
-      tft.fillCircle(restX - CIRC_RAD, restY - CIRC_RAD, CIRC_RAD, TFT_BLACK);
+    if ((restX >= currentPatchX && restX <= patchBoundX) && (restY >= currentPatchY && restY <= patchBoundY)) {
+      tft.fillCircle(restX - currentPatchX, restY - currentPatchY, CIRC_RAD, TFT_BLUE);
     }
   }
 }
@@ -37,7 +37,9 @@ void processTouchScreen() {
   // check if rightmost column was touched
   if (screen_x > 0 && screen_x < MAP_WIDTH) {
     drawDots();
+    Serial.println("map touched");
   }
+
 }
 
 void Mode0() {
