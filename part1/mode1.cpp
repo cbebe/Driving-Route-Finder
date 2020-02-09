@@ -42,9 +42,11 @@ void iSort(RestDist array[], int length) {
 }
 
 int16_t calculateDist(restaurant *rest) {
-  int16_t restX = map(rest->lat, LAT_NORTH, LAT_SOUTH, 0, YEG_SIZE); 
-  int16_t restY = map(rest->lon, LON_WEST, LON_EAST, 0, YEG_SIZE);
-  return abs(restX - cursorX) + abs(restY - cursorY);
+  int16_t restX = map(rest->lon, LON_WEST, LON_EAST, 0, YEG_SIZE);
+  int16_t restY = map(rest->lat, LAT_NORTH, LAT_SOUTH, 0, YEG_SIZE); 
+  int16_t cursorX_coord = cursorX + currentPatchX;
+  int16_t cursorY_coord = cursorY + currentPatchY;
+  return abs(restX - cursorX_coord) + abs(restY - cursorY_coord);
 }
 
 void loadAllRestaurants() {
@@ -58,8 +60,8 @@ void loadAllRestaurants() {
 
 void Mode1() {
 	int prevRest;
-  loadAllRestaurants();
-  iSort(rest_dist, NUM_RESTAURANTS);
+  	loadAllRestaurants();
+  	iSort(rest_dist, NUM_RESTAURANTS);
 	displayAllText();
 	while (digitalRead(JOY_SEL) == HIGH) {}
 }
