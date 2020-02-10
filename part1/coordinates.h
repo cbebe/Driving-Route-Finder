@@ -26,32 +26,11 @@
 
 #define SD_CS     10
 
-// touch screen pins, obtained from the documentation
-#define YP A3 // must be an analog pin, use "An" notation!
-#define XM A2 // must be an analog pin, use "An" notation!
-#define YM 9  // can be a digital pin
-#define XP 8  // can be a digital pin
-
-// calibration data for the touch screen, obtained from documentation
-// the minimum/maximum possible readings from the touch point
-#define TS_MINX 100
-#define TS_MINY 120
-#define TS_MAXX 940
-#define TS_MAXY 920
-// thresholds to determine if there was a touch
-#define MINPRESSURE   10
-#define MAXPRESSURE 1000
-
 struct restaurant {
   int32_t lat;
   int32_t lon;
   uint8_t rating; // from 0 to 10
   char name[55];
-};
-
-struct RestDist {
-  uint16_t index;
-  uint16_t dist;
 };
 
 // global declaration to give access to multiple source files
@@ -60,7 +39,7 @@ extern MCUFRIEND_kbv tft;
 extern uint32_t pastBlockNum;
 extern restaurant restBlock[8];
 extern Sd2Card card;
-extern RestDist rest_dist[NUM_RESTAURANTS];
+extern int currentPatchX, currentPatchY;
 
 void loadAllRestaurants();
 void getRestaurantFast(int restIndex, restaurant *restPtr);

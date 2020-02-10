@@ -2,15 +2,13 @@
 #include <MCUFRIEND_kbv.h>
 #include <SPI.h>
 #include <SD.h>
-#include "lcd_image.h"
 #include "coordinates.h"
-#include "jcursor.h"
 
 MCUFRIEND_kbv tft;
 Sd2Card card;
 uint32_t pastBlockNum;
 restaurant restBlock[8];
-RestDist rest_dist[NUM_RESTAURANTS];
+int currentPatchX, currentPatchY;
 
 void getRestaurantFast(int restIndex, restaurant *restPtr) {
   uint32_t blockNum = REST_START_BLOCK + restIndex/8;
