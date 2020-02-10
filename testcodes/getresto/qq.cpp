@@ -2,7 +2,7 @@
 // Name : Charles Ancheta
 // ID: 1581672
 // CMPUT 275 , Winter 2020
-//
+
 // Weekly Exercise 2: Restaurants and Pointers
 // ---------------------------------------------------
 

@@ -38,6 +38,7 @@ void displayAllText() {
   } 
 }
 
+// lets the user select a restaurant
 void joySelect(int prevRest) {
   int aVal = analogRead(JOY_VERT);
 	if (aVal > POS_BUFFER || aVal < NEG_BUFFER) {
@@ -110,22 +111,12 @@ void adjustCoordinates(int posX, int posY) {
   bool normalYBound = posY >= CENTRE_Y && posY <= MAX_Y; 
   currentPatchX = constrain(posX - CENTRE_X, 0, MAP_MAXX);
   currentPatchY = constrain(posY - CENTRE_Y, 0, MAP_MAXY);
-  if (normalXBound) {
-    cursorX = CENTRE_X;
-  } else {
-    cursorX = abs(posX - currentPatchX);
-  }
-  if (normalYBound) {
-    cursorY = CENTRE_Y;
-  } else {
-    cursorY = abs(posY - currentPatchY); 
-  }
-  Serial.print("posX: "); Serial.println(posX);
-  Serial.print("posY: "); Serial.println(posY);
-  Serial.print("currentPatchX: "); Serial.println(currentPatchX);
-  Serial.print("currentPatchY: "); Serial.println(currentPatchY);
-  Serial.print("cursorX: "); Serial.println(cursorX);
-  Serial.print("cursorY: "); Serial.println(cursorY);
+  // places the cursor in the middle if bounds are normal
+  // otherwise simply places it on the restaurant
+  if (normalXBound) {cursorX = CENTRE_X;} 
+  else {cursorX = abs(posX - currentPatchX);}
+  if (normalYBound) {cursorY = CENTRE_Y;} 
+  else {cursorY = abs(posY - currentPatchY);}
 }
 
 // places cursor on the selected restaurant

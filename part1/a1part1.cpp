@@ -1,3 +1,12 @@
+// ---------------------------------------------------
+// Names : Charles Ancheta, Poulomi Ganguly
+// 
+// CMPUT 275 , Winter 2020
+//
+// Assignment 1, Part 1: Restaurant Finder
+// ---------------------------------------------------
+
+
 #include <Arduino.h>
 #include <MCUFRIEND_kbv.h>
 #include <SPI.h>
