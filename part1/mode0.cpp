@@ -18,7 +18,8 @@ void drawDots() {
     getRestaurantFast(i, &currentRest);
     restX = map(currentRest.lon, LON_WEST, LON_EAST, 0, YEG_SIZE);
     restY = map(currentRest.lat, LAT_NORTH, LAT_SOUTH, 0, YEG_SIZE);
-    if ((restX >= currentPatchX && restX <= patchBoundX) && (restY >= currentPatchY && restY <= patchBoundY)) {
+    if ((restX >= currentPatchX && restX <= patchBoundX) && 
+        (restY >= currentPatchY && restY <= patchBoundY)) {
       tft.fillCircle(restX - currentPatchX, restY - currentPatchY, CIRC_RAD, TFT_BLUE);
     }
   }
