@@ -106,20 +106,12 @@ void loadAllRestaurants() {
 void adjustCoordinates(int posX, int posY) {
   bool normalXBound = posX >= CENTRE_X && posX <= MAX_X; 
   bool normalYBound = posY >= CENTRE_Y && posY <= MAX_Y; 
-  if (normalXBound) { // normal conditions
-    currentPatchX = posX - CENTRE_X;
-    cursorX = CENTRE_X;
-  } else {
-    currentPatchX = constrain(currentPatchX, 0, YEG_SIZE - MAP_WIDTH);
-    cursorX = posX - currentPatchX;
-  }
-  if (normalYBound) { // normal conditions
-    currentPatchY = posY - CENTRE_Y;
-    cursorY = CENTRE_Y;
-  } else {
-    currentPatchY = constrain(currentPatchY, 0, YEG_SIZE - MAP_HEIGHT);
-    cursorX = posY - currentPatchY; 
-  }
+  currentPatchX = constrain(posX - CENTRE_X, 0, MAP_MAXX);
+  currentPatchY = constrain(posY - CENTRE_Y, 0, MAP_MAXY);
+  if (normalXBound) {cursorX = CENTRE_X;} 
+  else {cursorX = posX - currentPatchX;}
+  if (normalYBound) {cursorY = CENTRE_Y;} 
+  else {cursorX = posY - currentPatchY; }
 }
 
 // places cursor on the selected restaurant
