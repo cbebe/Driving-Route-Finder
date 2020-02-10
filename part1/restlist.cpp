@@ -6,7 +6,7 @@
 #include "jcursor.h"
 #include "restlist.h"
 
-int8_t selectedRest = 0;
+int8_t selectedRest;
 restaurant currentRest;
 RestDist rest_dist[NUM_RESTAURANTS];
 
@@ -28,6 +28,9 @@ void displayText(int index) {
 
 void displayAllText() {
 	tft.fillScreen(TFT_BLACK);
+	tft.setTextSize(2);
+	tft.setTextWrap(false);
+  selectedRest = 0;
   for (int i = 0; i < NUM_LINES; i++) {
     displayText(i);
   } 
