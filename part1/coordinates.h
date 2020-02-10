@@ -7,7 +7,6 @@
 #define MAP_WIDTH 420
 #define BND_WIDTH (MAP_WIDTH -5)
 
-
 #define TFT_HEIGHT 320
 #define MAP_HEIGHT 320
 #define BND_HEIGHT (MAP_HEIGHT -5)
@@ -28,7 +27,6 @@
 
 #define REST_START_BLOCK 4000000
 #define NUM_RESTAURANTS 1066
-#define NUM_LINES 21
 
 #define SD_CS     10
 
@@ -47,9 +45,6 @@ extern restaurant restBlock[8];
 extern Sd2Card card;
 extern int currentPatchX, currentPatchY;
 
-void loadAllRestaurants();
 void getRestaurantFast(int restIndex, restaurant *restPtr);
-void Mode0();
-void Mode1();
 
 #endif

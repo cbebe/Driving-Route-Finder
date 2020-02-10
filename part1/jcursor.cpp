@@ -2,6 +2,7 @@
 #include <MCUFRIEND_kbv.h>
 #include <SPI.h>
 #include <SD.h>
+
 #include "lcd_image.h"
 #include "coordinates.h"
 #include "jcursor.h"

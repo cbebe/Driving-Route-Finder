@@ -2,6 +2,7 @@
 #define RESTLIST_H
 
 #define JOY_SEL 53
+#define NUM_LINES 21
 
 struct RestDist {
   uint16_t index;
