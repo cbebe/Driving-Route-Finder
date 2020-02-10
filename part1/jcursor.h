@@ -8,7 +8,7 @@
 #define JOY_DEADZONE 64
 #define POS_BUFFER (JOY_CENTRE + JOY_DEADZONE)
 #define NEG_BUFFER (JOY_CENTRE - JOY_DEADZONE)
-#define SPEED_DIV 64
+#define SPEED_DIV 32
 #define CURSOR_SIZE  9
 #define CUR_RAD 4
 

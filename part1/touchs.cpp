@@ -24,6 +24,7 @@ void drawDots() {
     if ((restX >= currentPatchX + CIRC_RAD && restX <= patchBoundX) && 
         (restY >= currentPatchY + CIRC_RAD && restY <= patchBoundY)) {
       tft.fillCircle(restX - currentPatchX, restY - currentPatchY, CIRC_RAD, TFT_BLUE);
+      tft.drawCircle(restX - currentPatchX, restY - currentPatchY, CIRC_RAD, TFT_WHITE);
     }
   }
 }
