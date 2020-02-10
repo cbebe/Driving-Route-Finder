@@ -38,11 +38,11 @@ void joySetup() {
 	}
 	tft.setRotation(1); 
   // sets the current map patch to the middle of the Edmonton map
-  currentPatchX = YEG_SIZE/2 - MAP_WIDTH/2;
-	currentPatchY = YEG_SIZE/2 - MAP_HEIGHT/2;
+  currentPatchX = YEG_SIZE/2 - CENTRE_X;
+	currentPatchY = YEG_SIZE/2 - CENTRE_Y;
   // initial cursor position is the middle of the screen
-  cursorX = MAP_WIDTH/2;
-  cursorY = MAP_HEIGHT/2;
+  cursorX = CENTRE_X;
+  cursorY = CENTRE_Y;
   mapInit();
 }
 
@@ -81,7 +81,7 @@ void moveMapPatch(bool xl, bool xr, bool yt, bool yb) {
   if (!yb) {currentPatchY += MAP_HEIGHT;}
   currentPatchX = constrain(currentPatchX, 0, YEG_SIZE - MAP_WIDTH);
   currentPatchY = constrain(currentPatchY, 0, YEG_SIZE - MAP_HEIGHT);
-  cursorX = MAP_WIDTH/2; cursorY = MAP_HEIGHT/2;
+  cursorX = CENTRE_X; cursorY = CENTRE_Y;
   drawMap(); redrawCursor();
 }
 

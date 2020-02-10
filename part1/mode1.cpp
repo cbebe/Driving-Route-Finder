@@ -4,6 +4,10 @@
 #include <SD.h>
 #include "jcursor.h"
 #include "coordinates.h"
+#include "jcursor.h"
+
+int8_t selectedRest = 0;
+restaurant currentRest;
 
 int8_t selectedRest = 0;
 restaurant currentRest;
@@ -19,6 +23,10 @@ void displayText(int index) {
 	else {
 		tft.setTextColor(TFT_WHITE, TFT_BLACK);
 	}
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
   getRestaurantFast(rest_dist[index].index, &currentRest);
 
 	tft.println(currentRest.name);
@@ -26,6 +34,10 @@ void displayText(int index) {
 
 void displayAllText() {
 	tft.fillScreen(TFT_BLACK);
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 	tft.setTextSize(2);
 	tft.setTextWrap(false);
 
@@ -76,6 +88,32 @@ void iSort(RestDist array[], int length) {
   }
 }
 
+void adjustCoordinates(int posX, int posY) {
+  bool normalXBound = posX >= CENTRE_X && posX <= MAX_X; 
+  bool normalYBound = posY >= CENTRE_Y && posY <= MAX_Y; 
+  if (normalXBound) {
+    currentPatchX = posX - CENTRE_X;
+    cursorX = CENTRE_X;
+  } else {
+    
+  }
+  if (normalYBound) {
+    currentPatchY = posY - CENTRE_Y;
+    cursorY = CENTRE_Y;
+  } else {
+
+  }
+}
+
+void goToResto() {
+  getRestaurantFast(rest_dist[selectedRest].index, &currentRest);
+  int positionX = map(currentRest.lon, LON_WEST, LON_EAST, 0, YEG_SIZE);
+  positionX = constrain(positionX, CUR_RAD, YEG_SIZE - CUR_RAD - 1);
+  int positionY = map(currentRest.lat, LAT_NORTH, LAT_SOUTH, 0, YEG_SIZE);
+  positionY = constrain(positionY, CUR_RAD, YEG_SIZE - CUR_RAD - 1);
+  adjustCoordinates(positionX, positionY);
+}
+
 int16_t calculateDist(restaurant *rest) {
   int16_t restX = map(rest->lon, LON_WEST, LON_EAST, 0, YEG_SIZE);
   int16_t restY = map(rest->lat, LAT_NORTH, LAT_SOUTH, 0, YEG_SIZE); 
@@ -85,7 +123,6 @@ int16_t calculateDist(restaurant *rest) {
 }
 
 void loadAllRestaurants() {
-	restaurant currentRest;
   for (int i = 0; i < NUM_RESTAURANTS; i++) {
     rest_dist[i].index = i;
     getRestaurantFast(i, &currentRest);
@@ -108,5 +145,9 @@ void Mode1() {
 	while (digitalRead(JOY_SEL) == HIGH) {
 		joySelect(prevRest);
 	}
+<<<<<<< Updated upstream
   adjustCoordinates();
+=======
+  goToResto();
+>>>>>>> Stashed changes
 }

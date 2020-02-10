@@ -2,11 +2,18 @@
 #define COORDINATES_H
 
 #define JOY_SEL 53
+
 #define TFT_WIDTH 480
 #define MAP_WIDTH 420
+#define CENTRE_X (MAP_WIDTH/2)
+
 #define TFT_HEIGHT 320
 #define MAP_HEIGHT 320
+#define CENTRE_Y (MAP_HEIGHT/2)
+
 #define YEG_SIZE 2048
+#define MAX_X (YEG_SIZE - MAP_WIDTH/2)
+#define MAX_Y (YEG_SIZE - MAP_HEIGHT/2)
 
 #define LAT_NORTH 5361858
 #define LAT_SOUTH 5340953
@@ -18,8 +25,6 @@
 #define NUM_LINES 21
 
 #define SD_CS     10
-#define DISPLAY_WIDTH  480
-#define DISPLAY_HEIGHT 320
 
 // touch screen pins, obtained from the documentation
 #define YP A3 // must be an analog pin, use "An" notation!
@@ -51,8 +56,6 @@ struct RestDist {
 
 // global declaration to give access to multiple source files
 extern MCUFRIEND_kbv tft; 
-// global variables for cursor and map positions 
-extern int cursorX, cursorY, currentPatchX, currentPatchY;
 // global variables for loading data from sd card
 extern uint32_t pastBlockNum;
 extern restaurant restBlock[8];

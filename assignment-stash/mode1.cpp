@@ -30,7 +30,6 @@ void displayAllText() {
 	tft.setTextWrap(false);
 
 	for (int i = 0; i < NUM_LINES; ++i) {
-    getRestaurantFast(rest_dist[i].index, &currentRest);
     displayText(i);
 	}
 }
