@@ -98,14 +98,16 @@ void adjustCoordinates(int posX, int posY) {
     currentPatchX = posX - CENTRE_X;
     cursorX = CENTRE_X;
   } else {
-    // what to do with boundary conditions??
-    // gotta do some math
+    currentPatchX = constrain(currentPatchX, 0, YEG_SIZE - MAP_WIDTH);
+    cursorX = posX - currentPatchX;
   }
   if (normalYBound) {
     currentPatchY = posY - CENTRE_Y;
     cursorY = CENTRE_Y;
   } else {
     // what to do with boundary condiitions??
+    currentPatchY = constrain(currentPatchY, 0, YEG_SIZE - MAP_HEIGHT);
+    cursorX = posY - currentPatchY;
   }
 }
 
