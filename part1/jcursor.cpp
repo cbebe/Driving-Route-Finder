@@ -28,7 +28,18 @@ void mapInit() {
 }
 
 // setup for tft and map patch
-void joySetup() {
+void setup() {
+  init();
+  Serial.begin(9600);
+  // SD card initialization for raw reads
+  Serial.print("Initializing SPI communication for raw reads...");
+  if (!card.init(SPI_HALF_SPEED, SD_CS)) {
+    Serial.println("failed! Is the card inserted properly?");
+    while (true) {}
+  }
+  else {
+    Serial.println("OK!");
+  }
   uint16_t ID = tft.readID();    // read ID from display
   if (ID == 0xD3D3) ID = 0x9481; // write-only shield  
   tft.begin(ID);                 // LCD gets ready to work
@@ -43,6 +54,8 @@ void joySetup() {
   cursorX = CENTRE_X;
   cursorY = CENTRE_Y;
   mapInit();
+  pinMode(JOY_SEL, INPUT);
+  digitalWrite(JOY_SEL, HIGH);
 }
 
 // redraws map background on previous cursor position to remove black trail

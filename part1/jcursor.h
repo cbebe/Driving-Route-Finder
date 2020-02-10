@@ -8,7 +8,7 @@
 #define JOY_DEADZONE 64
 #define POS_BUFFER (JOY_CENTRE + JOY_DEADZONE)
 #define NEG_BUFFER (JOY_CENTRE - JOY_DEADZONE)
-#define SPEED_DIV 128
+#define SPEED_DIV 64
 #define CURSOR_SIZE  9
 #define CUR_RAD 4
 
@@ -17,6 +17,6 @@ extern int cursorX, cursorY, currentPatchX, currentPatchY;
 
 void mapInit();
 void processJoystick();
-void joySetup();
+void setup();
 
 #endif

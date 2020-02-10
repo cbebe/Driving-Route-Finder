@@ -26,11 +26,12 @@ void displayText(int index) {
 	tft.println(currentRest.name);
 }
 
+// sets up the screen to display the nearest 21 restaurants
 void displayAllText() {
 	tft.fillScreen(TFT_BLACK);
 	tft.setTextSize(2);
 	tft.setTextWrap(false);
-  selectedRest = 0;
+  selectedRest = 0; // highlights the nearest restaurant
   for (int i = 0; i < NUM_LINES; i++) {
     displayText(i);
   } 
