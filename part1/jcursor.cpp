@@ -91,7 +91,7 @@ void clampMapBounds() {
     cursorX = CUR_RAD;  
   }   
   if (currentPatchX == YEG_SIZE - MAP_WIDTH && cursorX > BOUND_WIDTH) {
-    cursorX = BOUND_HEIGHT;  
+    cursorX = BOUND_WIDTH;  
   }
   if (currentPatchY == 0 && cursorY < CUR_RAD) {
     cursorY = CUR_RAD;  
