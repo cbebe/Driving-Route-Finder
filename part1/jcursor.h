@@ -13,7 +13,7 @@
 #define SPEED_DIV 128
 #define CURSOR_SIZE  9
 #define CUR_RAD 4
-#define CIRC_RAD 3
+
 
 extern int cursorX, cursorY, currentPatchX, currentPatchY;
 

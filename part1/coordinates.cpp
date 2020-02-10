@@ -8,6 +8,7 @@ MCUFRIEND_kbv tft;
 Sd2Card card;
 uint32_t pastBlockNum;
 restaurant restBlock[8];
+int currentPatchX, currentPatchY;
 
 void getRestaurantFast(int restIndex, restaurant *restPtr) {
   uint32_t blockNum = REST_START_BLOCK + restIndex/8;
