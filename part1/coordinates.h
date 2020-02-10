@@ -5,13 +5,17 @@
 
 #define TFT_WIDTH 480
 #define MAP_WIDTH 420
+#define BND_WIDTH (MAP_WIDTH -5)
 #define CENTRE_X (MAP_WIDTH/2)
 
 #define TFT_HEIGHT 320
 #define MAP_HEIGHT 320
+#define BND_HEIGHT (MAP_HEIGHT -5)
 #define CENTRE_Y (MAP_HEIGHT/2)
 
 #define YEG_SIZE 2048
+#define MAP_MAXX (YEG_SIZE - MAP_WIDTH)
+#define MAP_MAXY (YEG_SIZE - MAP_HEIGHT)
 #define MAX_X (YEG_SIZE - MAP_WIDTH/2)
 #define MAX_Y (YEG_SIZE - MAP_HEIGHT/2)
 

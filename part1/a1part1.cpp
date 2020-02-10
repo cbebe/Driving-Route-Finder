@@ -1,5 +1,4 @@
 #include <Arduino.h>
-#include <Adafruit_GFX.h>
 #include <MCUFRIEND_kbv.h>
 #include <SPI.h>
 #include <SD.h>
@@ -29,6 +28,7 @@ int main() {
   setup();
   while (1) {
     Mode0();
+    // switches to Mode 1 when joystick is pressed
     if (digitalRead(JOY_SEL) == LOW) {
       Mode1();
       mapInit(); // reinitializes map after exiting Mode 1

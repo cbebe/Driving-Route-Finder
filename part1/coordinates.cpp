@@ -10,6 +10,7 @@ uint32_t pastBlockNum;
 restaurant restBlock[8];
 int currentPatchX, currentPatchY;
 
+// fast method of loading restaurants from weekly exercise
 void getRestaurantFast(int restIndex, restaurant *restPtr) {
   uint32_t blockNum = REST_START_BLOCK + restIndex/8;
   // only loads from SD card when not on the same block

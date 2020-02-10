@@ -1,6 +1,5 @@
 #include <Adafruit_GFX.h>
 #include <MCUFRIEND_kbv.h>
-#include <TouchScreen.h>
 #include <SPI.h>
 #include <SD.h>
 #include "lcd_image.h"
@@ -79,34 +78,27 @@ void moveMapPatch(bool xl, bool xr, bool yt, bool yb) {
   if (!xr) {currentPatchX += MAP_WIDTH;}
   if (!yt) {currentPatchY -= MAP_HEIGHT;}
   if (!yb) {currentPatchY += MAP_HEIGHT;}
+  // does not load the patch beyond map size
   currentPatchX = constrain(currentPatchX, 0, YEG_SIZE - MAP_WIDTH);
   currentPatchY = constrain(currentPatchY, 0, YEG_SIZE - MAP_HEIGHT);
-  cursorX = CENTRE_X; cursorY = CENTRE_Y;
+  cursorX = CENTRE_X; cursorY = CENTRE_Y; // places cursor in the centre
   drawMap(); redrawCursor();
 }
 
 // clamps the cursor to the map bounds
 void clampMapBounds() {
-  if (currentPatchX == 0 && cursorX < CUR_RAD) {
-    cursorX = CUR_RAD;  
-  }   
-  if (currentPatchX == YEG_SIZE - MAP_WIDTH && cursorX > BOUND_WIDTH) {
-    cursorX = BOUND_WIDTH;  
-  }
-  if (currentPatchY == 0 && cursorY < CUR_RAD) {
-    cursorY = CUR_RAD;  
-  }
-  if (currentPatchY == YEG_SIZE - MAP_HEIGHT && cursorY > BOUND_HEIGHT) {
-    cursorY = BOUND_HEIGHT;  
-  } 
+  if (currentPatchX == 0 && cursorX < CUR_RAD) {cursorX = CUR_RAD;}   
+  if (currentPatchX == MAP_MAXX && cursorX > BND_WIDTH) {cursorX = BND_WIDTH;}
+  if (currentPatchY == 0 && cursorY < CUR_RAD) {cursorY = CUR_RAD;}
+  if (currentPatchY == MAP_MAXY && cursorY > BND_HEIGHT) {cursorY = BND_HEIGHT;} 
 } 
 
 void screenBoundCheck() {
   // checks if the cursor is still in bounds of the screen
   bool xInLeftBnd = cursorX >= CUR_RAD; 
-  bool xInRightBnd = cursorX <= BOUND_WIDTH;
+  bool xInRightBnd = cursorX <= BND_WIDTH;
   bool yInTopBnd = cursorY >= CUR_RAD; 
-  bool yInBotBnd = cursorY <= BOUND_HEIGHT;
+  bool yInBotBnd = cursorY <= BND_HEIGHT;
   if (!xInLeftBnd || !xInRightBnd || !yInTopBnd || !yInBotBnd) {
     moveMapPatch(xInLeftBnd, xInRightBnd, yInTopBnd, yInBotBnd);
   }
@@ -117,7 +109,6 @@ void processJoystick() {
   int tempX = cursorX, tempY = cursorY;
   processAnalog(analogRead(JOY_HORIZ), 'X'); 
   processAnalog(analogRead(JOY_VERT), 'Y');
-
   clampMapBounds();
   screenBoundCheck();
   // will only redraw map when the cursor moves to prevent the cursor from flickering

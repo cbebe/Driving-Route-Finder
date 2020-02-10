@@ -2,6 +2,6 @@
 #include "touchs.h"
 
 void Mode0() {
-  processTouchScreen();
-  processJoystick();
+  processTouchScreen(); // for drawing dots
+  processJoystick(); // for moving cursor
 }
