@@ -39,7 +39,6 @@ void processTouchScreen() {
     drawDots();
     Serial.println("map touched");
   }
-
 }
 
 void Mode0() {
