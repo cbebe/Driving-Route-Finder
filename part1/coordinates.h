@@ -49,18 +49,12 @@ struct restaurant {
   char name[55];
 };
 
-struct RestDist {
-  uint16_t index;
-  uint16_t dist;
-};
-
 // global declaration to give access to multiple source files
 extern MCUFRIEND_kbv tft; 
 // global variables for loading data from sd card
 extern uint32_t pastBlockNum;
 extern restaurant restBlock[8];
 extern Sd2Card card;
-extern RestDist rest_dist[NUM_RESTAURANTS];
 
 void loadAllRestaurants();
 void getRestaurantFast(int restIndex, restaurant *restPtr);

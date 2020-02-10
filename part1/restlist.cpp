@@ -8,6 +8,7 @@
 
 int8_t selectedRest = 0;
 restaurant currentRest;
+RestDist rest_dist[NUM_RESTAURANTS];
 
 void displayText(int index) {
 	// 15 is the vertical span of a size-2 character
@@ -20,8 +21,8 @@ void displayText(int index) {
 	else {
 		tft.setTextColor(TFT_WHITE, TFT_BLACK);
 	}
+  // 
   getRestaurantFast(rest_dist[index].index, &currentRest);
-
 	tft.println(currentRest.name);
 }
 
@@ -56,6 +57,7 @@ void joySelect(int prevRest) {
 	}
 }
 
+// swaps the values of two RestDist variables
 void swapRest(RestDist *restA, RestDist *restB) {
   RestDist tmp = *restA;
   *restA = *restB; *restB = tmp;
@@ -73,6 +75,8 @@ void iSort(RestDist array[], int length) {
   }
 }
 
+// converts restaurant longitude and latitude 
+// and calculates the Manhattan distance from cursor 
 int16_t calculateDist(restaurant *rest) {
   int16_t restX = map(rest->lon, LON_WEST, LON_EAST, 0, YEG_SIZE);
   int16_t restY = map(rest->lat, LAT_NORTH, LAT_SOUTH, 0, YEG_SIZE); 
@@ -81,6 +85,8 @@ int16_t calculateDist(restaurant *rest) {
   return abs(restX - cursorX_coord) + abs(restY - cursorY_coord);
 }
 
+// loads all the restaurants from sd card to a RestDist struct array
+// the array is then sorted and the first 21 restaurants are displayed
 void loadAllRestaurants() {
   for (int i = 0; i < NUM_RESTAURANTS; i++) {
     rest_dist[i].index = i;
@@ -111,6 +117,7 @@ void adjustCoordinates(int posX, int posY) {
   }
 }
 
+// places cursor on the selected restaurant
 void goToResto() {
   getRestaurantFast(rest_dist[selectedRest].index, &currentRest);
   int positionX = map(currentRest.lon, LON_WEST, LON_EAST, 0, YEG_SIZE);
