@@ -6,3 +6,18 @@ CMPUT 275 , Winter 2020
 Weekly Exercise 2: Restaurants and Pointers
 ---------------------------------------------------
 
+
+Included Files:
+	* a1part1.cpp
+    * coordinates.cpp
+    * coordinates.h
+    * jcursor.cpp
+    * jcursor.h
+    * lcd_image.cpp
+    * lcd_image.h
+    * restlist.cpp
+    * restlist.h
+    * touchs.cpp
+    * touchs.h
+	* README
+	* Makefile
