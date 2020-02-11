@@ -23,12 +23,14 @@ Included Files:
     * Makefile
 
 Accessories:
+
 	* 1 Arduino Mega Board
 	* 5 Male to Female Wires
     * TFT Display with Stylus
     * Joystick
 
 Wiring Instructions
+
     * Can be found on e-class: https://eclass.srv.ualberta.ca/mod/page/view.php?id=3504822
     * A8 <---> VRy
     * A9 <---> VRx
@@ -37,6 +39,7 @@ Wiring Instructions
     * 5V <---> Positive bus bar
 
 Running Instructions:
+
     * Connect the Arduino to PC using an A-B style USB cable. Ensure that the Arduino is 
     using the proper serial port (/dev/ttyACMO or -ACM1)
     * In the correct directory, run command `make upload` in Terminal
@@ -78,4 +81,23 @@ Functions Used:
 8. restlist.cpp: 
     * displayText(): Loads and highlights the toggled restaurant to print to tft
     * displayAllText(): Sets up screen to display nearest 21 restaurants 
+    * joySelect(): Lets user select a restaurant to take cursor to in mode 1
+    * swapRest(): Swaps two RestDist variables
+    * iSort(): Implementation of insertion sort from given pseuodocode
+    * calculateDist(): Calculates manhattan distance between given cursor position
+    and all Restaurants
+    * loadAllRestaurants(): Loads all restaurants from SD card to RestDist Array
+    which is then sorted to display first 21 restauarants
+    * adjustCoordinates: Centers selected restaurant on screen, takes into 
+    account boundary conditions
+    * goToResto(): Places cursor on selected restaurant if possible
+
+9. restlist.h: 
+    Contains required global variables and declaractions for restlist.cpp
+
+10. touchs.cpp:
+    * drawDots(): Displays nearby restaurants as dots on the screen 
+    * processTouchScreen(): Processes where tft has been touched to draw dots.
+
+11. touchs.h: Contains touchscreen related global variables and declaractions.
 
