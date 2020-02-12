@@ -19,6 +19,7 @@ void iSort(RestDist array[], int length) {
   }
 }
 
+// pivots the array and returns a new pivot index new_pi
 int pivot(RestDist a[], int length, int pi) {
   swapRest(&a[pi], &a[length - 1]);
   int lo = 0, hi = length - 2;
@@ -35,6 +36,8 @@ int pivot(RestDist a[], int length, int pi) {
   return lo;
 }
 
+// recursive function to sort an array
+// implemented from pseudocode in eclass
 void qSort(RestDist a[], int length) {
   if (length<= 1) {return;}
   int pi = length/2;

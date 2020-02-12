@@ -29,11 +29,23 @@ void drawDots() {
   }
 }
 
+// function to write 5 characters vertically
+void writeVertical(char text[], int X, int Y) {
+  for (int i = 0; i < 5; i++) {
+    tft.setCursor(X, Y + (16 * i));
+    tft.print(text[i]);
+  }
+}
+
 void btnSetup() {
   tft.fillRect(MAP_WIDTH + 1, 0, 60, MAP_HEIGHT/2 - 4, TFT_WHITE);
   tft.drawRect(MAP_WIDTH + 1, 0, 60, MAP_HEIGHT/2 - 4, TFT_RED);
   tft.fillRect(MAP_WIDTH + 1, MAP_HEIGHT/2 + 4, 60, MAP_HEIGHT/2 - 4, TFT_WHITE);
   tft.drawRect(MAP_WIDTH + 1, 0, 60, MAP_HEIGHT/2 - 4, TFT_GREEN);
+  
+  tft.setCursor(MAP_WIDTH + 25, MAP_HEIGHT/4);
+  tft.print("1");
+  writeVertical("QSORT", MAP_WIDTH + 25, MAP_HEIGHT/2 + 30);
 }
 
 void processTouchScreen() {
