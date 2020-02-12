@@ -9,6 +9,7 @@
 
 TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 
+
 // displays nearby restaurants as dots on the screen
 void drawDots() {
   restaurant currentRest; int restX, restY;
@@ -30,9 +31,9 @@ void drawDots() {
 }
 
 // function to write 5 characters vertically
-void writeVertical(char text[], int X, int Y) {
-  for (int i = 0; i < 5; i++) {
-    tft.setCursor(X, Y + (16 * i));
+void writeVertical(char text[], int x, int y, int n) {
+  for (int i = 0; i < n; i++) {
+    tft.setCursor(x, y + (16 * i));
     tft.print(text[i]);
   }
 }
@@ -42,10 +43,20 @@ void btnSetup() {
   tft.drawRect(MAP_WIDTH + 1, 0, 60, MAP_HEIGHT/2 - 4, TFT_RED);
   tft.fillRect(MAP_WIDTH + 1, MAP_HEIGHT/2 + 4, 60, MAP_HEIGHT/2 - 4, TFT_WHITE);
   tft.drawRect(MAP_WIDTH + 1, 0, 60, MAP_HEIGHT/2 - 4, TFT_GREEN);
-  
+
+  tft.setTextSize(2);
+  tft.setColor(TFT_BLACK);
   tft.setCursor(MAP_WIDTH + 25, MAP_HEIGHT/4);
   tft.print("1");
-  writeVertical("QSORT", MAP_WIDTH + 25, MAP_HEIGHT/2 + 30);
+  writeVertical("QSORT", MAP_WIDTH + 25, MAP_HEIGHT/2 + 30, 5);
+}
+
+void setRating() {
+
+}
+
+void changeSort() {
+
 }
 
 void processTouchScreen() {
@@ -55,7 +66,13 @@ void processTouchScreen() {
 	if (touch.z < MINPRESSURE || touch.z > MAXPRESSURE) {return;}
 
 	int16_t screen_x = map(touch.y, TS_MINX, TS_MAXX, TFT_WIDTH - 1, 0);
+	int16_t screen_y = map(touch.x, TS_MINY, TS_MAXY, TFT_HEIGHT - 1, 0);
   // draw dots if map was touched
   if (screen_x > 0 && screen_x < MAP_WIDTH) {drawDots();}
+  if (screen_x < TFT_WIDTH && screen_x > MAP_WIDTH) {
+    if (screen_y < TFT_HEIGHT/2) {setRating();}
+    else {changeSort();}
+  }
+  
 }
 
