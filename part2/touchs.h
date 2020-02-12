@@ -1,6 +1,3 @@
-#ifndef TOUCHS_H
-#define TOUCHS_H
-
 // touch screen pins, obtained from the documentation
 #define YP A3 // must be an analog pin, use "An" notation!
 #define XM A2 // must be an analog pin, use "An" notation!
@@ -22,10 +19,12 @@
 #define BTN_WIDTH (TFT_WIDTH - MAP_WIDTH - 2)
 #define BTN_HEIGHT (MAP_HEIGHT/2 -4)
 
+enum sort {
+  quick, insert, both,
+};
 
 extern int8_t ratingSel;
+extern sort sortSetting;
 
 void processTouchScreen();
 void btnSetup();
-
-#endif

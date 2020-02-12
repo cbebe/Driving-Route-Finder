@@ -8,7 +8,7 @@
 #include "touchs.h"
 
 TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
-
+int8_t ratingSel = 1;
 
 // displays nearby restaurants as dots on the screen
 void drawDots() {
@@ -45,14 +45,17 @@ void btnSetup() {
   tft.drawRect(MAP_WIDTH + 1, 0, 60, MAP_HEIGHT/2 - 4, TFT_GREEN);
 
   tft.setTextSize(2);
-  tft.setColor(TFT_BLACK);
+  tft.setTextColor(TFT_BLACK);
   tft.setCursor(MAP_WIDTH + 25, MAP_HEIGHT/4);
   tft.print("1");
   writeVertical("QSORT", MAP_WIDTH + 25, MAP_HEIGHT/2 + 30, 5);
 }
 
 void setRating() {
-
+  setRating++;
+  if (setRating == 5) {
+    setRating = 1;
+  }
 }
 
 void changeSort() {

@@ -1,6 +1,3 @@
-#ifndef COORDINATES_H
-#define COORDINATES_H
-
 #define JOY_SEL 53
 
 #define TFT_WIDTH 480
@@ -46,5 +43,3 @@ extern Sd2Card card;
 extern int currentPatchX, currentPatchY;
 
 void getRestaurantFast(int restIndex, restaurant *restPtr);
-
-#endif

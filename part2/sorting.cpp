@@ -1,3 +1,8 @@
+#include <Adafruit_GFX.h>
+#include <MCUFRIEND_kbv.h>
+#include <SPI.h>
+#include <SD.h>
+
 #include "coordinates.h"
 #include "sorting.h"
 
@@ -36,7 +41,7 @@ int pivot(RestDist a[], int length, int pi) {
   return lo;
 }
 
-// recursive function to sort an array
+// recursive function to sort RestDist array
 // implemented from pseudocode in eclass
 void qSort(RestDist a[], int length) {
   if (length<= 1) {return;}

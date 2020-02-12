@@ -1,6 +1,3 @@
-#ifndef JCURSOR_H
-#define JCURSOR_H
-
 #define JOY_VERT  A9 // should connect A9 to pin VRx
 #define JOY_HORIZ A8 // should connect A8 to pin VRy
 
@@ -18,5 +15,3 @@ extern int cursorX, cursorY, currentPatchX, currentPatchY;
 void mapInit();
 void processJoystick();
 void setup();
-
-#endif
