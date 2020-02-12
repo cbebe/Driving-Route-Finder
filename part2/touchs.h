@@ -19,6 +19,12 @@
 
 #define CIRC_RAD 3
 
+#define BTN_WIDTH (TFT_WIDTH - MAP_WIDTH - 2)
+#define BTN_HEIGHT (MAP_HEIGHT/2 -4)
+
+
+extern int8_t ratingSel;
+
 void processTouchScreen();
 void btnSetup();
 

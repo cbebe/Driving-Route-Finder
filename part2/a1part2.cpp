@@ -19,9 +19,9 @@
 
 int main() {
   setup();
+  btnSetup();
   while (1) {
     // Mode 0
-    btnSetup();
     processTouchScreen(); // for drawing dots
     processJoystick(); // for moving cursor
 
