@@ -18,7 +18,7 @@ void drawDots() {
   for (int i = 0; i < NUM_RESTAURANTS; i++) {
     getRestaurantFast(i, &currentRest);
     // only draws the dot if it passes the rating threshold
-    if ((currentRest.rating+1/2) >= ratingSel - 1) {
+    if (((currentRest.rating+1)/2) >= ratingSel - 1) {
       // converts from longitude and latitude to pixels relative to map size
       int restX = map(currentRest.lon, LON_WEST, LON_EAST, 0, YEG_SIZE);
       int restY = map(currentRest.lat, LAT_NORTH, LAT_SOUTH, 0, YEG_SIZE);
@@ -36,10 +36,28 @@ void drawDots() {
 void writeVertical(char text[], int indent, int n) {
   int x = MAP_WIDTH + 25;
   int y = MAP_HEIGHT/2 + indent;
-  tft.fillRect(x, y, 10, 16*(n+1), TFT_WHITE); // clears previous text
+  tft.fillRect(x, y - 16, 10, 16*(n+1), TFT_WHITE); // clears previous text
   for (int i = 0; i < n; i++) {
     tft.setCursor(x, y + (15 * i));
     tft.print(text[i]);
+  }
+}
+
+void changeSort() {
+  switch (sortSetting) {
+  case quick:
+    sortSetting = insert;
+    writeVertical("ISORT", 46, 5);
+    break;
+  case insert:
+    sortSetting = both;
+    writeVertical("BOTH", 56, 4);
+    break;
+  case both:
+    sortSetting = quick;
+    writeVertical("QSORT", 46, 5);
+  default:
+    break;
   }
 }
 
@@ -58,37 +76,21 @@ void btnSetup() {
   tft.drawRect(MAP_WIDTH + 1, MAP_HEIGHT/2 + 4, BTN_WIDTH, BTN_HEIGHT, TFT_GREEN);
 
   // labels the buttons (1 and Qsort by default)
+  ratingSel = 1;
+  sortSetting = both; // initially set to both so it changes to quicksort
   tft.setTextSize(2);
   tft.setTextColor(TFT_BLACK);
   changeNum(ratingSel);
-  writeVertical("QSORT", 30, 5);
+  changeSort();
 }
 
 // changes rating threshold for restaurants
 void setRating() {
   ratingSel++;
-  if (ratingSel == 5) {
+  if (ratingSel > 5) {
     ratingSel = 1;
   }
   changeNum(ratingSel);
-}
-
-void changeSort() {
-  switch (sortSetting) {
-  case quick:
-    sortSetting = insert;
-    writeVertical("ISORT", 30, 5);
-    break;
-  case insert:
-    sortSetting = both;
-    writeVertical("BOTH", 40, 4);
-    break;
-  case both:
-    sortSetting = quick;
-    writeVertical("QSORT", 30, 5);
-  default:
-    break;
-  }
 }
 
 void processTouchScreen() {
@@ -104,5 +106,6 @@ void processTouchScreen() {
   if (screen_x < TFT_WIDTH && screen_x > MAP_WIDTH) {
     if (screen_y < TFT_HEIGHT/2) {setRating();}
     else {changeSort();}
+    delay(400);
   }
 }
