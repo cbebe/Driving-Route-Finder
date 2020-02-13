@@ -103,4 +103,3 @@ int runSort(sort setting) {
   Serial.print(delta); Serial.println(" ms");
   return len;
 }
-//fml
