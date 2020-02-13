@@ -7,7 +7,6 @@
 #include "jcursor.h"
 #include "restlist.h"
 #include "sorting.h"
-#include "touchs.h"
 
 int8_t selectedRest;
 restaurant currentRest;
@@ -35,11 +34,11 @@ void displayAllText(int listStart, bool start) {
 	tft.setTextWrap(false);
   selectedRest = listStart;
   if (start) {
-    for (int i = listStart; (i % NUM_LINES + 1) < NUM_LINES; i++) {
+    for (int i = listStart; i % (NUM_LINES + 1) < NUM_LINES; i++) {
       displayText(i);
     }
   } else {
-    for (int i = listStart; (i % NUM_LINES + 1) > 0; i--) {
+    for (int i = listStart; (i % (NUM_LINES + 1)) > 0; i--) {
       displayText(i);
     }
   }
@@ -53,22 +52,21 @@ void joySelect(int prevRest, int len) {
   	prevRest = selectedRest;
     if (aVal > POS_BUFFER) {
       selectedRest++; // highlight moves down
-			if (selectedRest == NUM_LINES) {
-        displayAllText(selectedRest, true);
-			}
       if (selectedRest == len) {
         selectedRest = 0;
         displayAllText(selectedRest, true);
-      }
+      } else if (selectedRest % (NUM_LINES + 1) == NUM_LINES) {
+        displayAllText(selectedRest, true);
+			}
 		}
   	else {
 	    selectedRest--; // highlight moves up
-			if ((selectedRest % 21) < NUM_LINES - 1) {
-        displayAllText(selectedRest, false);
-      }
       if (selectedRest < 0) {
 				selectedRest = len - 1; // wraps back to the botttom
-			}
+			} 
+			if ((selectedRest % (NUM_LINES + 1)) >= NUM_LINES) {
+        displayAllText(selectedRest, false);
+      }
   	} 
 		// draw the old highlighted string normally
 		displayText(prevRest);

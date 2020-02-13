@@ -14,11 +14,11 @@ void drawDots() {
   restaurant currentRest; int restX, restY;
   int patchBoundX = currentPatchX + MAP_WIDTH - CIRC_RAD;
   int patchBoundY = currentPatchY + MAP_HEIGHT - CIRC_RAD;
-
+  Serial.print("ratingSel: "); Serial.println(ratingSel);
   for (int i = 0; i < NUM_RESTAURANTS; i++) {
     getRestaurantFast(i, &currentRest);
     // only draws the dot if it passes the rating threshold
-    if (((currentRest.rating+1)/2) >= ratingSel - 1) {
+    if (max((currentRest.rating+1)/2, 1) >= ratingSel) {
       // converts from longitude and latitude to pixels relative to map size
       int restX = map(currentRest.lon, LON_WEST, LON_EAST, 0, YEG_SIZE);
       int restY = map(currentRest.lat, LAT_NORTH, LAT_SOUTH, 0, YEG_SIZE);

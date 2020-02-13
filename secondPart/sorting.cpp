@@ -75,9 +75,9 @@ int filterRestaurants() {
   int actualLen = 0; restaurant currentRest;
   for (int i = 0; i < NUM_RESTAURANTS; i++) {
     getRestaurantFast(i, &currentRest);
-    if ((currentRest.rating+1)/2 >= ratingSel - 1) {
-      rest_dist[i].index = i;
-      rest_dist[i].dist = calculateDist(currentRest);
+    if (max((currentRest.rating+1)/2, 1)>= ratingSel) {
+      rest_dist[actualLen].index = actualLen;
+      rest_dist[actualLen].dist = calculateDist(currentRest);
       actualLen++;
     }
   }
