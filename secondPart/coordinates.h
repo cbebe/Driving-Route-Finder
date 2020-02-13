@@ -39,7 +39,7 @@ extern MCUFRIEND_kbv tft;
 extern uint32_t pastBlockNum;
 extern restaurant restBlock[8];
 extern Sd2Card card;
-extern int currentPatchX, currentPatchY;
+extern int cursorX, cursorY, currentPatchX, currentPatchY;
 extern int8_t ratingSel;
 
 void getRestaurantFast(int restIndex, restaurant *restPtr);

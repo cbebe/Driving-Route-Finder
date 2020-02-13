@@ -10,7 +10,7 @@ Sd2Card card;
 
 uint32_t pastBlockNum; // remembering block number
 restaurant restBlock[8]; // caching loaded restaurant block
-int currentPatchX, currentPatchY;
+int cursorX, cursorY, currentPatchX, currentPatchY;
 int8_t ratingSel = 1; // filtering restaurant rating
 
 // fast method of loading restaurants from weekly exercise

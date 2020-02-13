@@ -9,9 +9,6 @@
 #define CURSOR_SIZE  9
 #define CUR_RAD 4
 
-
-extern int cursorX, cursorY, currentPatchX, currentPatchY;
-
 void mapInit();
 void processJoystick();
 void setup();

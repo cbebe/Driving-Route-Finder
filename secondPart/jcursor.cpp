@@ -8,7 +8,6 @@
 #include "jcursor.h"
 
 lcd_image_t yegImage = { "yeg-big.lcd", YEG_SIZE, YEG_SIZE };
-int cursorX, cursorY;
 
 // redraws the cursor on the given cursor position
 void redrawCursor() {
