@@ -4,11 +4,14 @@
 #include <SD.h>
 #include "coordinates.h"
 
+// declaring objects for lcd display and sd card
 MCUFRIEND_kbv tft;
 Sd2Card card;
-uint32_t pastBlockNum;
-restaurant restBlock[8];
+
+uint32_t pastBlockNum; // remembering block number
+restaurant restBlock[8]; // caching loaded restaurant block
 int currentPatchX, currentPatchY;
+int8_t ratingSel = 1; // filtering restaurant rating
 
 // fast method of loading restaurants from weekly exercise
 void getRestaurantFast(int restIndex, restaurant *restPtr) {

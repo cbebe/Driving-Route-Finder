@@ -4,7 +4,6 @@
 #include <SD.h>
 
 #include "jcursor.h"
-#include "touchs.h"
 #include "coordinates.h"
 #include "sorting.h"
 

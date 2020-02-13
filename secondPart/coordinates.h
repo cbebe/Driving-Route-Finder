@@ -1,4 +1,4 @@
-#define JOY_SEL 53
+#define JOY_SEL 53 
 
 #define TFT_WIDTH 480
 #define MAP_WIDTH 420
@@ -25,7 +25,7 @@
 #define REST_START_BLOCK 4000000
 #define NUM_RESTAURANTS 1066
 
-#define SD_CS     10
+#define SD_CS 10
 
 struct restaurant {
   int32_t lat;
@@ -36,10 +36,10 @@ struct restaurant {
 
 // global declaration to give access to multiple source files
 extern MCUFRIEND_kbv tft; 
-// global variables for loading data from sd card
 extern uint32_t pastBlockNum;
 extern restaurant restBlock[8];
 extern Sd2Card card;
 extern int currentPatchX, currentPatchY;
+extern int8_t ratingSel;
 
 void getRestaurantFast(int restIndex, restaurant *restPtr);
