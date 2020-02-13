@@ -41,6 +41,7 @@ struct RestDist {
   uint16_t dist;
 };
 
+
 extern sort sortSetting;
 extern RestDist rest_dist[NUM_RESTAURANTS];
 
@@ -53,3 +54,4 @@ extern int cursorX, cursorY, currentPatchX, currentPatchY;
 extern int8_t ratingSel;
 
 void getRestaurantFast(int restIndex, restaurant *restPtr);
+
