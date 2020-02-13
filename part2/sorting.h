@@ -4,4 +4,4 @@ struct RestDist {
 };
 
 void iSort(RestDist array[], int length);
-void qSort(RestDist array[], int low, int high);
+void qSort(RestDist array[], int length);

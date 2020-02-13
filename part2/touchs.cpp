@@ -37,7 +37,7 @@ void drawDots() {
 void writeVertical(char text[], int indent, int n) {
   int x = MAP_WIDTH + 25;
   int y = MAP_HEIGHT/2 + indent;
-  tft.fillRect(x, y, 10, 16*(n+1)); // clears previous text
+  tft.fillRect(x, y, 10, 16*(n+1), TFT_WHITE); // clears previous text
   for (int i = 0; i < n; i++) {
     tft.setCursor(x, y + (15 * i));
     tft.print(text[i]);

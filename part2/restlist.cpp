@@ -16,7 +16,7 @@ RestDist rest_dist[NUM_RESTAURANTS];
 void displayText(int index) {
 	// 15 is the vertical span of a size-2 character
 	// (including the one pixel of padding below)
-	tft.setCursor(0, 15*index);
+	tft.setCursor(0, 15*(index % NUM_LINES));
 
   // highlights selected restaurant
 	if (index == selectedRest) { 
@@ -76,23 +76,32 @@ int16_t calculateDist(restaurant rest) {
   return abs(restX - cursorX_coord) + abs(restY - cursorY_coord);
 }
 
-void sortDistArray(int len) {
-  int tStart;
-  switch (sortSetting) {
-  case quick:
-    tStart = millis();
-    qSort(rest_dist, len);
-    Serial.print("");
-    break;
-  
-  default:
-    break;
+void clearRDArray() {
+  for (int i = 0; i < NUM_RESTAURANTS; i++) {
+    rest_dist[i].index = 0;
+    rest_dist[i].dist = 0;
   }
 }
 
-// loads all the restaurants from sd card to a RestDist struct array
-// the array is then sorted and the first 21 restaurants are displayed
-void loadAllRestaurants() {
+void runSort(sort setting) {
+  clearRDArray();
+  int len = filterRestaurants();
+  int tStart = millis(), delta;
+  if (setting == quick) {
+    qSort(rest_dist, len);
+    delta = millis() - tStart;
+    Serial.print("quicksort ");
+  } else if (setting == insert) {
+    iSort(rest_dist, len);
+    delta = millis() - tStart;
+    Serial.print("insertion sort ");
+  }
+  Serial.print("running time: ");
+  Serial.print(delta); Serial.println(" ms");
+}
+// filters the list of restaurants depending on rating
+// and saves them into a RestDist array for 
+int filterRestaurants() {
   int actualLen = 0;
   for (int i = 0; i < NUM_RESTAURANTS; i++) {
     getRestaurantFast(i, &currentRest);
@@ -102,8 +111,25 @@ void loadAllRestaurants() {
       actualLen++;
     }
   }
-  sortDistArray(actualLen);
-  displayAllText();
+  return actualLen;
+}
+
+void restList() {
+  switch (sortSetting) {
+  case quick:
+    runSort(quick);
+    break;
+  case insert:
+    runSort(insert);
+    break;
+  case both:
+    runSort(quick);
+    runSort(insert);
+    break;
+  default:
+    break;
+  }
+
 }
 
 // adjust coordinates to centre the restaurant
