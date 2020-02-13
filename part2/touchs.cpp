@@ -6,10 +6,10 @@
 
 #include "coordinates.h"
 #include "touchs.h"
+#include "sorting.h"
 
 TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 int8_t ratingSel = 1;
-sort sortSetting = quick;
 
 // displays nearby restaurants as dots on the screen
 void drawDots() {

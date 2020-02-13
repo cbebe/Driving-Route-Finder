@@ -1,7 +1,5 @@
-struct RestDist {
-  uint16_t index;
-  uint16_t dist;
-};
+enum sort {quick, insert, both};
 
-void iSort(RestDist array[], int length);
-void qSort(RestDist array[], int length);
+extern sort sortSetting;
+
+void runSort(sort setting);

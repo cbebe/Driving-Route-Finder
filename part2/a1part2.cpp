@@ -29,7 +29,7 @@ int main() {
     if (digitalRead(JOY_SEL) == LOW) {
 
       int prevRest;
-      loadAllRestaurants();
+      restList();
       while (digitalRead(JOY_SEL) == HIGH) {
 		    joySelect(prevRest);
 	    }

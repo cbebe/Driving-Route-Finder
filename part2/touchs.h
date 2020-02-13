@@ -19,12 +19,7 @@
 #define BTN_WIDTH (TFT_WIDTH - MAP_WIDTH - 2)
 #define BTN_HEIGHT (MAP_HEIGHT/2 -4)
 
-enum sort {
-  quick, insert, both,
-};
-
 extern int8_t ratingSel;
-extern sort sortSetting;
 
 void processTouchScreen();
 void btnSetup();
