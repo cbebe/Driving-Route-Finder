@@ -6,9 +6,6 @@
 #include "coordinates.h"
 #include "sorting.h"
 
-RestDist rest_dist[NUM_RESTAURANTS];
-sort sortSetting = quick;
-
 // swaps the values of two RestDist variables
 void swapRest(RestDist *restA, RestDist *restB) {
   RestDist tmp = *restA;

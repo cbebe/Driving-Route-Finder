@@ -6,7 +6,6 @@
 
 #include "coordinates.h"
 #include "touchs.h"
-#include "sorting.h"
 
 TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 
@@ -18,6 +17,7 @@ void drawDots() {
 
   for (int i = 0; i < NUM_RESTAURANTS; i++) {
     getRestaurantFast(i, &currentRest);
+    // only draws the dot if it passes the rating threshold
     if ((currentRest.rating+1/2) >= ratingSel - 1) {
       // converts from longitude and latitude to pixels relative to map size
       int restX = map(currentRest.lon, LON_WEST, LON_EAST, 0, YEG_SIZE);

@@ -34,6 +34,16 @@ struct restaurant {
   char name[55];
 };
 
+enum sort {quick, insert, both};
+
+struct RestDist {
+  uint16_t index;
+  uint16_t dist;
+};
+
+extern sort sortSetting;
+extern RestDist rest_dist[NUM_RESTAURANTS];
+
 // global declaration to give access to multiple source files
 extern MCUFRIEND_kbv tft; 
 extern uint32_t pastBlockNum;

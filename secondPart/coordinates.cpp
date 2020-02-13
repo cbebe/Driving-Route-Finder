@@ -2,6 +2,7 @@
 #include <MCUFRIEND_kbv.h>
 #include <SPI.h>
 #include <SD.h>
+
 #include "coordinates.h"
 
 // declaring objects for lcd display and sd card
@@ -10,8 +11,12 @@ Sd2Card card;
 
 uint32_t pastBlockNum; // remembering block number
 restaurant restBlock[8]; // caching loaded restaurant block
+// cursor and patch positions
 int cursorX, cursorY, currentPatchX, currentPatchY;
 int8_t ratingSel = 1; // filtering restaurant rating
+
+RestDist rest_dist[NUM_RESTAURANTS];
+sort sortSetting = quick;
 
 // fast method of loading restaurants from weekly exercise
 void getRestaurantFast(int restIndex, restaurant *restPtr) {
