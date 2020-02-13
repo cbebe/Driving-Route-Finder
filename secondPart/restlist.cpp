@@ -29,18 +29,24 @@ void displayText(int index) {
 }
 
 // sets up the screen to display 21 restaurants
-void displayAllText(int listStart) {
+void displayAllText(int listStart, bool start) {
 	tft.fillScreen(TFT_BLACK);
 	tft.setTextSize(2);
 	tft.setTextWrap(false);
-  selectedRest = 0; // highlights the nearest restaurant
-  for (int i = listStart; (i % NUM_LINES + 1) < NUM_LINES; i++) {
-    displayText(i);
-  } 
+  selectedRest = listStart;
+  if (start) {
+    for (int i = listStart; (i % NUM_LINES + 1) < NUM_LINES; i++) {
+      displayText(i);
+    }
+  } else {
+    for (int i = listStart; (i % NUM_LINES + 1) > 0; i--) {
+      displayText(i);
+    }
+  }
 }
 
 // lets the user select a restaurant
-void joySelect(int prevRest) {
+void joySelect(int prevRest, int len) {
   int aVal = analogRead(JOY_VERT);
 	if (aVal > POS_BUFFER || aVal < NEG_BUFFER) {
     // save the previous restaurant to draw it normally
@@ -48,13 +54,20 @@ void joySelect(int prevRest) {
     if (aVal > POS_BUFFER) {
       selectedRest++; // highlight moves down
 			if (selectedRest == NUM_LINES) {
-				selectedRest = 0; // wraps back to the top
+        displayAllText(selectedRest, true);
 			}
+      if (selectedRest == len) {
+        selectedRest = 0;
+        displayAllText(selectedRest, true);
+      }
 		}
   	else {
 	    selectedRest--; // highlight moves up
-			if (selectedRest < 0) {
-				selectedRest = NUM_LINES - 1; // wraps back to the botttom
+			if ((selectedRest % 21) < NUM_LINES - 1) {
+        displayAllText(selectedRest, false);
+      }
+      if (selectedRest < 0) {
+				selectedRest = len - 1; // wraps back to the botttom
 			}
   	} 
 		// draw the old highlighted string normally
@@ -63,23 +76,6 @@ void joySelect(int prevRest) {
 		displayText(selectedRest);
 		delay(400);
 	}
-}
-
-void restList() {
-  switch (sortSetting) {
-  case quick:
-    runSort(quick);
-    break;
-  case insert:
-    runSort(insert);
-    break;
-  case both:
-    runSort(quick);
-    runSort(insert);
-    break;
-  default:
-    break;
-  }
 }
 
 // adjust coordinates to centre the restaurant
@@ -107,4 +103,28 @@ void goToResto() {
   positionX = constrain(positionX, CUR_RAD, YEG_SIZE - CUR_RAD - 1);
   positionY = constrain(positionY, CUR_RAD, YEG_SIZE - CUR_RAD - 1);
   adjustCoordinates(positionX, positionY);
+}
+
+void restList() {
+  int len, prevRest;
+  switch (sortSetting) {
+  case quick:
+    len = runSort(quick);
+    break;
+  case insert:
+    len = runSort(insert);
+    break;
+  case both:
+    runSort(quick);
+    len = runSort(insert);
+    break;
+  default:
+    break;
+  }
+  selectedRest = 0;
+  displayAllText(selectedRest, true);
+  while (digitalRead(JOY_SEL) == HIGH) {
+    joySelect(prevRest, len);
+  }
+  goToResto();
 }

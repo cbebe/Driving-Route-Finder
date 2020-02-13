@@ -1,1 +1,1 @@
-void runSort(sort setting);
+int runSort(sort setting);

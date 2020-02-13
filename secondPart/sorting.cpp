@@ -84,7 +84,9 @@ int filterRestaurants() {
   return actualLen;
 }
 
-void runSort(sort setting) {
+// runs sorting test and prints out running time on serial
+// returns the length of the filtered array
+int runSort(sort setting) {
   clearRDArray();
   int len = filterRestaurants();
   int tStart = millis(), delta;
@@ -99,4 +101,5 @@ void runSort(sort setting) {
   }
   Serial.print("running time: ");
   Serial.print(delta); Serial.println(" ms");
+  return len;
 }

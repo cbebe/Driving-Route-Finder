@@ -28,13 +28,8 @@ int main() {
     // switches to Mode 1 when joystick is pressed
     if (digitalRead(JOY_SEL) == LOW) {
 
-      int prevRest;
       restList();
-      while (digitalRead(JOY_SEL) == HIGH) {
-		    joySelect(prevRest);
-	    }
-      goToResto();
-
+      
       mapInit(); // reinitializes map after exiting Mode 1
       btnSetup();
     }
