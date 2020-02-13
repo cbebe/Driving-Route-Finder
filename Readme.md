@@ -11,3 +11,5 @@
 > Create buttons and compare sorting times with insertion sort through serial monitor
 
 - Scrollable Resto List
+
+> this part is sucky huhu plz fix
