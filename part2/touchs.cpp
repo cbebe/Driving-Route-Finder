@@ -9,6 +9,7 @@
 
 TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 int8_t ratingSel = 1;
+sort sortSetting = quick;
 
 // displays nearby restaurants as dots on the screen
 void drawDots() {
@@ -18,48 +19,77 @@ void drawDots() {
 
   for (int i = 0; i < NUM_RESTAURANTS; i++) {
     getRestaurantFast(i, &currentRest);
-    // converts from longitude and latitude to pixels relative to map size
-    restX = map(currentRest.lon, LON_WEST, LON_EAST, 0, YEG_SIZE);
-    restY = map(currentRest.lat, LAT_NORTH, LAT_SOUTH, 0, YEG_SIZE);
-    // only draws the dots if it is within the screen patch
-    if ((restX >= currentPatchX + CIRC_RAD && restX <= patchBoundX) && 
-        (restY >= currentPatchY + CIRC_RAD && restY <= patchBoundY)) {
-      tft.fillCircle(restX - currentPatchX, restY - currentPatchY, CIRC_RAD, TFT_BLUE);
-      tft.drawCircle(restX - currentPatchX, restY - currentPatchY, CIRC_RAD, TFT_WHITE);
+    if ((currentRest.rating+1/2) >= ratingSel - 1) {
+      // converts from longitude and latitude to pixels relative to map size
+      int restX = map(currentRest.lon, LON_WEST, LON_EAST, 0, YEG_SIZE);
+      int restY = map(currentRest.lat, LAT_NORTH, LAT_SOUTH, 0, YEG_SIZE);
+      // only draws the dots if it is within the screen patch
+      if ((restX >= currentPatchX + CIRC_RAD && restX <= patchBoundX) && 
+          (restY >= currentPatchY + CIRC_RAD && restY <= patchBoundY)) {
+        tft.fillCircle(restX - currentPatchX, restY - currentPatchY, CIRC_RAD, TFT_BLUE);
+        tft.drawCircle(restX - currentPatchX, restY - currentPatchY, CIRC_RAD, TFT_WHITE);
+      }
     }
   }
 }
 
-// function to write 5 characters vertically
-void writeVertical(char text[], int x, int y, int n) {
+// function to print strings vertically
+void writeVertical(char text[], int indent, int n) {
+  int x = MAP_WIDTH + 25;
+  int y = MAP_HEIGHT/2 + indent;
+  tft.fillRect(x, y, 10, 16*(n+1)); // clears previous text
   for (int i = 0; i < n; i++) {
-    tft.setCursor(x, y + (16 * i));
+    tft.setCursor(x, y + (15 * i));
     tft.print(text[i]);
   }
 }
 
-void btnSetup() {
-  tft.fillRect(MAP_WIDTH + 1, 0, 60, MAP_HEIGHT/2 - 4, TFT_WHITE);
-  tft.drawRect(MAP_WIDTH + 1, 0, 60, MAP_HEIGHT/2 - 4, TFT_RED);
-  tft.fillRect(MAP_WIDTH + 1, MAP_HEIGHT/2 + 4, 60, MAP_HEIGHT/2 - 4, TFT_WHITE);
-  tft.drawRect(MAP_WIDTH + 1, 0, 60, MAP_HEIGHT/2 - 4, TFT_GREEN);
-
-  tft.setTextSize(2);
-  tft.setTextColor(TFT_BLACK);
+// changes the number on the rating button
+void changeNum(int num) {
+  tft.fillRect(MAP_WIDTH + 25, MAP_HEIGHT/4, 10,16, TFT_WHITE);
   tft.setCursor(MAP_WIDTH + 25, MAP_HEIGHT/4);
-  tft.print("1");
-  writeVertical("QSORT", MAP_WIDTH + 25, MAP_HEIGHT/2 + 30, 5);
+  tft.print(num);
 }
 
+void btnSetup() {
+  // draws the buttons on the screen next to the map
+  tft.fillRect(MAP_WIDTH + 1, 0, BTN_WIDTH, BTN_HEIGHT, TFT_WHITE);
+  tft.drawRect(MAP_WIDTH + 1, 0, BTN_WIDTH, BTN_HEIGHT, TFT_RED);
+  tft.fillRect(MAP_WIDTH + 1, MAP_HEIGHT/2 + 4, BTN_WIDTH, BTN_HEIGHT, TFT_WHITE);
+  tft.drawRect(MAP_WIDTH + 1, MAP_HEIGHT/2 + 4, BTN_WIDTH, BTN_HEIGHT, TFT_GREEN);
+
+  // labels the buttons (1 and Qsort by default)
+  tft.setTextSize(2);
+  tft.setTextColor(TFT_BLACK);
+  changeNum(ratingSel);
+  writeVertical("QSORT", 30, 5);
+}
+
+// changes rating threshold for restaurants
 void setRating() {
-  setRating++;
-  if (setRating == 5) {
-    setRating = 1;
+  ratingSel++;
+  if (ratingSel == 5) {
+    ratingSel = 1;
   }
+  changeNum(ratingSel);
 }
 
 void changeSort() {
-
+  switch (sortSetting) {
+  case quick:
+    sortSetting = insert;
+    writeVertical("ISORT", 30, 5);
+    break;
+  case insert:
+    sortSetting = both;
+    writeVertical("BOTH", 40, 4);
+    break;
+  case both:
+    sortSetting = quick;
+    writeVertical("QSORT", 30, 5);
+  default:
+    break;
+  }
 }
 
 void processTouchScreen() {
@@ -76,6 +106,4 @@ void processTouchScreen() {
     if (screen_y < TFT_HEIGHT/2) {setRating();}
     else {changeSort();}
   }
-  
 }
-

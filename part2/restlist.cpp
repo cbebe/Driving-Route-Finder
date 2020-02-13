@@ -7,6 +7,7 @@
 #include "jcursor.h"
 #include "restlist.h"
 #include "sorting.h"
+#include "touchs.h"
 
 int8_t selectedRest;
 restaurant currentRest;
@@ -67,23 +68,41 @@ void joySelect(int prevRest) {
 
 // converts restaurant longitude and latitude 
 // and calculates the Manhattan distance from cursor 
-int16_t calculateDist(restaurant *rest) {
-  int16_t restX = map(rest->lon, LON_WEST, LON_EAST, 0, YEG_SIZE);
-  int16_t restY = map(rest->lat, LAT_NORTH, LAT_SOUTH, 0, YEG_SIZE); 
+int16_t calculateDist(restaurant rest) {
+  int16_t restX = map(rest.lon, LON_WEST, LON_EAST, 0, YEG_SIZE);
+  int16_t restY = map(rest.lat, LAT_NORTH, LAT_SOUTH, 0, YEG_SIZE); 
   int16_t cursorX_coord = cursorX + currentPatchX;
   int16_t cursorY_coord = cursorY + currentPatchY;
   return abs(restX - cursorX_coord) + abs(restY - cursorY_coord);
 }
 
+void sortDistArray(int len) {
+  int tStart;
+  switch (sortSetting) {
+  case quick:
+    tStart = millis();
+    qSort(rest_dist, len);
+    Serial.print("");
+    break;
+  
+  default:
+    break;
+  }
+}
+
 // loads all the restaurants from sd card to a RestDist struct array
 // the array is then sorted and the first 21 restaurants are displayed
 void loadAllRestaurants() {
+  int actualLen = 0;
   for (int i = 0; i < NUM_RESTAURANTS; i++) {
-    rest_dist[i].index = i;
     getRestaurantFast(i, &currentRest);
-    rest_dist[i].dist = calculateDist(&currentRest);
+    if ((currentRest.rating+1)/2 >= ratingSel - 1) {
+      rest_dist[i].index = i;
+      rest_dist[i].dist = calculateDist(currentRest);
+      actualLen++;
+    }
   }
-  iSort(rest_dist, NUM_RESTAURANTS);
+  sortDistArray(actualLen);
   displayAllText();
 }
 
