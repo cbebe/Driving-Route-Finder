@@ -8,6 +8,7 @@
 #include "coordinates.h"
 #include "sorting.h"
 
+RestDist rest_dist[NUM_RESTAURANTS];
 sort sortSetting = quick;
 
 // swaps the values of two RestDist variables
@@ -76,7 +77,7 @@ void clearRDArray() {
 // filters the list of restaurants depending on rating
 // and saves them into a RestDist array for 
 int filterRestaurants() {
-  int actualLen = 0;
+  int actualLen = 0; restaurant currentRest;
   for (int i = 0; i < NUM_RESTAURANTS; i++) {
     getRestaurantFast(i, &currentRest);
     if ((currentRest.rating+1)/2 >= ratingSel - 1) {

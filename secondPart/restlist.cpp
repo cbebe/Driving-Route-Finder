@@ -11,7 +11,6 @@
 
 int8_t selectedRest;
 restaurant currentRest;
-RestDist rest_dist[NUM_RESTAURANTS];
 
 void displayText(int index) {
 	// 15 is the vertical span of a size-2 character
