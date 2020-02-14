@@ -46,7 +46,7 @@ void joySelect(int prevRest, int len) {
     // save the previous restaurant to draw it normally
     if (aVal > POS_BUFFER) {
       selectedRest++;
-      if (selectedRest > (pageNum + 1) * NUM_LINES) {
+      if (selectedRest == (pageNum + 1) * NUM_LINES) {
         pageNum++;
         pageUpdate();
         return;
