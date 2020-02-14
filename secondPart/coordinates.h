@@ -55,3 +55,4 @@ extern int8_t ratingSel;
 
 void getRestaurantFast(int restIndex, restaurant *restPtr);
 
+int runSort(sort setting);

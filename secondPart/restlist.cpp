@@ -9,6 +9,7 @@
 #include "sorting.h"
 
 int8_t selectedRest;
+int8_t pageNum;
 restaurant currentRest;
 
 void displayText(int index) {
@@ -28,7 +29,7 @@ void displayText(int index) {
 }
 
 // sets up the screen to display the nearest 21 restaurants
-void displayAllText() {
+void displayAllText(int selectedRest, int len) {
 	tft.fillScreen(TFT_BLACK);
 	tft.setTextSize(2);
 	tft.setTextWrap(false);
@@ -38,29 +39,43 @@ void displayAllText() {
   } 
 }
 
+void pageUpdate() {
+  tft.fillScreen(TFT_BLACK);
+	tft.setTextSize(2);
+	tft.setTextWrap(false);
+  selectedRest = 0; // highlights the nearest restaurant
+  for (int i = pageNum * NUM_LINES; i % (NUM_LINES + 1) < NUM_LINES; i++) {
+    displayText(i);
+  }
+}
+
 // lets the user select a restaurant
 void joySelect(int prevRest, int len) {
   int aVal = analogRead(JOY_VERT);
 	if (aVal > POS_BUFFER || aVal < NEG_BUFFER) {
-    // save the previous restaurant to draw it normally
   	prevRest = selectedRest;
+    // save the previous restaurant to draw it normally
     if (aVal > POS_BUFFER) {
-      selectedRest++; // highlight moves down
-			if (selectedRest == NUM_LINES) {
-				selectedRest = 0; // wraps back to the top
-			}
+      selectedRest++;
+      if (selectedRest % (NUM_LINES + 1) == NUM_LINES) {
+        pageNum++;
+        pageUpdate()
+      } else {
+        // draw the old highlighted string normally
+        displayText(prevRest);
+        // highlight the new string
+        displayText(selectedRest);
+      }
 		}
   	else {
-	    selectedRest--; // highlight moves up
-			if (selectedRest < 0) {
-				selectedRest = NUM_LINES - 1; // wraps back to the botttom
-			}
-  	} 
-		// draw the old highlighted string normally
-		displayText(prevRest);
-		// highlight the new string
-		displayText(selectedRest);
-		delay(400);
+      selectedRest--;
+      if (selectedRest < 0) {
+        selectedRest = 0;
+        return;
+      }
+  	}
+
+		delay(50);
 	}
 }
 
@@ -107,8 +122,7 @@ void restList() {
   default:
     break;
   }
-  selectedRest = 0;
-  displayAllText(selectedRest, true);
+  selectedRest = 0; pageNum = 0;
   while (digitalRead(JOY_SEL) == HIGH) {
     joySelect(prevRest, len);
   }
