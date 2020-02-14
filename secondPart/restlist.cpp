@@ -28,13 +28,20 @@ void displayText(int index) {
 	tft.println(currentRest.name);
 }
 
-void pageUpdate() {
+void pageUpdate(bool up) {
   tft.fillScreen(TFT_BLACK);
 	tft.setTextSize(2);
 	tft.setTextWrap(false);
-  for (int i = selectedRest; i < (pageNum + 1) * NUM_LINES; i++) {
-    Serial.println(i);
-    displayText(i);
+  if (up) {
+    for (int i = selectedRest; i < (pageNum + 1) * NUM_LINES; i++) {
+      Serial.println(i);
+      displayText(i);
+    }
+  } else {
+    for (int i = selectedRest; (i + 1) > (pageNum) * NUM_LINES; i--) {
+      Serial.println(i);
+      displayText(i);
+    }
   }
 }
 
@@ -48,7 +55,7 @@ void joySelect(int prevRest, int len) {
       selectedRest++;
       if (selectedRest == (pageNum + 1) * NUM_LINES) {
         pageNum++;
-        pageUpdate();
+        pageUpdate(true);
         return;
       }
 		}
@@ -56,6 +63,10 @@ void joySelect(int prevRest, int len) {
       selectedRest--;
       if (selectedRest < 0) {
         selectedRest = 0;
+        return;
+      } else if (selectedRest - (pageNum * NUM_LINES) < 0) {
+        pageNum--;
+        pageUpdate(false);
         return;
       }
   	}
@@ -112,7 +123,7 @@ void restList() {
     break;
   }
   selectedRest = 0; pageNum = 0;
-  pageUpdate();
+  pageUpdate(true);
   while (digitalRead(JOY_SEL) == HIGH) {
     joySelect(prevRest, len);
   }
