@@ -32,8 +32,7 @@ void pageUpdate() {
   tft.fillScreen(TFT_BLACK);
 	tft.setTextSize(2);
 	tft.setTextWrap(false);
-  selectedRest = 0; // highlights the nearest restaurant
-  for (int i = pageNum * NUM_LINES; i % (NUM_LINES + 1) < NUM_LINES; i++) {
+  for (int i = selectedRest; i < (pageNum + 1) * NUM_LINES; i++) {
     Serial.println(i);
     displayText(i);
   }
@@ -47,7 +46,7 @@ void joySelect(int prevRest, int len) {
     // save the previous restaurant to draw it normally
     if (aVal > POS_BUFFER) {
       selectedRest++;
-      if (selectedRest % (NUM_LINES + 1) == NUM_LINES) {
+      if (selectedRest > (pageNum + 1) * NUM_LINES) {
         pageNum++;
         pageUpdate();
         return;
