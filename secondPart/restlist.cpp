@@ -27,21 +27,15 @@ void displayText(int index) {
 	tft.println(currentRest.name);
 }
 
-// sets up the screen to display 21 restaurants
-void displayAllText(int listStart, bool start) {
+// sets up the screen to display the nearest 21 restaurants
+void displayAllText() {
 	tft.fillScreen(TFT_BLACK);
 	tft.setTextSize(2);
 	tft.setTextWrap(false);
-  selectedRest = listStart;
-  if (start) {
-    for (int i = listStart; i % (NUM_LINES + 1) < NUM_LINES; i++) {
-      displayText(i);
-    }
-  } else {
-    for (int i = listStart; (i % (NUM_LINES + 1)) > 0; i--) {
-      displayText(i);
-    }
-  }
+  selectedRest = 0; // highlights the nearest restaurant
+  for (int i = 0; i < NUM_LINES; i++) {
+    displayText(i);
+  } 
 }
 
 // lets the user select a restaurant
@@ -52,21 +46,15 @@ void joySelect(int prevRest, int len) {
   	prevRest = selectedRest;
     if (aVal > POS_BUFFER) {
       selectedRest++; // highlight moves down
-      if (selectedRest == len) {
-        selectedRest = 0;
-        displayAllText(selectedRest, true);
-      } else if (selectedRest % (NUM_LINES + 1) == NUM_LINES) {
-        displayAllText(selectedRest, true);
+			if (selectedRest == NUM_LINES) {
+				selectedRest = 0; // wraps back to the top
 			}
 		}
   	else {
 	    selectedRest--; // highlight moves up
-      if (selectedRest < 0) {
-				selectedRest = len - 1; // wraps back to the botttom
-			} 
-			if ((selectedRest % (NUM_LINES + 1)) >= NUM_LINES) {
-        displayAllText(selectedRest, false);
-      }
+			if (selectedRest < 0) {
+				selectedRest = NUM_LINES - 1; // wraps back to the botttom
+			}
   	} 
 		// draw the old highlighted string normally
 		displayText(prevRest);
