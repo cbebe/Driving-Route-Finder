@@ -38,7 +38,7 @@ void pageUpdate(bool up) {
       displayText(i);
     }
   } else {
-    for (int i = selectedRest; (i + 1) > (pageNum) * NUM_LINES; i--) {
+    for (int i = selectedRest; i >= (pageNum) * NUM_LINES; i--) {
       Serial.println(i);
       displayText(i);
     }
