@@ -34,6 +34,7 @@ void pageUpdate() {
 	tft.setTextWrap(false);
   selectedRest = 0; // highlights the nearest restaurant
   for (int i = pageNum * NUM_LINES; i % (NUM_LINES + 1) < NUM_LINES; i++) {
+    Serial.println(i);
     displayText(i);
   }
 }
