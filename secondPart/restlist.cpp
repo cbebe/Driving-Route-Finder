@@ -28,17 +28,6 @@ void displayText(int index) {
 	tft.println(currentRest.name);
 }
 
-// sets up the screen to display the nearest 21 restaurants
-void displayAllText(int selectedRest, int len) {
-	tft.fillScreen(TFT_BLACK);
-	tft.setTextSize(2);
-	tft.setTextWrap(false);
-  selectedRest = 0; // highlights the nearest restaurant
-  for (int i = 0; i < NUM_LINES; i++) {
-    displayText(i);
-  } 
-}
-
 void pageUpdate() {
   tft.fillScreen(TFT_BLACK);
 	tft.setTextSize(2);
@@ -59,12 +48,8 @@ void joySelect(int prevRest, int len) {
       selectedRest++;
       if (selectedRest % (NUM_LINES + 1) == NUM_LINES) {
         pageNum++;
-        pageUpdate()
-      } else {
-        // draw the old highlighted string normally
-        displayText(prevRest);
-        // highlight the new string
-        displayText(selectedRest);
+        pageUpdate();
+        return;
       }
 		}
   	else {
@@ -74,6 +59,10 @@ void joySelect(int prevRest, int len) {
         return;
       }
   	}
+    // draw the old highlighted string normally
+    displayText(prevRest);
+    // highlight the new string
+    displayText(selectedRest);
 
 		delay(50);
 	}
@@ -123,6 +112,7 @@ void restList() {
     break;
   }
   selectedRest = 0; pageNum = 0;
+  pageUpdate();
   while (digitalRead(JOY_SEL) == HIGH) {
     joySelect(prevRest, len);
   }
