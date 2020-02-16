@@ -43,22 +43,35 @@ void writeVertical(char text[], int indent, int n) {
   }
 }
 
+void writeLabel() {
+  switch (sortSetting) {
+  case quick:
+    writeVertical("QSORT", 46, 5);
+    break;
+  case insert:
+    writeVertical("ISORT", 46, 5);
+    break;
+  case both:
+    writeVertical("BOTH", 56, 4);
+  default:
+    break;
+  }
+}
+
 void changeSort() {
   switch (sortSetting) {
   case quick:
     sortSetting = insert;
-    writeVertical("ISORT", 46, 5);
     break;
   case insert:
     sortSetting = both;
-    writeVertical("BOTH", 56, 4);
     break;
   case both:
     sortSetting = quick;
-    writeVertical("QSORT", 46, 5);
   default:
     break;
   }
+  writeLabel();
 }
 
 // changes the number on the rating button
@@ -76,12 +89,10 @@ void btnSetup() {
   tft.drawRect(MAP_WIDTH + 1, MAP_HEIGHT/2 + 4, BTN_WIDTH, BTN_HEIGHT, TFT_GREEN);
 
   // labels the buttons (1 and Qsort by default)
-  ratingSel = 1;
-  sortSetting = both; // initially set to both so it changes to quicksort
   tft.setTextSize(2);
   tft.setTextColor(TFT_BLACK);
   changeNum(ratingSel);
-  changeSort();
+  writeLabel();
 }
 
 // changes rating threshold for restaurants

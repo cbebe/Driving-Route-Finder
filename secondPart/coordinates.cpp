@@ -16,7 +16,8 @@ int cursorX, cursorY, currentPatchX, currentPatchY;
 int8_t ratingSel = 1; // filtering restaurant rating
 
 RestDist rest_dist[NUM_RESTAURANTS];
-sort sortSetting;
+sort sortSetting = quick;
+
 
 // fast method of loading restaurants from weekly exercise
 void getRestaurantFast(int restIndex, restaurant *restPtr) {

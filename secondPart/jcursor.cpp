@@ -56,6 +56,7 @@ void setup() {
   mapInit();
   pinMode(JOY_SEL, INPUT);
   digitalWrite(JOY_SEL, HIGH);
+  
 }
 
 // redraws map background on previous cursor position to remove black trail

@@ -41,7 +41,7 @@ int pivot(RestDist a[], int length, int pi) {
   return lo;
 }
 
-// recursive function to sort RestDist array
+// recursive function to quickly sort RestDist array
 // implemented from pseudocode in eclass
 void qSort(RestDist a[], int length) {
   if (length<= 1) {return;}
@@ -70,7 +70,7 @@ void clearRDArray() {
 }
 
 // filters the list of restaurants depending on rating
-// and saves them into a RestDist array for 
+// and saves them into a RestDist array for sorting
 int filterRestaurants() {
   int actualLen = 0; restaurant currentRest;
   for (int i = 0; i < NUM_RESTAURANTS; i++) {
