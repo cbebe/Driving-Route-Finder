@@ -56,9 +56,7 @@ void setup() {
   mapInit();
   pinMode(JOY_SEL, INPUT);
   digitalWrite(JOY_SEL, HIGH);
-  // sets rating selection and sort setting to default
-  ratingSel = 1;
-  sortSetting = quick;
+  
 }
 
 // redraws map background on previous cursor position to remove black trail
