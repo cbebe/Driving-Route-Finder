@@ -5,6 +5,7 @@
 
 #include "coordinates.h"
 
+
 // swaps the values of two RestDist variables
 void swapRest(RestDist *restA, RestDist *restB) {
   RestDist tmp = *restA;
@@ -74,8 +75,8 @@ int filterRestaurants() {
   int actualLen = 0; restaurant currentRest;
   for (int i = 0; i < NUM_RESTAURANTS; i++) {
     getRestaurantFast(i, &currentRest);
-    if (max((currentRest.rating+1)/2, 1)>= ratingSel) {
-      rest_dist[actualLen].index = actualLen;
+    if (max(floor((currentRest.rating+1)/2), 1)>= ratingSel) {
+      rest_dist[actualLen].index = i;
       rest_dist[actualLen].dist = calculateDist(currentRest);
       actualLen++;
     }
@@ -87,6 +88,7 @@ int filterRestaurants() {
 // returns the length of the filtered array
 int runSort(sort setting) {
   clearRDArray();
+  filterRestaurants();
   int len = filterRestaurants();
   int tStart = millis(), delta;
   if (setting == quick) {
@@ -100,5 +102,6 @@ int runSort(sort setting) {
   }
   Serial.print("running time: ");
   Serial.print(delta); Serial.println(" ms");
+
   return len;
 }

@@ -104,7 +104,7 @@ void processTouchScreen() {
   // draw dots if map was touched
   if (screen_x > 0 && screen_x < MAP_WIDTH) {drawDots();}
   if (screen_x < TFT_WIDTH && screen_x > MAP_WIDTH) {
-    if (screen_y < TFT_HEIGHT/2) {setRating();}
+    if (screen_y < TFT_HEIGHT/2) {setRating();Serial.println(ratingSel);}
     else {changeSort();}
     delay(400);
   }
