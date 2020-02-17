@@ -4,7 +4,6 @@
 #include <SD.h>
 
 #include "coordinates.h"
-#include "sorting.h"
 
 // swaps the values of two RestDist variables
 void swapRest(RestDist *restA, RestDist *restB) {

@@ -6,7 +6,6 @@
 #include "coordinates.h"
 #include "jcursor.h"
 #include "restlist.h"
-#include "sorting.h"
 
 int8_t selectedRest;
 int8_t pageNum;

@@ -1,1 +1,0 @@
-int runSort(sort setting);
