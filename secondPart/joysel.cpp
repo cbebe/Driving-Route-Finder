@@ -43,6 +43,7 @@ void pageUpdate(bool top) {
   }
 }
 
+// Prints restaurants on last page
 void lastPage(int len) {
   clearScreen();
   for (int i = selectedRest; i < selectedRest + (len % NUM_LINES); i++) {
