@@ -3,22 +3,26 @@ Name : Charles Ancheta, Poulomi Ganguly
 ID: 1581672, 1598887
 CMPUT 275 , Winter 2020
 
-Assignment 1, Part 1: Restaurant Finder
+Assignment 1, Part 2: Restaurant Finder
 ---------------------------------------------------
 
 Included Files:
     
-    * a1part1.cpp
+    Source Files
+    * a1part2.cpp
     * coordinates.cpp
-    * coordinates.h
     * jcursor.cpp
-    * jcursor.h
     * lcd_image.cpp
-    * lcd_image.h
-    * restlist.cpp
-    * restlist.h
     * touchs.cpp
+    * restlist.cpp
+    * joysel.cpp
+    * sorting.cpp
+    Header Files
+    * coordinates.h
+    * jcursor.h
+    * lcd_image.h
     * touchs.h
+    Other
     * README
     * Makefile
 
@@ -46,7 +50,7 @@ Running Instructions:
 
 Functions Used:
 
-1. a1part1.cpp
+1. a1part2.cpp
     * main(): Switches between mode 0 and mode 1 and reinitializes map after
     exiting mode 1.
 

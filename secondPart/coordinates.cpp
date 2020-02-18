@@ -19,6 +19,8 @@ RestDist rest_dist[NUM_RESTAURANTS];
 sort sortSetting;
 int16_t selectedRest;
 
+int8_t pageNum;
+restaurant currentRest;
 
 // fast method of loading restaurants from weekly exercise
 void getRestaurantFast(int restIndex, restaurant *restPtr) {

@@ -52,10 +52,10 @@ struct RestDist {
 };
 
 
-extern sort sortSetting;
-extern RestDist rest_dist[NUM_RESTAURANTS];
 
 // global declaration to give access to multiple source files
+extern RestDist rest_dist[NUM_RESTAURANTS];
+extern sort sortSetting;
 extern MCUFRIEND_kbv tft; 
 extern uint32_t pastBlockNum;
 extern restaurant restBlock[8];
@@ -64,8 +64,14 @@ extern int cursorX, cursorY, currentPatchX, currentPatchY;
 extern int8_t ratingSel;
 extern int16_t selectedRest;
 
+extern int8_t pageNum;
+extern restaurant currentRest;
+
 void getRestaurantFast(int restIndex, restaurant *restPtr);
 
 int runSort(sort setting);
+
+void joySelect(int prevRest, int len);
+void pageUpdate(bool top);
 
 void restList();
