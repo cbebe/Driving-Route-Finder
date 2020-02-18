@@ -17,7 +17,7 @@ int8_t ratingSel = 1; // filtering restaurant rating
 
 RestDist rest_dist[NUM_RESTAURANTS];
 sort sortSetting;
-int8_t selectedRest;
+int16_t selectedRest;
 
 
 // fast method of loading restaurants from weekly exercise

@@ -26,11 +26,15 @@ void displayText(int index) {
 	tft.println(currentRest.name);
 }
 
-// updates the page with a new list of restaurants
-void pageUpdate(bool top) {
+void clearScreen() {
   tft.fillScreen(TFT_BLACK);
 	tft.setTextSize(2);
 	tft.setTextWrap(false);
+}
+
+// updates the page with a new list of restaurants
+void pageUpdate(bool top) {
+  clearScreen();
   if (top) { // if cursor should start from the top
     for (int i = selectedRest; i < (pageNum + 1) * NUM_LINES; i++) {
       displayText(i);
@@ -42,6 +46,13 @@ void pageUpdate(bool top) {
   }
 }
 
+void lastPage(int len) {
+  clearScreen();
+  for (int i = selectedRest; i < selectedRest + (len % NUM_LINES); i++) {
+    displayText(i);
+  }
+}
+
 // lets the user select a restaurant
 void joySelect(int prevRest, int len) {
   int aVal = analogRead(JOY_VERT);
@@ -50,19 +61,31 @@ void joySelect(int prevRest, int len) {
     // save the previous restaurant to draw it normally
     if (aVal > POS_BUFFER) {
       selectedRest++;
+      if (selectedRest > len - 1) {
+        selectedRest = len - 1;
+        return;
+      }
+      Serial.print("Selected Rest: "); Serial.println(selectedRest);
       if (selectedRest == (pageNum + 1) * NUM_LINES) {
         pageNum++;
-        pageUpdate(true);
+        Serial.print("Page "); Serial.println(pageNum);
+        if (pageNum == len/NUM_LINES) {
+          lastPage(len);
+        } else {
+          pageUpdate(true);
+        }
         return;
       }
 		}
-  	else {
+  	else if (aVal < NEG_BUFFER) {
       selectedRest--;
+      Serial.print("Selected Rest: "); Serial.println(selectedRest);
       if (selectedRest < 0) {
         selectedRest = 0;
         return;
       } else if (selectedRest - (pageNum * NUM_LINES) < 0) {
         pageNum--;
+        Serial.print("Page "); Serial.println(pageNum);
         pageUpdate(false);
         return;
       }
@@ -72,7 +95,6 @@ void joySelect(int prevRest, int len) {
     // highlight the new string
     displayText(selectedRest);
 
-		delay(50);
 	}
 }
 
@@ -122,6 +144,8 @@ void restList() {
     break;
   }
   selectedRest = 0; pageNum = 0;
+  Serial.print("Array length: "); Serial.println(len);
+  Serial.print("Number of pages: "); Serial.println(len/NUM_LINES + 1);
   pageUpdate(true); // prints the first page on screen
   while (digitalRead(JOY_SEL) == HIGH) {
     joySelect(prevRest, len);

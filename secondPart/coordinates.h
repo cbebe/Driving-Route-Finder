@@ -62,7 +62,7 @@ extern restaurant restBlock[8];
 extern Sd2Card card;
 extern int cursorX, cursorY, currentPatchX, currentPatchY;
 extern int8_t ratingSel;
-extern int8_t selectedRest;
+extern int16_t selectedRest;
 
 void getRestaurantFast(int restIndex, restaurant *restPtr);
 
