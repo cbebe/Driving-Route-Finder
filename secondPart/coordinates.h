@@ -12,6 +12,15 @@
 #define MAP_MAXX (YEG_SIZE - MAP_WIDTH)
 #define MAP_MAXY (YEG_SIZE - MAP_HEIGHT)
 
+// width/height of the display when rotated horizontally
+#define TFT_WIDTH 480
+#define TFT_HEIGHT 320
+
+// layout of display for this assignment,
+#define RATING_SIZE 60
+#define DISP_WIDTH (TFT_WIDTH - RATING_SIZE)
+#define DISP_HEIGHT TFT_HEIGHT
+
 #define CENTRE_X (MAP_WIDTH/2)
 #define CENTRE_Y (MAP_HEIGHT/2)
 #define MAX_X (YEG_SIZE - CENTRE_X)
