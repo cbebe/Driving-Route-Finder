@@ -25,8 +25,6 @@ void displayText(int index) {
   // loads restaurants name and prints
   getRestaurantFast(rest_dist[index].index, &currentRest);
 	tft.println(currentRest.name);
-  Serial.println(max(floor((currentRest.rating+1)/2), 1));
-  Serial.println(rest_dist[index].index);
 }
 
 void pageUpdate(bool up) {

@@ -14,7 +14,6 @@ void drawDots() {
   restaurant currentRest; int restX, restY;
   int patchBoundX = currentPatchX + MAP_WIDTH - CIRC_RAD;
   int patchBoundY = currentPatchY + MAP_HEIGHT - CIRC_RAD;
-  Serial.print("ratingSel: "); Serial.println(ratingSel);
   for (int i = 0; i < NUM_RESTAURANTS; i++) {
     getRestaurantFast(i, &currentRest);
     // only draws the dot if it passes the rating threshold
@@ -104,7 +103,7 @@ void processTouchScreen() {
   // draw dots if map was touched
   if (screen_x > 0 && screen_x < MAP_WIDTH) {drawDots();}
   if (screen_x < TFT_WIDTH && screen_x > MAP_WIDTH) {
-    if (screen_y < TFT_HEIGHT/2) {setRating();Serial.println(ratingSel);}
+    if (screen_y < TFT_HEIGHT/2) {setRating();}
     else {changeSort();}
     delay(400);
   }
