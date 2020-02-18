@@ -42,22 +42,37 @@ void writeVertical(char text[], int indent, int n) {
   }
 }
 
+// writes label on the sort button
+void writeLabel() {
+  switch (sortSetting) {
+  case quick:
+    writeVertical("QSORT", 46, 5);
+    break;
+  case insert:
+    writeVertical("ISORT", 46, 5);
+    break;
+  case both:
+    writeVertical("BOTH", 56, 4);
+  default:
+    break;
+  }
+  }
+
+// changes sort setting
 void changeSort() {
   switch (sortSetting) {
   case quick:
     sortSetting = insert;
-    writeVertical("ISORT", 46, 5);
     break;
   case insert:
     sortSetting = both;
-    writeVertical("BOTH", 56, 4);
     break;
   case both:
     sortSetting = quick;
-    writeVertical("QSORT", 46, 5);
   default:
     break;
   }
+  writeLabel();
 }
 
 // changes the number on the rating button
@@ -65,6 +80,15 @@ void changeNum(int num) {
   tft.fillRect(MAP_WIDTH + 25, MAP_HEIGHT/4, 10,16, TFT_WHITE);
   tft.setCursor(MAP_WIDTH + 25, MAP_HEIGHT/4);
   tft.print(num);
+}
+
+// changes rating threshold for restaurants
+void setRating() {
+  ratingSel++;
+  if (ratingSel > 5) {
+    ratingSel = 1; // wraps back to 1 from 5
+  }
+  changeNum(ratingSel);
 }
 
 void btnSetup() {
@@ -76,20 +100,11 @@ void btnSetup() {
 
   // labels the buttons (1 and Qsort by default)
   ratingSel = 1;
-  sortSetting = both; // initially set to both so it changes to quicksort
+  sortSetting = quick;
   tft.setTextSize(2);
   tft.setTextColor(TFT_BLACK);
   changeNum(ratingSel);
-  changeSort();
-}
-
-// changes rating threshold for restaurants
-void setRating() {
-  ratingSel++;
-  if (ratingSel > 5) {
-    ratingSel = 1;
-  }
-  changeNum(ratingSel);
+  writeLabel();
 }
 
 void processTouchScreen() {
@@ -105,6 +120,6 @@ void processTouchScreen() {
   if (screen_x < TFT_WIDTH && screen_x > MAP_WIDTH) {
     if (screen_y < TFT_HEIGHT/2) {setRating();}
     else {changeSort();}
-    delay(400);
+    delay(250);
   }
 }

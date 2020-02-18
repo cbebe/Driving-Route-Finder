@@ -22,6 +22,7 @@ void displayText(int index) {
 	tft.println(currentRest.name);
 }
 
+// clears screen
 void clearScreen() {
   tft.fillScreen(TFT_BLACK);
 	tft.setTextSize(2);

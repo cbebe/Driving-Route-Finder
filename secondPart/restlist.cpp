@@ -32,6 +32,7 @@ void goToResto() {
   adjustCoordinates(positionX, positionY);
 }
 
+// Function for Mode 1
 void restList() {
   int len, prevRest;
 

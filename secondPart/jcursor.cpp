@@ -107,11 +107,11 @@ void setup() {
 	}
 	tft.setRotation(1); 
   // sets the current map patch to the middle of the Edmonton map
-  currentPatchX = ((YEG_SIZE / DISP_WIDTH)/2) * DISP_WIDTH;
-	currentPatchY = ((YEG_SIZE / DISP_HEIGHT)/2) * DISP_HEIGHT;
+  currentPatchX = ((YEG_SIZE / MAP_WIDTH)/2) * MAP_WIDTH;
+	currentPatchY = ((YEG_SIZE / MAP_HEIGHT)/2) * MAP_HEIGHT;
   // initial cursor position is the middle of the screen
-  cursorX = DISP_WIDTH/2;
-  cursorY = DISP_HEIGHT/2;
+  cursorX = MAP_WIDTH/2;
+  cursorY = MAP_HEIGHT/2;
 
   mapInit();
   pinMode(JOY_SEL, INPUT);

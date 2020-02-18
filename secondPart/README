@@ -58,50 +58,49 @@ Functions Used:
     * getRestaurantFast(): Function from weekly exercise 2 to load restaurant
     quickly
 
-3. coordinates.h: 
-    Holds all map coordinates related global variables and restaurant structures. 
-    Also globally declares variables for loading data from SD Card
-
-4. jcursor.cpp
+3. jcursor.cpp
     * redrawCursor(): Redraws cursor on map.
     * drawMap(): Draws an entire map patch on screen.
     * mapInit(): Reinitializes screen for redrawing map.
-    * setup(): Sets up touch screen, SD card reads and map patch.
     * redrawMapBg(): Redraws small patch of map where cursor was previously
-    * processAnalog(): Processes analog changes made by joystick and
-    increments cursor position accordingly.
+    * processAnalog(): Processes analog changes made by joystick and increments cursor position accordingly.
     * moveMapPatch(): Moves map patch when cursor reaches edge of screen
     * clampMapBounds(): Makes sure the cursor doesnt leave map bounds
     * screenBoundCheck(): Checks if cursor is in bounds of screen
+    * setup(): Sets up touch screen, SD card reads and map patch.
     * processJoystick(): Utilizes previous functions to process joystick input.
 
-5. jcursor.h
-    Defines all cursor related global variables and declares for later use 
+4. lcd_image.cpp: Given in class, draws image patch from SD card to Display
 
-6. lcd_image.cpp: Given in class, draws image patch from SD card to Display
+5. touchs.cpp:
+    * drawDots(): Displays nearby restaurants as dots on the screen 
+    * writeVertical(): Writes strings on the screen vertically
+    * writeLabel(): Writes on the buttons
+    * changeSort(): Changes the selected sort setting
+    * changeNum(): Changes the number on the button
+    * setRating(): Changes the rating threshold for restaurants
+    * btnSetup(): Sets up the buttons for Mode 0
+    * processTouchScreen(): Processes where tft has been touched to draw dots or change settings.
 
-7. lcd_image.h: Given in class, declares necessary variables for lcd_image.cpp
+6. restlist.cpp: 
+    * adjustCoordinates: Centers selected restaurant on screen, takes into account boundary conditions
+    * goToResto(): Places cursor on selected restaurant if possible
+    * restList(): Displays filtered list of restaurants
 
-8. restlist.cpp: 
+7. joysel.cpp
     * displayText(): Loads and highlights the toggled restaurant to print to tft
-    * displayAllText(): Sets up screen to display nearest 21 restaurants 
-    * joySelect(): Lets user select a restaurant to take cursor to in mode 1
+    * clearScreen(): Clears screen
+    * pageUpdate(): Sets up screen to display 21 restaurants
+    * lastPage(): pageUpdate modification for last page 
+    * joySelect(): Lets user select a restaurant to take cursor to in mode 0
+
+8. sorting.cpp
     * swapRest(): Swaps two RestDist variables
     * iSort(): Implementation of insertion sort from given pseuodocode
+    * pivot(): Pivots array for Quick Sort
+    * qSort(): Quick sort function implemented from eclass
     * calculateDist(): Calculates manhattan distance between given cursor position
     and all Restaurants
-    * loadAllRestaurants(): Loads all restaurants from SD card to RestDist Array
-    which is then sorted to display first 21 restauarants
-    * adjustCoordinates: Centers selected restaurant on screen, takes into 
-    account boundary conditions
-    * goToResto(): Places cursor on selected restaurant if possible
-
-9. restlist.h: 
-    Contains required global variables and declaractions for restlist.cpp
-
-10. touchs.cpp:
-    * drawDots(): Displays nearby restaurants as dots on the screen 
-    * processTouchScreen(): Processes where tft has been touched to draw dots.
-
-11. touchs.h: Contains touchscreen related global variables and declaractions.
-
+    * clearRDArray(): Clears RestDist array for reloading from SD card
+    * filterRestaurants(): Loads restaurants from SD and filters out any restaurant below rating threshold
+    * runSort(): Sorts RestDist array with either insertion sort or quick sort and records running time

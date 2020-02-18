@@ -12,15 +12,6 @@
 #define MAP_MAXX (YEG_SIZE - MAP_WIDTH)
 #define MAP_MAXY (YEG_SIZE - MAP_HEIGHT)
 
-// width/height of the display when rotated horizontally
-#define TFT_WIDTH 480
-#define TFT_HEIGHT 320
-
-// layout of display for this assignment,
-#define RATING_SIZE 60
-#define DISP_WIDTH (TFT_WIDTH - RATING_SIZE)
-#define DISP_HEIGHT TFT_HEIGHT
-
 #define CENTRE_X (MAP_WIDTH/2)
 #define CENTRE_Y (MAP_HEIGHT/2)
 #define MAX_X (YEG_SIZE - CENTRE_X)
@@ -51,27 +42,28 @@ struct RestDist {
   uint16_t dist;
 };
 
-
-
 // global declaration to give access to multiple source files
-extern RestDist rest_dist[NUM_RESTAURANTS];
-extern sort sortSetting;
 extern MCUFRIEND_kbv tft; 
-extern uint32_t pastBlockNum;
-extern restaurant restBlock[8];
 extern Sd2Card card;
+
+extern RestDist rest_dist[NUM_RESTAURANTS]; // RestDist array to be sorted
+extern uint32_t pastBlockNum;
+extern restaurant restBlock[8]; // cached SD card block
+// coordinates of current cursor position
 extern int cursorX, cursorY, currentPatchX, currentPatchY;
+
+// button selection variables
+extern sort sortSetting;
 extern int8_t ratingSel;
-extern int16_t selectedRest;
 
+extern int16_t selectedRest; // state variables for restlist
 extern int8_t pageNum;
-extern restaurant currentRest;
 
+extern restaurant currentRest; // for caching restaurant data
+
+// function declarations
 void getRestaurantFast(int restIndex, restaurant *restPtr);
-
 int runSort(sort setting);
-
 void joySelect(int prevRest, int len);
 void pageUpdate(bool top);
-
 void restList();
