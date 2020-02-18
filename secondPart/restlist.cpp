@@ -5,9 +5,8 @@
 
 #include "coordinates.h"
 #include "jcursor.h"
-#include "restlist.h"
 
-int8_t selectedRest;
+
 int8_t pageNum;
 restaurant currentRest;
 
@@ -27,18 +26,17 @@ void displayText(int index) {
 	tft.println(currentRest.name);
 }
 
-void pageUpdate(bool up) {
+// updates the page with a new list of restaurants
+void pageUpdate(bool top) {
   tft.fillScreen(TFT_BLACK);
 	tft.setTextSize(2);
 	tft.setTextWrap(false);
-  if (up) {
+  if (top) { // if cursor should start from the top
     for (int i = selectedRest; i < (pageNum + 1) * NUM_LINES; i++) {
-
       displayText(i);
     }
-  } else {
-    for (int i = selectedRest; i >= (pageNum) * NUM_LINES; i--) {
-
+  } else { // if should start from the bottom
+    for (int i = selectedRest; i >= pageNum * NUM_LINES; i--) {
       displayText(i);
     }
   }
@@ -107,6 +105,8 @@ void goToResto() {
 
 void restList() {
   int len, prevRest;
+
+  // sorts the restaurant distance array depending on chosen setting
   switch (sortSetting) {
   case quick:
     len = runSort(quick);
@@ -122,9 +122,9 @@ void restList() {
     break;
   }
   selectedRest = 0; pageNum = 0;
-  pageUpdate(true);
+  pageUpdate(true); // prints the first page on screen
   while (digitalRead(JOY_SEL) == HIGH) {
     joySelect(prevRest, len);
   }
-  goToResto();
+  goToResto(); // places cursor on chosen restaurant
 }

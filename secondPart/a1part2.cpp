@@ -15,7 +15,6 @@
 #include "jcursor.h"
 #include "touchs.h"
 #include "coordinates.h"
-#include "restlist.h"
 
 
 int main() {
@@ -29,7 +28,7 @@ int main() {
     // switches to Mode 1 when joystick is pressed
     if (digitalRead(JOY_SEL) == LOW) {
 
-      restList();
+      restList(); // displays list of restaurants
       
       mapInit(); // reinitializes map after exiting Mode 1
       btnSetup();

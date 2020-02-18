@@ -70,12 +70,13 @@ void clearRDArray() {
 }
 
 // filters the list of restaurants depending on rating
-// and saves them into a RestDist array for 
+// and saves them into a RestDist array for sorting
 int filterRestaurants() {
   int actualLen = 0; restaurant currentRest;
   for (int i = 0; i < NUM_RESTAURANTS; i++) {
     getRestaurantFast(i, &currentRest);
-    if (max(floor((currentRest.rating+1)/2), 1)>= ratingSel) {
+    // only adds restaurant the rating passes the threshold
+    if (max(floor((currentRest.rating+1)/2), 1) >= ratingSel) {
       rest_dist[actualLen].index = i;
       rest_dist[actualLen].dist = calculateDist(currentRest);
       actualLen++;
@@ -88,15 +89,14 @@ int filterRestaurants() {
 // returns the length of the filtered array
 int runSort(sort setting) {
   clearRDArray();
-  filterRestaurants();
   int len = filterRestaurants();
   int tStart = millis(), delta;
   if (setting == quick) {
-    qSort(rest_dist, len);
+    qSort(rest_dist, len); // runs quicksort
     delta = millis() - tStart;
     Serial.print("quicksort ");
-  } else if (setting == insert) {
-    iSort(rest_dist, len);
+  } else {
+    iSort(rest_dist, len); // runs insertion sort
     delta = millis() - tStart;
     Serial.print("insertion sort ");
   }

@@ -35,6 +35,7 @@
 #define NUM_RESTAURANTS 1066
 
 #define SD_CS 10
+#define NUM_LINES 21
 
 struct restaurant {
   int32_t lat;
@@ -61,7 +62,10 @@ extern restaurant restBlock[8];
 extern Sd2Card card;
 extern int cursorX, cursorY, currentPatchX, currentPatchY;
 extern int8_t ratingSel;
+extern int8_t selectedRest;
 
 void getRestaurantFast(int restIndex, restaurant *restPtr);
 
 int runSort(sort setting);
+
+void restList();

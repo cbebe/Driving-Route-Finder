@@ -27,38 +27,6 @@ void mapInit() {
   redrawCursor();
 }
 
-// setup for tft and map patch
-void setup() {
-  init();
-  Serial.begin(9600);
-  // SD card initialization for raw reads
-  Serial.print("Initializing SPI communication for raw reads...");
-  if (!card.init(SPI_HALF_SPEED, SD_CS)) {
-    Serial.println("failed! Is the card inserted properly?");
-    while (true) {}
-  }
-  else {
-    Serial.println("OK!");
-  }
-  uint16_t ID = tft.readID();    // read ID from display
-  if (ID == 0xD3D3) ID = 0x9481; // write-only shield  
-  tft.begin(ID);                 // LCD gets ready to work
-	if (!SD.begin(SD_CS)) {
-		while (true) {}
-	}
-	tft.setRotation(1); 
-  // sets the current map patch to the middle of the Edmonton map
-  currentPatchX = ((YEG_SIZE / DISP_WIDTH)/2) * DISP_WIDTH;
-	currentPatchY = ((YEG_SIZE / DISP_HEIGHT)/2) * DISP_HEIGHT;
-  // initial cursor position is the middle of the screen
-  cursorX = DISP_WIDTH/2;
-  cursorY = DISP_HEIGHT/2;
-
-  mapInit();
-  pinMode(JOY_SEL, INPUT);
-  digitalWrite(JOY_SEL, HIGH);
-}
-
 // redraws map background on previous cursor position to remove black trail
 void redrawMapBg(uint16_t tempX, uint16_t tempY) {
   int screenPatchX = tempX - CUR_RAD;
@@ -116,6 +84,38 @@ void screenBoundCheck() {
   if (!xInLeftBnd || !xInRightBnd || !yInTopBnd || !yInBotBnd) {
     moveMapPatch(xInLeftBnd, xInRightBnd, yInTopBnd, yInBotBnd);
   }
+}
+
+// setup for tft and map patch
+void setup() {
+  init();
+  Serial.begin(9600);
+  // SD card initialization for raw reads
+  Serial.print("Initializing SPI communication for raw reads...");
+  if (!card.init(SPI_HALF_SPEED, SD_CS)) {
+    Serial.println("failed! Is the card inserted properly?");
+    while (true) {}
+  }
+  else {
+    Serial.println("OK!");
+  }
+  uint16_t ID = tft.readID();    // read ID from display
+  if (ID == 0xD3D3) ID = 0x9481; // write-only shield  
+  tft.begin(ID);                 // LCD gets ready to work
+	if (!SD.begin(SD_CS)) {
+		while (true) {}
+	}
+	tft.setRotation(1); 
+  // sets the current map patch to the middle of the Edmonton map
+  currentPatchX = ((YEG_SIZE / DISP_WIDTH)/2) * DISP_WIDTH;
+	currentPatchY = ((YEG_SIZE / DISP_HEIGHT)/2) * DISP_HEIGHT;
+  // initial cursor position is the middle of the screen
+  cursorX = DISP_WIDTH/2;
+  cursorY = DISP_HEIGHT/2;
+
+  mapInit();
+  pinMode(JOY_SEL, INPUT);
+  digitalWrite(JOY_SEL, HIGH);
 }
 
 void processJoystick() {
