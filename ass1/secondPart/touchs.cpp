@@ -107,6 +107,7 @@ void btnSetup() {
   writeLabel();
 }
 
+// Processes touch screen input
 void processTouchScreen() {
 	TSPoint touch = ts.getPoint();
 	pinMode(YP, OUTPUT); 
