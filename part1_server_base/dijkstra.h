@@ -8,18 +8,8 @@
 // for brevity
 // typedef introduces a synonym (alias)
 // for the type specified
-typedef std::pair<int, long long> PIL;
-
-// again, for brevity
-// used to store a vertex v and its predecessor pair (u,d) on the search
-// where u is the node prior to v on a path to v of cost d
-// eg. PIPIL x;
-// x.first is "v", x.second.first is "u" and x.second.second is "d" from this
-typedef std::pair<int, PIL> PIPIL;
-
-// NOTE: you are not required to use PIPIL in your solution if you would prefer
-// to implement Dijkstra's algorithm differently, this is here simply because
-// it was used in the lecture for the slower version of Dijkstra's algorithm.
+typedef std::pair<int,long long> PIL;
+typedef std::pair<int,int> PII;
 
 void dijkstra(const WDigraph& graph, int startVertex,
               std::unordered_map<int, PIL>& tree);
