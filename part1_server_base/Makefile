@@ -1,22 +1,19 @@
 CC := g++
-
 EXE := server
+SRC := $(wildcard src/*.cpp)
+OBJ := $(SRC:src/%.cpp=obj/%.o)
 
-SRC_DIR := src
-OBJ_DIR := obj
-
-SRC := $(wildcard $(SRC_DIR)/*.cpp)
-OBJ := $(SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
-
-CFLAGS := -Wall -O2 -std=c++11
+CFLAGS := -Wall -O2 -std=c++11 -Iinclude
 
 all: $(EXE)
 
+# links all objects into the executable 
 $(EXE): $(OBJ)
 	$(CC) $(OBJ) -o $@
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp 
-	$(CC) $(CFLAGS) -c $< -o $@
+# compiles all source files into object files
+obj/%.o: src/%.cpp 
+	$(CC) $(CFLAGS) -c $< -o $@ 
 
 clean:
 	@rm $(OBJ) $(EXE)
