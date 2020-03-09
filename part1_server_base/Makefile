@@ -15,7 +15,7 @@ all: $(EXE)
 $(EXE): $(OBJ)
 	$(CC) $(OBJ) -o $@
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp 
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
