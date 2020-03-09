@@ -9,7 +9,7 @@ all: $(EXE)
 
 # links all objects into the executable 
 $(EXE): $(OBJ)
-	$(CC) $(OBJ) -o $@
+	$(CC) $< -o $@
 
 # compiles all source files into object files
 obj/%.o: src/%.cpp 
