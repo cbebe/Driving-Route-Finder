@@ -1,11 +1,4 @@
-#include <fstream>
-#include <string>
-#include "wdigraph.h"
-
-struct Point {
-  long long lat; // latitude of the point
-  long long lon; // longitude of the point
-};
+#include "readgraph.h"
 
 // splits string with delimiter and returns a vector of tokens 
 vector<string> split(string& str, string delim = ",") {

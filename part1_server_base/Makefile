@@ -1,23 +1,22 @@
-CC=g++
-CFLAGS=-c -Wall -O2 -std=c++11
-LFLAGS=
-PROGS= server
-OBJS= server.o digraph.o readgraph.o dijkstra.o
+CC := g++
 
-server: server.o dijkstra.o readgraph.o digraph.o
-	$(CC) $(OBJS) -o $(PROGS) $(LFLAGS)
+EXE := server
 
-server.o: server.cpp
-	$(CC) server.cpp -o server.o $(CFLAGS)
+SRC_DIR := src
+OBJ_DIR := obj
 
-dijkstra.o: dijkstra.cpp digraph.h wdigraph.h heap.h
-	$(CC) dijkstra.cpp -o dijkstra.o $(CFLAGS)
+SRC := $(wildcard $(SRC_DIR)/*.cpp)
+OBJ := $(SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
-readgraph.o: readgraph.cpp 
-	$(CC) readgraph.cpp -o readgraph.o $(CFLAGS)
+CFLAGS := -Wall -O2 -std=c++11
 
-digraph.o: digraph.cpp digraph.h
-	$(CC) digraph.cpp -o digraph.o $(CFLAGS)
+all: $(EXE)
+
+$(EXE): $(OBJ)
+	$(CC) $(OBJ) -o $@
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	@rm $(OBJS) $(PROGS)
+	@rm $(OBJ) $(EXE)

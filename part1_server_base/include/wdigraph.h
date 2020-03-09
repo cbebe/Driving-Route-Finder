@@ -4,8 +4,6 @@
 #include <unordered_map>
 #include "digraph.h"
 
-using namespace std;
-
 /*
   Represents a weighted graph using
   an adjacency list representation.
@@ -35,7 +33,7 @@ public:
   }
 
 private:
-  unordered_map<int, unordered_map<int, long long>> cost;
+  std::unordered_map<int, std::unordered_map<int, long long>> cost;
 };
 
 #endif

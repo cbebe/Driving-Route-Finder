@@ -1,4 +1,6 @@
 #include <iostream>
+#include "dijkstra.h"
+#include "readgraph.h"
 
 using namespace std;
 
@@ -10,7 +12,7 @@ void request() {
 
 int main() {
   char req;
-  readgraph()
+   
   while (true) {
     cin >> req;
     if (req == 'R') {
