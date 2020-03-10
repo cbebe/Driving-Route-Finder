@@ -21,7 +21,7 @@ vector<string> split(string& str, string delim = ",") {
   }
 }
 
-long long manhattan(const Point& pt1, const Point& pt2) {
+ll manhattan(const Point& pt1, const Point& pt2) {
   // Return the Manhattan distance between the two given points
   return llabs(pt1.lat - pt2.lat) + llabs(pt1.lon - pt2.lon);
 }
@@ -49,17 +49,19 @@ void readGraph(string filename, WDigraph& graph,
 
     if (splitLine[0] == "V") {
 
-      coords.lat = stod(splitLine[2]);
-      coords.lon = stod(splitLine[3]);
       int node = stoi(splitLine[1]);
       graph.addVertex(node);
+
+      coords.lat = stod(splitLine[2]);
+      coords.lon = stod(splitLine[3]);
       points.insert({node, coords});
 
     } else if (splitLine[0] == "E") {
 
       int node1 = stoi(splitLine[1]);
       int node2 = stoi(splitLine[2]);
-      long long dist = manhattan(points[node1], points[node2]);
+      ll dist = manhattan(points[node1], points[node2]);
+
       graph.addEdge(node1, node2, dist);
       graph.addEdge(node2, node1, dist);
     

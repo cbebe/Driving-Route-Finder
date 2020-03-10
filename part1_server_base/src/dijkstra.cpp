@@ -6,7 +6,7 @@ void dijkstra(const WDigraph& graph, int startVertex,
   // All active fires stored as follows:
   // say an entry is ((v, u), d), then there is a fire that started at u
   // and will burn the u->v edge, reaching v at time d
-  BinaryHeap<PII, long long> fires;
+  BinaryHeap<PII, ll> fires;
 
   // at time 0, the startVertex burns, we use -1 to indicate there is
   // no "predecessor" of the startVertex
@@ -16,7 +16,7 @@ void dijkstra(const WDigraph& graph, int startVertex,
   while (fires.size() != 0) {
     // get the minimum of heap
     int v = (fires.min().item).first, u = (fires.min().item).second;
-    long long d = fires.min().key;
+    ll d = fires.min().key;
 
     // remove this fire
     fires.popMin();

@@ -2,10 +2,15 @@
 
 using namespace std;
 
-void request() {
-  long long lat1, lon1, lat2, lon2;
-  cin >> lat1 >> lon1 >> lat2 >> lon2;
+int findClosest(ll lat, ll lon) {
 
+}
+
+void request() {
+  ll lat1, lon1, lat2, lon2;
+  cin >> lat1 >> lon1 >> lat2 >> lon2;
+  int startVertex = findClosest(lat1, lon1);
+  int endVertex = findClosest(lat2, lon2);
 }
 
 int main() {

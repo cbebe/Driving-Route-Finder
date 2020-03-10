@@ -4,6 +4,8 @@
 #include <unordered_map>
 #include "digraph.h"
 
+typedef long long ll;
+
 /*
   Represents a weighted graph using
   an adjacency list representation.
@@ -18,7 +20,7 @@ public:
 
   // returns the cost/weight of an edge
   // if it does not exist, returns error
-  long long getCost(int u, int v) const {
+  ll getCost(int u, int v) const {
     // uses .at because there is no const operator[]
     // for unordered maps
     return cost.at(u).at(v);
@@ -26,14 +28,14 @@ public:
 
   // adds a weighted edge
   // if the edge already existed, does nothing
-  void addEdge(int u, int v, long long w){
+  void addEdge(int u, int v, ll w){
     // use Digraph's addEdge method
     Digraph::addEdge(u, v);
     cost[u][v] = w;
   }
 
 private:
-  std::unordered_map<int, std::unordered_map<int, long long>> cost;
+  std::unordered_map<int, std::unordered_map<int, ll>> cost;
 };
 
 #endif

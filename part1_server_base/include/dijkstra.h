@@ -8,7 +8,7 @@
 // for brevity
 // typedef introduces a synonym (alias)
 // for the type specified
-typedef std::pair<int,long long> PIL;
+typedef std::pair<int, ll> PIL;
 typedef std::pair<int,int> PII;
 
 void dijkstra(const WDigraph& graph, int startVertex,
