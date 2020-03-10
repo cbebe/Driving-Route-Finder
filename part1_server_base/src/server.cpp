@@ -9,13 +9,16 @@ void request() {
 }
 
 int main() {
+  string filename = "edmonton-roads-2.0.1.txt";
   char req;
-   
-  while (true) {
+  WDigraph graph;
+  unordered_map<int, Point> points;
+  readGraph(filename, graph, points);
+  cin >> req;
+  while (req != 'R') {
     cin >> req;
-    if (req == 'R') {
-      request();    
-    }
-  }  
+  }
+  request();
+    
   return 0;
 }

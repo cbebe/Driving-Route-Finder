@@ -7,9 +7,13 @@ CFLAGS := -Wall -O2 -std=c++11 -Iinclude
 
 all: $(EXE)
 
+# $< - first subtarget
+# $^ - all subtargets
+# $@ - self/target name
+
 # links all objects into the executable 
 $(EXE): $(OBJ)
-	$(CC) $< -o $@
+	$(CC) $^ -o $@
 
 # compiles all source files into object files
 obj/%.o: src/%.cpp 
