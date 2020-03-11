@@ -1,0 +1,55 @@
+Here is the required wiring for the Arduino
+
+AdaFruit Display:
+
+    Display Pin     Arduino Mega Pin         
+    1 GND           BB GND bus
+    2 Vcc           BB Vcc (+ive) bus
+    3 RESET         Pin 8
+    4 D/C           Pin 7
+      Data/Command
+    5 CARD_CS       Pin 5
+      Card Chip Select 
+    6 TFT_CS        Pin 6
+      TFT/screen Chip Select
+    7 MOSI          Pin 51
+      Master Out Slave In 
+    8 SCK (Clock)   Pin 52
+    9 MISO          Pin 50
+      Master In Slave Out 
+    10 LITE         BB Vcc (+ive) bus
+      Backlite
+
+Zoom in and out buttons:
+
+    Turn on pullup resistors.
+    Insted of connecting the buttons between the input pin and ground, use
+    the debounce circuit as per
+
+http://ugweb.cs.ualberta.ca/~c274/web/ConcreteComputing/section/interrupts.htm
+
+    That is, 
+    1. use a 560 Ohm (Grn Blu Red) resistor to connect one side of the button
+        to GND
+    2. connect the other side of the button to the input pin on the Arduino
+    3. connect a 1 uF capacitor between the input pin on the Arduino and GND
+
+    Button          Arduino Mega Pin
+    Zoom In         Pin 3
+    Zoom Out        Pin 2
+
+Joystick connections:
+    
+    Turn on pullup resistor
+
+    Joystick Pin    Arduino Mega Pin
+    Vcc             Vcc
+    GND             GND
+    Horizontal      Analog 0
+    Vertical        Analog 1
+    Button          Pin 4
+
+    Modified version that debounces the button:
+    Button --- 560 Ohm Resistor ---|--- 1 uF capacitor --- GND
+                                   |
+                                   Pin 4
