@@ -57,12 +57,12 @@ void waitForAcknowledge() {
 // sends the coordinates of each waypoint of the route
 void sendWaypoints(list<int>& path, ptMap& points) {
   // sends the number of waypoints
-  cout << 'N ' << path.size() << endl;
+  cout << "N " << path.size() << endl;
   waitForAcknowledge();
 
   // sends the coordinates of each waypoint
   for (auto it: path) {
-    cout << 'W ' << points[it].lat << ' ' 
+    cout << "W " << points[it].lat << ' ' 
          << points[it].lon << endl;
     waitForAcknowledge();
   }

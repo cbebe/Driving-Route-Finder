@@ -1,6 +1,7 @@
 #include "dijkstra.h"
 
 
+// Modified Dijkstra's algorithm that uses BinaryHeap
 void dijkstra(const WDigraph& graph, int startVertex,
               std::unordered_map<int, PIL>& tree) {
   // All active fires stored as follows:
