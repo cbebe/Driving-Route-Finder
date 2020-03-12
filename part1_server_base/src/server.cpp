@@ -23,9 +23,51 @@ PII request(ptMap& points) {
   cin >> start.lat >> start.lon >> end.lat >> end.lon;
   
   PII vertices;
+  // finds the starting and ending vertices
+  // closest to the given coordinates
   vertices.first = findClosest(start, points);
   vertices.second = findClosest(end, points);
   return vertices;
+}
+
+// creates a list of the path's vertices
+list<int> createPath(PII endPts, unordered_map<int,PIL> &tree) {
+  list<int> path;
+  int step = endPts.second; // place the end vertex at the end
+  while (step != endPts.first) {
+    path.push_front(step);
+    // traces the predecessor of the vertex in the path
+    step = tree[step].first;
+  }
+  path.push_front(endPts.first); // place the start vertex in front
+  return path;
+}
+
+// waits for acknowledge from stdin
+void waitForAcknowledge() {
+  char ack;
+  cin >> ack;
+  // will not continue until A is received
+  while (ack != 'A') {
+    cin >> ack;
+  }
+}
+
+
+// sends the coordinates of each waypoint of the route
+void sendWaypoints(list<int>& path, ptMap& points) {
+  // sends the number of waypoints
+  cout << 'N ' << path.size() << endl;
+  waitForAcknowledge();
+
+  // sends the coordinates of each waypoint
+  for (auto it: path) {
+    cout << 'W ' << points[it].lat << ' ' 
+         << points[it].lon << endl;
+    waitForAcknowledge();
+  }
+  // terminate communication with E
+  cout << 'E' << endl;
 }
 
 int main() {
@@ -40,11 +82,14 @@ int main() {
   while (req != 'R') {
     cin >> req;
   }
+  // ver = pair(start vertex, end vertex)
   PII ver = request(points);
-  // this is where i left off
-  // prints the starting and ending vertices
-  // so all you need to do is run dijkstra on ver.first
-  // and find ver.second in the search tree 
-  cout << ver.first << ' ' << ver.second << endl;
+  unordered_map<int, PIL> searchTree;
+  dijkstra(graph, ver.first, searchTree);
+  
+  list<int> path = createPath(ver, searchTree);
+
+  sendWaypoints(path, points);
+
   return 0;
 }
