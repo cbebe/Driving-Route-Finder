@@ -2,6 +2,7 @@
 #define _DIJKSTRA_H_
 
 #include "wdigraph.h"
+#include "heap.h"
 #include <utility>
 #include <unordered_map>
 

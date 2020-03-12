@@ -27,7 +27,7 @@ ll manhattan(const Point& pt1, const Point& pt2) {
 }
 
 void readGraph(string filename, WDigraph& graph, 
-               unordered_map<int,Point>& points) {
+               ptMap& points) {
   /*
   Read the Edmonton map data from the provided file
   and load it into the given WDigraph object.
@@ -52,8 +52,8 @@ void readGraph(string filename, WDigraph& graph,
       int node = stoi(splitLine[1]);
       graph.addVertex(node);
 
-      coords.lat = stod(splitLine[2]);
-      coords.lon = stod(splitLine[3]);
+      coords.lat = stod(splitLine[2]) * 100000;
+      coords.lon = stod(splitLine[3]) * 100000;
       points.insert({node, coords});
 
     } else if (splitLine[0] == "E") {

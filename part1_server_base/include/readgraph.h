@@ -10,8 +10,10 @@ struct Point {
   long long lon; // longitude of the point
 };
 
+typedef std::unordered_map<int, Point> ptMap;
+
 long long manhattan(const Point& pt1, const Point& pt2);
 
-void readGraph(string filename, WDigraph& graph, unordered_map<int, Point> & points);
+void readGraph(string filename, WDigraph& graph, ptMap & points);
 
 #endif

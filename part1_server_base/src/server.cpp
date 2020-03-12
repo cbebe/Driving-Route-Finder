@@ -2,28 +2,49 @@
 
 using namespace std;
 
-int findClosest(ll lat, ll lon) {
-
+// finds the closest vertex to a given point
+int findClosest(Point point, ptMap& points) { 
+  // use BinaryHeap because we only care about the minimum distance
+  // use long long as key because that's how we'll sort the heap
+  BinaryHeap<int,ll> dist;
+  for (auto it = points.begin(); it != points.end(); it++) {
+    // calculate distance between points and insert in heap
+    ll distance = manhattan(point, it->second);
+    dist.insert(it->first, distance);
+  }
+  
+  return dist.min().item; // item is the vertex number
 }
 
-void request() {
-  ll lat1, lon1, lat2, lon2;
-  cin >> lat1 >> lon1 >> lat2 >> lon2;
-  int startVertex = findClosest(lat1, lon1);
-  int endVertex = findClosest(lat2, lon2);
+// processes request from stdin and returns the 
+// starting and ending vertices in the map graph
+PII request(ptMap& points) {
+  Point start, end; 
+  cin >> start.lat >> start.lon >> end.lat >> end.lon;
+  
+  PII vertices;
+  vertices.first = findClosest(start, points);
+  vertices.second = findClosest(end, points);
+  return vertices;
 }
 
 int main() {
+  // create map graph and point map
   string filename = "edmonton-roads-2.0.1.txt";
-  char req;
   WDigraph graph;
-  unordered_map<int, Point> points;
+  ptMap points; // stores vertices and its coordinates
   readGraph(filename, graph, points);
+
+  char req;
   cin >> req;
   while (req != 'R') {
     cin >> req;
   }
-  request();
-    
+  PII ver = request(points);
+  // this is where i left off
+  // prints the starting and ending vertices
+  // so all you need to do is run dijkstra on ver.first
+  // and find ver.second in the search tree 
+  cout << ver.first << ' ' << ver.second << endl;
   return 0;
 }
