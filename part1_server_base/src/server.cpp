@@ -19,7 +19,7 @@ int findClosest(Point point, ptMap& points) {
 // processes request from stdin and returns the 
 // starting and ending vertices in the map graph
 PII request(ptMap& points) {
-  Point start, end; 
+  Point start, end;
   cin >> start.lat >> start.lon >> end.lat >> end.lon;
   
   PII vertices;
