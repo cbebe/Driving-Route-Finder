@@ -97,14 +97,14 @@ void BinaryHeap<T, K>::fixHeapDown(int i) {
     int lchild = (i<<1)+1, rchild = (i<<1)+2;
 
     // if no children, no problem
-    if (lchild >= heap.size()) {
+    if ((unsigned) lchild >= heap.size()) {
       return;
     }
 
     int min_child;
     // identify the child with the minimum key, being careful
     // to handle the case where there is no right child
-    if (rchild >= heap.size() || heap[lchild].key <= heap[rchild].key) {
+    if ((unsigned) rchild >= heap.size() || heap[lchild].key <= heap[rchild].key) {
       min_child = lchild;
     }
     else {

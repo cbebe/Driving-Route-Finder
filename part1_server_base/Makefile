@@ -6,29 +6,33 @@
 # ---------------------------------------------------
 
 CC := g++
-EXE := server
-# selects all the files that end with .cpp
+# selects all the files that end with .cpp in src/
 SRC := $(wildcard src/*.cpp)
 # replaces the .cpp with .o
 OBJ := $(SRC:src/%.cpp=obj/%.o)
 
+# -Iinclude flag includes all header files 
+# in include/ directory in the compilation process
 CFLAGS := -Wall -O2 -std=c++11 -Iinclude
 
-all: $(EXE)
-
-# $< - first subtarget
-# $^ - all subtargets
-# $@ - self/target name
-
 # links all objects into the executable server
-$(EXE): $(OBJ)
-	$(CC) $^ -o $@
+server: $(OBJ)
+	$(CC) $(OBJ) -o server
 
 # compiles all source files from src/ into object files
 # and places them in the obj/ directory
-obj/%.o: src/%.cpp 
+obj/server.o: src/server.cpp 
+	$(CC) $(CFLAGS) -c $< -o $@ 
+	
+obj/dijkstra.o: src/dijkstra.cpp 
+	$(CC) $(CFLAGS) -c $< -o $@ 
+
+obj/digraph.o: src/digraph.cpp 
+	$(CC) $(CFLAGS) -c $< -o $@ 
+
+obj/readgraph.o: src/readgraph.cpp 
 	$(CC) $(CFLAGS) -c $< -o $@ 
 
 # removes all object files and the executable
 clean:
-	@rm $(OBJ) $(EXE)
+	@rm $(OBJ) server

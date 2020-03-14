@@ -47,7 +47,6 @@ list<int> createPath(PII endPts, unordered_map<int,PIL> &tree) {
     step = tree[step].first;
   }
   path.push_front(endPts.first); // place the start vertex in front
-  cout << "Cost: " << tree[endPts.second].second << endl;
   return path;
 }
 
