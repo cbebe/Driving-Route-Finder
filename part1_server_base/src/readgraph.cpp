@@ -1,3 +1,10 @@
+// ---------------------------------------------------
+// Name : Charles Ancheta and Poulomi Ganguly
+// CMPUT 275 , Winter 2020
+
+// Assignment 2, Part 1: Driving Route Finder (server)
+// ---------------------------------------------------
+
 #include "readgraph.h"
 
 // splits string with delimiter and returns a vector of tokens 
@@ -46,15 +53,16 @@ void readGraph(string filename, WDigraph& graph,
   while (!file.eof()) {
 
     splitLine = split(lineRead);
-
+    // adds a vertex to the graph
     if (splitLine[0] == "V") {
 
       int node = stoi(splitLine[1]);
       graph.addVertex(node);
-
+      // convert floating point coordinates to long integers
       coords.lat = stod(splitLine[2]) * 100000;
       coords.lon = stod(splitLine[3]) * 100000;
-      points.insert({node, coords});
+      // inserts to vertex Point struct map
+      points.insert({ node, coords });
 
     } else if (splitLine[0] == "E") {
 
