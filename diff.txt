@@ -53,5 +53,3 @@ Cost from 2 to 20: 799
 Total different cost: 870
 
 => Our path is cheaper???
-
-Maybe we're really parsing the file wrong lmao
