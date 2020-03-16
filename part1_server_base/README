@@ -28,7 +28,7 @@ Included Files:
 
 Running Instructions:
 1. Open the terminal on the cmput274 virtual machine. Navigate to the directory.
-2. Type "make" on the command line to compile the serevr executable.
+2. Type "make" on the command line to compile the server executable.
 3. Type "./server" on the command line to test the program.
 4. Type "make clean" to remove the executables and compiled objects.
 
