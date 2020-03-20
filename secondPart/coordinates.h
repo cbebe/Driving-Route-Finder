@@ -53,6 +53,10 @@ extern Sd2Card card;
 extern int cursorX, cursorY, currentPatchX, currentPatchY;
 extern int8_t ratingSel;
 
+int8_t selectedRest;
+int8_t pageNum;
+restaurant currentRest;
+
 void getRestaurantFast(int restIndex, restaurant *restPtr);
 
 int runSort(sort setting);
