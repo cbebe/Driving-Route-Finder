@@ -1,0 +1,28 @@
+https://stackoverflow.com/questions/30573481/path-include-and-src-directory
+
++ include/
+|-- all .h files here
++ lib/
+|-- all thirdparty library files (.a files) here
++ obj/
+|-- all .o files will be placed here
++ src/
+|-- all .c files here
++ Makefile
+
+# defining 
+EXE := hellomake
+
+SRC_DIR := src
+OBJ_DIR := obj
+
+SRC := $(wildcard $(SRC_DIR)/*.c)
+OBJ := $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+
+# substitutions
+
+file     = $(SOURCE:.cpp=.o)   # foo.cpp => foo.o
+outputs  = $(files:src/%.coffee=lib/%.js)
+
+outputs  = $(patsubst %.c, %.o, $(wildcard *.c))
+assets   = $(patsubst images/%, assets/%, $(wildcard images/*))
