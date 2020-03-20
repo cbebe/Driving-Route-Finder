@@ -6,15 +6,24 @@
   Requires c++11
 */
 
+/*
+  Suggested exercise.
+  Have the client and server use timeouts to restart the communication
+  if the other end is not responding.
+
+  Randomly have either not respond/restart their protocol from the beginning
+  after a long delay.
+*/
+
 #include <iostream>
 #include <cassert>
 #include <string>
-#include "SerialPort.h"
+#include "serialport.h"
 
 using namespace std;
 
 int main() {
-  SerialPort Serial("/dev/ttyACM0");
+  SerialPort Serial("/dev/ttyACM1");
 
   string curPhase = "PHASE00\n";
   string nextPhase = "PHASE01\n";

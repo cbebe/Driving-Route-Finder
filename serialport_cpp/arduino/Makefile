@@ -1,6 +1,15 @@
 ######################################################
 # Arduino UA Child Makefile (UPDATED: 31/07/2017)
 #
+# This Makefile hooks into the unofficial Arduino Makefile (https://www.github.com/sudar/Arduino-Makefile)
+# installed which is instaled through the package manager. It sets the default preferences for this VM as well
+# uses custom made scripts to be able to select the Arduino Port for uploading and monitoring.
+#
+# Usage:
+# 	make upload (defaults to first port found)
+# 	make upload-[0/1] (uploads to user defined ports)
+# 	make serial-[0/1] || serial-mon-[0/1] (opens serial communications to user defined ports)
+#
 
 # Arduino UA Directory
 ifndef ARDUINO_UA_DIR
@@ -14,7 +23,7 @@ endif
 
 # Arduino Included Libraries
 ifndef ARDUINO_LIBS
-ARDUINO_LIBS = SD SPI Adafruit_GFX MCUFRIEND_kbv TouchScreen
+ARDUINO_LIBS = SD SPI Adafruit_GFX Adafruit_ILI9341 TouchScreen
 endif
 
 # User Installed Library Location

@@ -1,4 +1,4 @@
-#include "SerialPort.h"
+#include "serialport.h"
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/ioctl.h>
@@ -8,7 +8,7 @@
 #include <time.h>
 
 SerialPort::SerialPort(const char *portName) {
-  fd = open(portName, O_RDWR | O_NOCTTY | O_NDELAY);
+  fd = open(portName, O_RDWR | O_NOCTTY);
   if (fd == -1) {
     printf("Error opening device %s\n", portName);
     exit(-1);
@@ -49,7 +49,8 @@ string SerialPort::readline(int timeout) {
     // loop until a character is available, or timeout
     do {
       clock_t cur = clock();
-      if (timeout > 0 && (cur - start) > CLOCKS_PER_SEC / 1000) {
+      int ms_waited((cur-start)*1000.0/CLOCKS_PER_SEC);
+      if (timeout > 0 && ms_waited > timeout) {
         // timeout!
         return "";
       }
