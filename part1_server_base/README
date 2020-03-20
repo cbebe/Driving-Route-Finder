@@ -15,7 +15,7 @@ Included Files:
 |-- server.h
 |-- wdigraph.h
 + obj/
-|-- (empty by default, 
+|-- (empty or missing by default, 
 |-- object files will be placed here)
 + src/
 |-- digraph.cpp
