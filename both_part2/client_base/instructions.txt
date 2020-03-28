@@ -1,0 +1,71 @@
+This contains a brief summary of what you have to do and a suggestion of where
+to start.
+
+The code supplied already has cursor movement, zooming, and handles the joystick
+button presses to store the start and endpoint.
+
+WIRING:
+Mount the TFT display on the Arduino just like with Assignment 1
+
+Joystick (same as with assignment 1)
+VRx <--> A8
+VRy <--> A9
+SW  <--> Digital Pin 53
+GND <--> GND
++5V <--> 5V
+
+Two pushbuttons for zoom. They are initialized in the code with internal pullup
+resistors. So for each, one side is connected to GND and the other to a digital
+pin.
+
+Zoom Out Button <--> Digital Pin 47
+Zoom In Button  <--> Digital Pin 45
+
+TODO:
+1) You have to implement the part that communicates with the server
+to store the waypoints. Implement the function in serial_handling.cpp to do this
+(feel free to add helper functions if needed).
+
+2) You have to actually draw the lines on the displayed map.
+Implement the function in draw_route.cpp.
+
+If you want to modify further sections of this code apart from these two files,
+then you *MUST* summarize your changes in the README you submit.
+
+TIP:
+ - The only variables you need that are not parameters to the functions
+   are either constants defined in consts_and_types.h (perhaps in a namespace)
+   or are in the extern variable called "shared" (see consts_and_types again
+   to see the fields for "shared").
+
+FILES INCLUDED
+It is possible to complete part 2 by only modifying the two .cpp files
+below that are annotated with an asterisk (*). We strongly suggest only
+modifying these files.
+
+ - A dummy README that is essentially blank
+
+ - The Makefile from Fall 2019 / Winter 2020
+
+ - client.cpp
+   The part with setup() and main() that ties everything together.
+
+ - consts_and_types.h
+   Declares constants and types used throughout.
+
+ - draw_route.h and .cpp (*)
+   Contains a function you have to modify to draw the route.
+
+ - instructions.txt
+   This document.
+
+ - lcd_image.h and .cpp
+   Almost the same as last term, but you have to use this one.
+   Allows you to draw patches of a .lcd file to a screen.
+
+ - map_drawing.h and .cpp
+   Functions to draw the map and manipulate the coordinates for the map/cursor
+   view.
+
+ - serial_handling.h and .cpp (*)
+   Contains a function you have to modify to communicate with the Python server.
