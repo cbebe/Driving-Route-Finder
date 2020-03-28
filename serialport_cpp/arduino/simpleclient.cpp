@@ -47,22 +47,21 @@ void loop() {
   char in_char;
 
   if (Serial.available()) {
-      // read the incoming byte:
-      char in_char = Serial.read();
+    // read the incoming byte:
+    char in_char = Serial.read();
 
-      // if end of line is received, waiting for line is done:
-      if (in_char == '\n' || in_char == '\r') {
-          // now we process the buffer
-          process_line();
-          }
-      else {
-          // add character to buffer, provided that we don't overflow.
-          // drop any excess characters.
-          if ( buf_len < buf_size-1 ) {
-              buffer[buf_len] = in_char;
-              buf_len++;
-              buffer[buf_len] = 0;
-          }
-        }
+    // if end of line is received, waiting for line is done:
+    if (in_char == '\n' || in_char == '\r') {
+      // now we process the buffer
+      process_line();
+    } else {
+      // add character to buffer, provided that we don't overflow.
+      // drop any excess characters.
+      if ( buf_len < buf_size-1 ) {
+        buffer[buf_len] = in_char;
+        buf_len++;
+        buffer[buf_len] = 0;
+      }
     }
   }
+}

@@ -32,9 +32,9 @@ int findClosest(Point point, ptMap& points) {
 // starting and ending vertices in the map graph
 PII request(ptMap& points, SerialPort& Serial) {
   // waits for R from Serial
-  string req = Serial.readline(1000);
+  string req = Serial.readline(500);
   while (req[0] != 'R') {
-    req = Serial.readline(1000);
+    req = Serial.readline(500);
   }
   req.pop_back();
   Point start, end;
@@ -105,6 +105,7 @@ int main() {
   SerialPort Serial; // assumes port /dev/ttyACM0
   while (true) {
     // ver = pair(start vertex, end vertex)
+    // will only continue once request is received
     PII ver = request(points, Serial);
     unordered_map<int, PIL> searchTree;
     // finds shortest path
