@@ -1,0 +1,78 @@
+---------------------------------------------------
+Name : Charles Ancheta and Poulomi Ganguly
+CMPUT 275 , Winter 2020
+
+Assignment 2, Part 1: Driving Route Finder (server)
+---------------------------------------------------
+
+
+Included Files:
++ include/
+|-- digraph.h
+|-- dijkstra.h
+|-- heap.h
+|-- readgraph.h
+|-- server.h
+|-- wdigraph.h
++ obj/
+|-- (empty by default, 
+|-- object files will be placed here)
++ src/
+|-- digraph.cpp
+|-- dijkstra.cpp
+|-- readgraph.cpp
+|-- server.cpp
++ edmonton-roads-2.0.1.txt
++ Makefile
++ README
+
+Running Instructions:
+1. Open the terminal on the cmput274 virtual machine. Navigate to the directory.
+2. Type "make" on the command line to compile the server executable.
+3. Type "./server" on the command line to test the program.
+4. Type "make clean" to remove the executables and compiled objects.
+
+Implemented Functions:
+
++ in dijkstra.cpp:
+|-- void dijkstra(const WDigraph& graph, int startVertex,
+|                 std::unordered_map<int, PIL>& tree)  
+|     - Modified Dijkstra's implementation that uses BinaryHeap
+|     - Finds the shortest path between two vertices accounting for cost
+|     - Returns a search tree of the path 
+|
++ in readgraph.cpp:
+|-- vector<string> split(string& str, string delim = ",")
+|     - Splits a string by the delimiter ("," by default)
+|     - Returns a vector of strings that contains 
+|         all the tokens of the string
+|
+|-- ll manhattan(const Point& pt1, const Point& pt2)
+|     - Calculates the Manhattan distance between two Point structs
+|
+|-- void readGraph(string filename, WDigraph& graph, 
+|                  ptMap& points)
+|     - Reads the CSV text file and constructs a weighted
+|       undirected graph from the given vertices and edges
+|
++ in server.cpp:
+|-- int findClosest(Point point, ptMap& points)
+|     - Returns the vertex that is closest to the given Point struct
+|
+|-- PII request(ptMap& points)
+|     - Takes in the requested coordinates from stdin
+|     - Returns the vertices closest to those coordinates
+|
+|-- list<int> createPath(PII endPts, unordered_map<int,PIL> &tree)
+|     - Returns a list of the path's vertices from a given search tree
+|
+|-- void waitForAcknowledge()
+|     - Halts all operations until an acknowledge is received from stdin
+|
+|-- void sendWaypoints(list<int>& path, ptMap& points)
+|     - Sends the waypoints from the requested start point to the end point
+
+Notes and Assumptions:
+This server-side program assumes that the Arduino will communicate 
+in the way that it was described in the assignment description.
+Otherwise, this program will not behave as expected or may stop being functional.
