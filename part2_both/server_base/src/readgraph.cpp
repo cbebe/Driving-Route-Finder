@@ -56,13 +56,11 @@ void readGraph(string filename, WDigraph& graph,
     if (splitLine[0] == "V") {
 
       int node = stoi(splitLine[1]);
-      graph.addVertex(node);
       // convert floating point coordinates to long integers
-      coords.lat = stod(splitLine[2]) * 100000;
-      coords.lon = stod(splitLine[3]) * 100000;
       // inserts to vertex Point struct map
-      points.insert({ node, coords });
-
+      points[node].lat = static_cast<ll>(stod(splitLine[2]) * 100000);
+      points[node].lon = static_cast<ll>(stod(splitLine[3]) * 100000);
+      graph.addVertex(node);
     } else if (splitLine[0] == "E") {
 
       //calculate the cost between the two vertices

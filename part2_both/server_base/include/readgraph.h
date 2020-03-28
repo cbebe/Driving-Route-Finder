@@ -5,6 +5,7 @@
 #include <string>
 #include "wdigraph.h"
 
+
 struct Point {
   long long lat; // latitude of the point
   long long lon; // longitude of the point
