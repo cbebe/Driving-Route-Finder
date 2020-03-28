@@ -23,7 +23,7 @@
 using namespace std;
 
 int main() {
-  SerialPort Serial("/dev/ttyACM1");
+  SerialPort Serial("/dev/ttyACM0");
 
   string curPhase = "PHASE00\n";
   string nextPhase = "PHASE01\n";
