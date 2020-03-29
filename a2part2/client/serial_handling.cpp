@@ -5,11 +5,10 @@ extern shared_vars shared;
 // prints request to Serial
 void send_request(const lon_lat_32& start, const lon_lat_32& end) {
   // Request format: R slon slat elon elat
-  Serial.print("R "); 
-  Serial.print(start.lat); Serial.print(" ");
-  Serial.print(start.lon); Serial.print(" ");
-  Serial.print(end.lat); Serial.print(" ");
-  Serial.println(end.lon); 
+  char msg[40];
+  sprintf(msg, "R %ld %ld %ld %ld", 
+          start.lat, start.lon, end.lat, end.lon);
+  Serial.println(msg); 
 }
 
 // given function for finite state machines
@@ -69,7 +68,7 @@ bool process_waypoint(int16_t index) {
   if (process_line(buff, 1000)) {
     if (buff[0] == 'W') {
       // assumes that all numbers would be the same format:
-      // 7 digits longitude 8 digits negative latitude
+      // 8 digits negative latitude 7 digits longitude 
       for (int i = 0; i < 10; i++) {
         lat[i] = buff[i + 2];
         lon[i] = buff[i + 10];
@@ -78,8 +77,8 @@ bool process_waypoint(int16_t index) {
       lon[9] = 0; lat[9] = 0;
 
       // store parsed coordinates to shared variable
-      shared.waypoints[index].lon = atoi(lon);
-      shared.waypoints[index].lat = atoi(lat);
+      shared.waypoints[index].lon = atol(lon);
+      shared.waypoints[index].lat = atol(lat);
 
       // send acknowledge to serial
       Serial.println("A");
@@ -104,6 +103,7 @@ uint8_t get_waypoints(const lon_lat_32& start, const lon_lat_32& end) {
   // let user choose a new route if no path was found 
   if (shared.num_waypoints == 0) {
     status_message("No path found!");
+    delay(1000);
     return 1;
   }
   Serial.println("A");

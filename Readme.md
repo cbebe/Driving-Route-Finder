@@ -3,31 +3,37 @@
 
 ## Tasks
 
-### Part 1 - Server
+### Part 1 - Server - done
 
-#### Graph Building - testing pending
+#### Graph Building - done
 
 - Parse CSV file of Edmonton road network
 - Store coordinates in struct Point
 
-#### Cost Function - testing pending
+#### Cost Function - done
 
 - Compute cost by taking the Manhattan Distance between two points
 
-#### Dijkstra's Algorithm - works
+#### Dijkstra's Algorithm - done
 
 - Find the search tree of least-cost paths from a given node
 
-#### Server Messages -
+#### Server Messages - done
 
 - Take in request of 2 pairs of coordinates
 - Send number of waypoints
 - Send each coordinate
 
-### Part 2 - Client
+### Part 2 - Client - in progress
 
 #### Route Finding Request
 
-#### Sends Request and receive route data
+- Basically set up for us already
+
+#### Sends Request and receive route data - done
+
+- Will not print if N = 0
 
 #### Display route on Arduino
+
+- This is the problem

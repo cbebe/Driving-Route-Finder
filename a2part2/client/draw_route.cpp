@@ -6,24 +6,18 @@
 
 extern shared_vars shared;
 
+// draws a route between the two endpoints
 void draw_route() {
-  // implement this!
-  // If there is at least 1 way point
+  xy_pos p1, p2;
   if (shared.num_waypoints >= 1) {
-    char msg[100];
-    sprintf(msg, "%d %d", shared.map_coords.x, shared.map_coords.y);    
-    status_message(msg);
-    delay(1000);
     for (int i = 0; i < shared.num_waypoints - 1; i++){
-      int32_t x0 = longitude_to_x(shared.map_number, shared.waypoints[i].lon);
-      int32_t x1 = longitude_to_x(shared.map_number, shared.waypoints[i+1].lon);
-      int32_t y0 = latitude_to_y(shared.map_number, shared.waypoints[i].lat);
-      int32_t y1 = latitude_to_y(shared.map_number, shared.waypoints[i+1].lat);
-      sprintf(msg, "%ld %ld %ld %ld", x0, x1, y0, y1);
-      status_message(msg);
-      delay(500);
-      // If the line to be plotted is in the scope of the zoom level
-      shared.tft->drawLine(x0,y0,x1,y1,AQUA); 
+      // convert to x and y coordinates
+      p1.x = longitude_to_x(shared.map_number, shared.waypoints[i].lon) - shared.map_coords.x;
+      p1.y = latitude_to_y(shared.map_number, shared.waypoints[i].lat) - shared.map_coords.y;
+      p2.x = longitude_to_x(shared.map_number, shared.waypoints[i + 1].lon) - shared.map_coords.x;
+      p2.y = latitude_to_y(shared.map_number, shared.waypoints[i + 1].lat) - shared.map_coords.y;
+      // draws line between points
+      shared.tft->drawLine(p1.x, p1.y, p2.x, p2.y, TFT_BLACK);
     }
   }
 }

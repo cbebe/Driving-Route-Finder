@@ -76,9 +76,8 @@ void sendToSerial(const string& message, SerialPort& Serial) {
 void sendWaypoints(const list<int>& path, ptMap& points, SerialPort& Serial) {
   // sends the number of waypoints
   // if path size exceeds 500, send N 0 and restart
-  int num = (path.size() < 500) ? path.size() : 0;
-  if (num) {
-    string numWaypoints = "N "+ to_string(num);
+  if (path.size() < 500 || path.empty()) {
+    string numWaypoints = "N " + to_string(path.size());
     sendToSerial(numWaypoints, Serial);
     // always wait for acknowledge before continuing
     if (waitForAck(Serial)) {
@@ -98,6 +97,7 @@ void sendWaypoints(const list<int>& path, ptMap& points, SerialPort& Serial) {
       sendToSerial("E", Serial);
     }
   } else {
+    cout << "No path found!" << endl;
     sendToSerial("N 0", Serial);
   }
 }
@@ -112,6 +112,7 @@ int main() {
   cout << "Starting Route Server..." << endl;
   while (true) {
     // will only continue once request is received
+    cout << "Waiting for request..." << endl;
     string req = Serial.readline(-1);
     if (req[0] == 'R') {
       // ver = pair(start vertex, end vertex)
@@ -119,13 +120,10 @@ int main() {
       unordered_map<int, PIL> searchTree;
       list<int> path;
       // finds shortest path
-      // considers no path if there is only one vertex
-      if (ver.first != ver.second) {
-        dijkstra(graph, ver.first, searchTree);
-        
-        path = createPath(ver, searchTree);
-        // send over Serial
-      }
+      dijkstra(graph, ver.first, searchTree);
+            
+      path = createPath(ver, searchTree);
+      // send over Serial
       sendWaypoints(path, points, Serial);
     }
   }
