@@ -183,6 +183,14 @@ int main() {
       // that if there is a path, then you will draw the line
       // segments connecting these waypoints together
       draw_route();
+
+      if (curr_mode == WAIT_FOR_STOP) {
+        status_message("TO?");
+      }
+
+      else {
+        status_message("FROM?");
+      }
     }
   }
 

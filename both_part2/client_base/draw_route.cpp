@@ -1,6 +1,7 @@
 #include "draw_route.h"
 #include "map_drawing.h"
 
+
 #define AQUA 0x04FF
 
 extern shared_vars shared;
@@ -31,5 +32,4 @@ void draw_route() {
   else {
     status_message( "No path found. ");
   }
-
 }
