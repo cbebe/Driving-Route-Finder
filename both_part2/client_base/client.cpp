@@ -152,6 +152,7 @@ int main() {
         // TODO: the get_waypoints function needs to be implemented by you
         while(get_waypoints(start, end) == 0) {
           status_message("FAILED!");
+          delay(500);
         };
 
 

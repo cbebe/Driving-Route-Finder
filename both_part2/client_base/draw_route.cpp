@@ -8,7 +8,7 @@ extern shared_vars shared;
 
 void draw_route() {
   // implement this!
-
+  
   if (shared.num_waypoints >= 1 ) {
     // If there is at least 1 way point
 

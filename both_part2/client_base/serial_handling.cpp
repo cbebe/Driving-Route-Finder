@@ -31,7 +31,7 @@ bool processLine(char *buff) {
         len++;
         buff[len] = 0;
       }
-    } while (c != '\n' || c != '\r' && waitOnSerial());
+    } while ((c != '\n' || c != '\r') && waitOnSerial());
     return true;
   }
   return false;
@@ -44,6 +44,7 @@ bool getNumWayPoints() {
   // restart if not a valid number of waypoints
   if (processLine(buffer)) {
     if (buffer[0] == 'N') {
+      status_message(buffer);
       // copy buffer to another char array
       // assumes 500 is the max waypoints
       char num[4]; num[3] = 0;
@@ -62,6 +63,7 @@ bool processWaypoint(int16_t index) {
   char buff[25], lon[10], lat[10];
   if (processLine(buff)) {
     if (buff[0] == 'W') {
+      status_message(buff);
       // assumes that all numbers would be the same format:
       // 7 digits longitude 8 digits negative latitude
       for (int i = 0; i < 10; i++) {
@@ -105,6 +107,5 @@ uint8_t get_waypoints(const lon_lat_32& start, const lon_lat_32& end) {
   // 1 indicates a successful exchange, of course you should only output 1
   // in your final solution if the exchange was indeed successful
   // (otherwise, return 0 if the communication failed)
-  status_message(shared.num_waypoints);
   return 1;
 }

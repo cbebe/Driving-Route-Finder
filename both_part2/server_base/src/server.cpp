@@ -68,7 +68,8 @@ list<int> createPath(PII endPts, unordered_map<int,PIL> &tree) {
 // waits for acknowledge from Serial
 // returns false if no A is received
 bool waitForAck(SerialPort& Serial) {
-  return Serial.readline(2000)[0] == 'A'; 
+  string c = Serial.readline(2000);
+  return c[0] == 'A'; 
 }
 
 
