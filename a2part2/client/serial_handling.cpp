@@ -71,8 +71,8 @@ bool process_waypoint(int16_t index) {
       // assumes that all numbers would be the same format:
       // 7 digits longitude 8 digits negative latitude
       for (int i = 0; i < 10; i++) {
-        lon[i] = buff[i + 2];
-        lat[i] = buff[i + 10];
+        lat[i] = buff[i + 2];
+        lon[i] = buff[i + 10];
       }
       // add null terminators
       lon[9] = 0; lat[9] = 0;
@@ -101,16 +101,12 @@ uint8_t get_waypoints(const lon_lat_32& start, const lon_lat_32& end) {
   // return 0 at any point that the communication fails
   if (!get_num()) {return 0;}
   // send acknowledgement
-  Serial.println("A");
-  // limits the number of waypoints from 0 to 500 (max_waypoints)
-  // look for new path it goes over
-  if (shared.num_waypoints > 500) {
-    shared.num_waypoints = 0;
-  }
+  // let user choose a new route if no path was found 
   if (shared.num_waypoints == 0) {
     status_message("No path found!");
     return 1;
   }
+  Serial.println("A");
   status_message ("Receiving path...");
   for (int i = 0; i < shared.num_waypoints; i++) {
     if (!process_waypoint(i)) {return 0;}

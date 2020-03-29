@@ -75,24 +75,30 @@ void sendToSerial(const string& message, SerialPort& Serial) {
 // sends the coordinates of each waypoint of the route
 void sendWaypoints(const list<int>& path, ptMap& points, SerialPort& Serial) {
   // sends the number of waypoints
-  string numWaypoints = "N "+ to_string(path.size());
-  sendToSerial(numWaypoints, Serial);
-  // always wait for acknowledge before continuing
-  if (waitForAck(Serial)) {
-    // sends the coordinates of each waypoint
-    for (auto it: path) {
-      // convert coordinates to string and send
-      string lat = to_string(points[it].lat);
-      string lon = to_string(points[it].lon);
-      string wp = "W " + lat + " " + lon;
-      sendToSerial(wp, Serial); // send waypoint to serial      
-      // wait to not overflow buffer
-      // return to waiting for request
-      // if acknowledgement is not received
-      if (!waitForAck(Serial)) {return;}   
+  // if path size exceeds 500, send N 0 and restart
+  int num = (path.size() < 500) ? path.size() : 0;
+  if (num) {
+    string numWaypoints = "N "+ to_string(num);
+    sendToSerial(numWaypoints, Serial);
+    // always wait for acknowledge before continuing
+    if (waitForAck(Serial)) {
+      // sends the coordinates of each waypoint
+      for (auto it: path) {
+        // convert coordinates to string and send
+        string lat = to_string(points[it].lat);
+        string lon = to_string(points[it].lon);
+        string wp = "W " + lat + " " + lon;
+        sendToSerial(wp, Serial); // send waypoint to serial      
+        // wait to not overflow buffer
+        // return to waiting for request
+        // if acknowledgement is not received
+        if (!waitForAck(Serial)) {return;}   
+      }
+      // terminate communication with E
+      sendToSerial("E", Serial);
     }
-    // terminate communication with E
-    sendToSerial("E", Serial);
+  } else {
+    sendToSerial("N 0", Serial);
   }
 }
 
@@ -103,6 +109,7 @@ int main() {
   ptMap points; // stores vertices and its coordinates
   readGraph(filename, graph, points);
   SerialPort Serial; // assumes port /dev/ttyACM0
+  cout << "Starting Route Server..." << endl;
   while (true) {
     // will only continue once request is received
     string req = Serial.readline(-1);
@@ -110,11 +117,15 @@ int main() {
       // ver = pair(start vertex, end vertex)
       PII ver = request(points, req);
       unordered_map<int, PIL> searchTree;
+      list<int> path;
       // finds shortest path
-      dijkstra(graph, ver.first, searchTree);
-      
-      list<int> path = createPath(ver, searchTree);
-      // send over Serial
+      // considers no path if there is only one vertex
+      if (ver.first != ver.second) {
+        dijkstra(graph, ver.first, searchTree);
+        
+        path = createPath(ver, searchTree);
+        // send over Serial
+      }
       sendWaypoints(path, points, Serial);
     }
   }
