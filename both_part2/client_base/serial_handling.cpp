@@ -23,19 +23,21 @@ bool wait_on_serial(long timeout, uint8_t nbytes = 1) {
 }
 // processes line from serial
 // returns false if nothing was received
-bool process_line(char *buff, long timeout) {
+bool process_line(char *buff, uint32_t timeout) {
   int len = 0; char c;
-  if (wait_on_serial(timeout)) {    
-    do {
+  uint32_t deadline = millis() + timeout;
+  // adapted from simpleclient.cpp to read with timeout
+  while (millis() < deadline) {
+    if (Serial.available()) {
       c = Serial.read();
-      // only read 24 characters and drop any excess
-      if (len < 24) {
+      if (c == '\n' || c == '\r') {
+        return true;
+      } else {
         buff[len] = c;
         len++;
-        buff[len] = 0;
+        buff[len] = 0; // null terminator
       }
-    } while ((c != '\n' || c != '\r') && wait_on_serial(timeout));
-    return true;
+    }
   }
   return false;
 }
@@ -47,7 +49,6 @@ bool get_num() {
   // restart if not a valid number of waypoints
   if (process_line(buffer, 10000)) {
     if (buffer[0] == 'N') {
-      status_message(buffer);
       // copy buffer to another char array
       // assumes 500 is the max waypoints
       char num[4]; num[3] = 0;
@@ -64,9 +65,9 @@ bool get_num() {
 
 bool process_waypoint(int16_t index) {
   char buff[25], lon[10], lat[10];
+  
   if (process_line(buff, 1000)) {
     if (buff[0] == 'W') {
-      status_message(buff);
       // assumes that all numbers would be the same format:
       // 7 digits longitude 8 digits negative latitude
       for (int i = 0; i < 10; i++) {
@@ -102,7 +103,14 @@ uint8_t get_waypoints(const lon_lat_32& start, const lon_lat_32& end) {
   // send acknowledgement
   Serial.println("A");
   // limits the number of waypoints from 0 to 500 (max_waypoints)
-  shared.num_waypoints = constrain(shared.num_waypoints, 0, max_waypoints);
+  // look for new path it goes over
+  if (shared.num_waypoints > 500) {
+    shared.num_waypoints = 0;
+  }
+  if (shared.num_waypoints == 0) {
+    status_message("No path found!");
+    return 1;
+  }
 
   for (int i = 0; i < shared.num_waypoints; i++) {
     if (!process_waypoint(i)) {return 0;}

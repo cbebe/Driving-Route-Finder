@@ -30,12 +30,7 @@ int findClosest(Point point, ptMap& points) {
 
 // processes request from Serial and returns the 
 // starting and ending vertices in the map graph
-PII request(ptMap& points, SerialPort& Serial) {
-  // waits for R from Serial
-  string req = Serial.readline(1000);
-  while (req[0] != 'R') {
-    req = Serial.readline(1000);
-  }
+PII request(ptMap& points, string req) {
   Point start, end;
   // splits request message and parses string to numbers
   vector<string> splitLine = splitStr(req, " ");
@@ -67,16 +62,21 @@ list<int> createPath(PII endPts, unordered_map<int,PIL> &tree) {
 // waits for acknowledge from Serial
 // returns false if no A is received
 bool waitForAck(SerialPort& Serial) {
-  string c = Serial.readline(2000);
-  return c[0] == 'A'; 
+  string ack = Serial.readline(1000);
+  return ack[0] == 'A'; 
 }
 
+void sendToSerial(const string& message, SerialPort& Serial) {
+  cout << "Sending: " << message << endl;
+  // always include newline char on messages
+  assert(Serial.writeline(message + "\n"));
+}
 
 // sends the coordinates of each waypoint of the route
 void sendWaypoints(const list<int>& path, ptMap& points, SerialPort& Serial) {
   // sends the number of waypoints
-  string waypoints = "N "+ to_string(path.size()) + "\n";
-  assert(Serial.writeline(waypoints));
+  string numWaypoints = "N "+ to_string(path.size());
+  sendToSerial(numWaypoints, Serial);
   // always wait for acknowledge before continuing
   if (waitForAck(Serial)) {
     // sends the coordinates of each waypoint
@@ -84,15 +84,15 @@ void sendWaypoints(const list<int>& path, ptMap& points, SerialPort& Serial) {
       // convert coordinates to string and send
       string lat = to_string(points[it].lat);
       string lon = to_string(points[it].lon);
-      assert(Serial.writeline("W " + lat + " " + lon + "\n"));
-      
+      string wp = "W " + lat + " " + lon;
+      sendToSerial(wp, Serial); // send waypoint to serial      
       // wait to not overflow buffer
       // return to waiting for request
       // if acknowledgement is not received
       if (!waitForAck(Serial)) {return;}   
     }
     // terminate communication with E
-    Serial.writeline("E\n");
+    sendToSerial("E", Serial);
   }
 }
 
@@ -104,16 +104,19 @@ int main() {
   readGraph(filename, graph, points);
   SerialPort Serial; // assumes port /dev/ttyACM0
   while (true) {
-    // ver = pair(start vertex, end vertex)
     // will only continue once request is received
-    PII ver = request(points, Serial);
-    unordered_map<int, PIL> searchTree;
-    // finds shortest path
-    dijkstra(graph, ver.first, searchTree);
-    
-    list<int> path = createPath(ver, searchTree);
-    // send over Serial
-    sendWaypoints(path, points, Serial);
+    string req = Serial.readline(-1);
+    if (req[0] == 'R') {
+      // ver = pair(start vertex, end vertex)
+      PII ver = request(points, req);
+      unordered_map<int, PIL> searchTree;
+      // finds shortest path
+      dijkstra(graph, ver.first, searchTree);
+      
+      list<int> path = createPath(ver, searchTree);
+      // send over Serial
+      sendWaypoints(path, points, Serial);
+    }
   }
 
   return 0;
