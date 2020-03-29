@@ -32,11 +32,10 @@ int findClosest(Point point, ptMap& points) {
 // starting and ending vertices in the map graph
 PII request(ptMap& points, SerialPort& Serial) {
   // waits for R from Serial
-  string req = Serial.readline(500);
+  string req = Serial.readline(1000);
   while (req[0] != 'R') {
-    req = Serial.readline(500);
+    req = Serial.readline(1000);
   }
-  req.pop_back();
   Point start, end;
   // splits request message and parses string to numbers
   vector<string> splitLine = splitStr(req, " ");

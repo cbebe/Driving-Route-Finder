@@ -3,7 +3,7 @@
 extern shared_vars shared;
 
 // prints request to Serial
-void sendReq(const lon_lat_32& start, const lon_lat_32& end) {
+void send_request(const lon_lat_32& start, const lon_lat_32& end) {
   // Request format: R slon slat elon elat
   Serial.print("R "); 
   Serial.print(start.lat); Serial.print(" ");
@@ -12,17 +12,20 @@ void sendReq(const lon_lat_32& start, const lon_lat_32& end) {
   Serial.println(end.lon); 
 }
 
-// timeout function based on cmput274 assignment 2
-bool waitOnSerial() {
-  uint32_t timeout = millis() + 1000;
-  while (millis() < timeout && Serial.available() == 0) {delay(1);}
-  return Serial.available() > 0;
+// given function for finite state machines
+// copied from cmput 274 assignment 2
+bool wait_on_serial(long timeout, uint8_t nbytes = 1) {
+  unsigned long deadline = millis() + timeout; // wraparound not a problem
+  while (Serial.available() < nbytes && (timeout < 0 || millis() < deadline)) {
+    delay(1); // be nice, no busy loop
+  }
+  return Serial.available() >= nbytes;
 }
 // processes line from serial
 // returns false if nothing was received
-bool processLine(char *buff) {
+bool process_line(char *buff, long timeout) {
   int len = 0; char c;
-  if (waitOnSerial()) {    
+  if (wait_on_serial(timeout)) {    
     do {
       c = Serial.read();
       // only read 24 characters and drop any excess
@@ -31,7 +34,7 @@ bool processLine(char *buff) {
         len++;
         buff[len] = 0;
       }
-    } while ((c != '\n' || c != '\r') && waitOnSerial());
+    } while ((c != '\n' || c != '\r') && wait_on_serial(timeout));
     return true;
   }
   return false;
@@ -39,10 +42,10 @@ bool processLine(char *buff) {
 
 // get number of waypoints from serial
 // returns true if successful
-bool getNumWayPoints() {
+bool get_num() {
   char buffer[25];
   // restart if not a valid number of waypoints
-  if (processLine(buffer)) {
+  if (process_line(buffer, 10000)) {
     if (buffer[0] == 'N') {
       status_message(buffer);
       // copy buffer to another char array
@@ -59,9 +62,9 @@ bool getNumWayPoints() {
 }
 
 
-bool processWaypoint(int16_t index) {
+bool process_waypoint(int16_t index) {
   char buff[25], lon[10], lat[10];
-  if (processLine(buff)) {
+  if (process_line(buff, 1000)) {
     if (buff[0] == 'W') {
       status_message(buff);
       // assumes that all numbers would be the same format:
@@ -92,17 +95,17 @@ uint8_t get_waypoints(const lon_lat_32& start, const lon_lat_32& end) {
 
   // TODO: implement the communication protocol from the assignment
   // send request to serial
-  sendReq(start, end);
+  send_request(start, end);
   status_message("Sent Request...");
   // return 0 at any point that the communication fails
-  if (!getNumWayPoints()) {return 0;}
+  if (!get_num()) {return 0;}
   // send acknowledgement
   Serial.println("A");
   // limits the number of waypoints from 0 to 500 (max_waypoints)
   shared.num_waypoints = constrain(shared.num_waypoints, 0, max_waypoints);
 
   for (int i = 0; i < shared.num_waypoints; i++) {
-    if (!processWaypoint(i)) {return 0;}
+    if (!process_waypoint(i)) {return 0;}
   }
   // 1 indicates a successful exchange, of course you should only output 1
   // in your final solution if the exchange was indeed successful

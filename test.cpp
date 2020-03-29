@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 using namespace std;
 
 void printTest() {
@@ -41,11 +42,44 @@ void processWaypoint() {
   cout << atoi(lat) << endl;
 }
 
-int main() {
-  processWaypoint();
-  string req = "R 1 2";
-  if (req[0] == 'R') {
-    cout << "it works?\n";
+vector<string> splitStr(string& str, string delim) {
+  vector<string> strvec;
+  while (true) {
+    int pos = str.find(delim);
+    // cuts the string if delimiter is found
+    if (pos != (int) string::npos) {
+
+      string token = str.substr(0, pos); // token
+      str = str.substr(pos + 1); // remainder
+      strvec.push_back(token);
+
+    } else {
+      // return once there are no delimiters
+      strvec.push_back(str);
+      return strvec;
+    }
   }
+}
+
+// processes request from Serial and returns the 
+// starting and ending vertices in the map graph
+void request() {
+  // waits for R from Serial
+  string req = "R 123123 123123 123123 123123";
+
+  struct Point {long long lat; long long lon;};
+  Point start, end;
+  // splits request message and parses string to numbers
+  vector<string> splitLine = splitStr(req, " ");
+  start.lat = stoll(splitLine[1]); 
+  start.lon = stoll(splitLine[2]);
+  end.lat = stoll(splitLine[3]); 
+  end.lon = stoll(splitLine[4]);
+  cout << start.lat << ' ' << start.lon << ' ' 
+       << end.lat << ' ' << end.lon << endl;
+}
+
+int main() {
+  request();  
   return 0;
 }
