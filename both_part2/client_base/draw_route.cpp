@@ -24,7 +24,7 @@ void draw_route() {
       if ( x0 >= 0 && x0 <= 320 && y0 >= 0 && y0 <= 480
         && x1 >= 0 && x1 <= 320 && y1 >= 0 && y1 <= 480 ){
         // If the line to be plotted is in the scope of the zoom level
-        shared.tft -> drawLine(x0,y0,x1,y1,AQUA)
+        shared.tft -> drawLine(x0,y0,x1,y1,AQUA);
       }
     }
   }
