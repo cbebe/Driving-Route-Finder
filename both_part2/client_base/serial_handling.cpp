@@ -46,7 +46,7 @@ bool process_line(char *buff, uint32_t timeout) {
 // returns true if successful
 bool get_num() {
   char buffer[25];
-  // restart if not a valid number of waypoints
+  // 10 second timeout for number of waypoints
   if (process_line(buffer, 10000)) {
     if (buffer[0] == 'N') {
       // copy buffer to another char array
@@ -65,7 +65,7 @@ bool get_num() {
 
 bool process_waypoint(int16_t index) {
   char buff[25], lon[10], lat[10];
-  
+  // 1 second timeout for every waypoint (1000 ms)
   if (process_line(buff, 1000)) {
     if (buff[0] == 'W') {
       // assumes that all numbers would be the same format:
@@ -111,7 +111,7 @@ uint8_t get_waypoints(const lon_lat_32& start, const lon_lat_32& end) {
     status_message("No path found!");
     return 1;
   }
-
+  status_message ("Receiving path...");
   for (int i = 0; i < shared.num_waypoints; i++) {
     if (!process_waypoint(i)) {return 0;}
   }

@@ -8,11 +8,8 @@ extern shared_vars shared;
 
 void draw_route() {
   // implement this!
-  
-  if (shared.num_waypoints >= 1 ) {
-    // If there is at least 1 way point
-
-    status_message ("Receiving path...");
+  // If there is at least 1 way point
+  if (shared.num_waypoints >= 1) {
 
     for (int i = 0; i < shared.num_waypoints - 1; i++){
       int32_t x0 = longitude_to_x(shared.map_number, shared.waypoints[i].lon) - shared.map_coords.x;
@@ -24,12 +21,9 @@ void draw_route() {
       if ( x0 >= 0 && x0 <= 320 && y0 >= 0 && y0 <= 480
         && x1 >= 0 && x1 <= 320 && y1 >= 0 && y1 <= 480 ){
         // If the line to be plotted is in the scope of the zoom level
-        shared.tft -> drawLine(x0,y0,x1,y1,AQUA);
+        shared.tft->drawLine(x0,y0,x1,y1,AQUA);
       }
     }
-  }
 
-  else {
-    status_message( "No path found. ");
   }
 }
