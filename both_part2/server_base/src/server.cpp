@@ -68,7 +68,7 @@ list<int> createPath(PII endPts, unordered_map<int,PIL> &tree) {
 // waits for acknowledge from Serial
 // returns false if no A is received
 bool waitForAck(SerialPort& Serial) {
-  return Serial.readline(1000)[0] == 'A'; 
+  return Serial.readline(2000)[0] == 'A'; 
 }
 
 
@@ -112,7 +112,6 @@ int main() {
     dijkstra(graph, ver.first, searchTree);
     
     list<int> path = createPath(ver, searchTree);
-
     // send over Serial
     sendWaypoints(path, points, Serial);
   }

@@ -6,10 +6,10 @@ extern shared_vars shared;
 void sendReq(const lon_lat_32& start, const lon_lat_32& end) {
   // Request format: R slon slat elon elat
   Serial.print("R "); 
-  Serial.print(start.lon); Serial.print(" ");
   Serial.print(start.lat); Serial.print(" ");
-  Serial.print(end.lon); Serial.print(" ");
-  Serial.println(end.lat);
+  Serial.print(start.lon); Serial.print(" ");
+  Serial.print(end.lat); Serial.print(" ");
+  Serial.println(end.lon); 
 }
 
 // timeout function based on cmput274 assignment 2
@@ -22,7 +22,7 @@ bool waitOnSerial() {
 // returns false if nothing was received
 bool processLine(char *buff) {
   int len = 0; char c;
-  if (waitOnSerial()) {
+  if (waitOnSerial()) {    
     do {
       c = Serial.read();
       // only read 24 characters and drop any excess
@@ -31,7 +31,7 @@ bool processLine(char *buff) {
         len++;
         buff[len] = 0;
       }
-    } while ((c != '\n' || c != '\r') && waitOnSerial());
+    } while (c != '\n' || c != '\r' && waitOnSerial());
     return true;
   }
   return false;
@@ -42,15 +42,17 @@ bool processLine(char *buff) {
 bool getNumWayPoints() {
   char buffer[25];
   // restart if not a valid number of waypoints
-  if (processLine(buffer) && buffer[0] == 'N') {
-    // copy buffer to another char array
-    // assumes 500 is the max waypoints
-    char num[4]; num[3] = 0;
-    for (int i = 0; i < 3; i++) {
-      num[i] = buffer[i + 2];
+  if (processLine(buffer)) {
+    if (buffer[0] == 'N') {
+      // copy buffer to another char array
+      // assumes 500 is the max waypoints
+      char num[4]; num[3] = 0;
+      for (int i = 0; i < 3; i++) {
+        num[i] = buffer[i + 2];
+      }
+      shared.num_waypoints = atoi(num);
+      return true;
     }
-    shared.num_waypoints = atoi(num);
-    return true;
   }
   return false;
 }
@@ -58,23 +60,25 @@ bool getNumWayPoints() {
 
 bool processWaypoint(int16_t index) {
   char buff[25], lon[10], lat[10];
-  if (processLine(buff) && buff[0] == 'W') {
-    // assumes that all numbers would be the same format:
-    // 7 digits longitude 8 digits negative latitude
-    for (int i = 0; i < 10; i++) {
-      lon[i] = buff[i + 2];
-      lat[i] = buff[i + 10];
+  if (processLine(buff)) {
+    if (buff[0] == 'W') {
+      // assumes that all numbers would be the same format:
+      // 7 digits longitude 8 digits negative latitude
+      for (int i = 0; i < 10; i++) {
+        lon[i] = buff[i + 2];
+        lat[i] = buff[i + 10];
+      }
+      // add null terminators
+      lon[9] = 0; lat[9] = 0;
+
+      // store parsed coordinates to shared variable
+      shared.waypoints[index].lon = atoi(lon);
+      shared.waypoints[index].lat = atoi(lat);
+
+      // send acknowledge to serial
+      Serial.println("A");
+      return true;
     }
-    // add null terminators
-    lon[9] = 0; lat[9] = 0;
-
-    // store parsed coordinates to shared variable
-    shared.waypoints[index].lon = atoi(lon);
-    shared.waypoints[index].lat = atoi(lat);
-
-    // send acknowledge to serial
-    Serial.println("A");
-    return true;
   }
   return false;
 }
@@ -87,8 +91,11 @@ uint8_t get_waypoints(const lon_lat_32& start, const lon_lat_32& end) {
   // TODO: implement the communication protocol from the assignment
   // send request to serial
   sendReq(start, end);
+  status_message("Sent Request...");
   // return 0 at any point that the communication fails
   if (!getNumWayPoints()) {return 0;}
+  // send acknowledgement
+  Serial.println("A");
   // limits the number of waypoints from 0 to 500 (max_waypoints)
   shared.num_waypoints = constrain(shared.num_waypoints, 0, max_waypoints);
 
@@ -98,5 +105,6 @@ uint8_t get_waypoints(const lon_lat_32& start, const lon_lat_32& end) {
   // 1 indicates a successful exchange, of course you should only output 1
   // in your final solution if the exchange was indeed successful
   // (otherwise, return 0 if the communication failed)
+  status_message(shared.num_waypoints);
   return 1;
 }

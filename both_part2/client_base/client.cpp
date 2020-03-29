@@ -150,7 +150,9 @@ int main() {
 
         // repeat the request as long as things fail, never give up!
         // TODO: the get_waypoints function needs to be implemented by you
-        while(get_waypoints(start, end) == 0);
+        while(get_waypoints(start, end) == 0) {
+          status_message("FAILED!");
+        };
 
 
         // now we have stored the path length in

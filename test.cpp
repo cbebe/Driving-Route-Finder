@@ -43,5 +43,9 @@ void processWaypoint() {
 
 int main() {
   processWaypoint();
+  string req = "R 1 2";
+  if (req[0] == 'R') {
+    cout << "it works?\n";
+  }
   return 0;
 }
