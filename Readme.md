@@ -26,7 +26,7 @@
 
 ### Part 2 - Client - in progress
 
-#### Route Finding Request
+#### Route Finding Request - done
 
 - Basically set up for us already
 
@@ -34,6 +34,6 @@
 
 - Will not print if N = 0
 
-#### Display route on Arduino
+#### Display route on Arduino - ez
 
-- This is the problem
+- This is the problem - not a problem
