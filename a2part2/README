@@ -1,39 +1,75 @@
----------------------------------------------------
+-------------------------------------------
 Name : Charles Ancheta and Poulomi Ganguly
 CMPUT 275 , Winter 2020
 
-Assignment 2, Part 1: Driving Route Finder (server)
----------------------------------------------------
-
+Assignment 2, Part 2: Driving Route Finder
+-------------------------------------------
 
 Included Files:
-+ include/
-|-- digraph.h
-|-- dijkstra.h
-|-- heap.h
-|-- readgraph.h
-|-- server.h
-|-- wdigraph.h
-+ obj/
-|-- (empty by default, 
-|-- object files will be placed here)
-+ src/
-|-- digraph.cpp
-|-- dijkstra.cpp
-|-- readgraph.cpp
-|-- server.cpp
-+ edmonton-roads-2.0.1.txt
-+ Makefile
++ client/
+|-- client.cpp
+|-- consts_and_types.h
+|-- draw_route.cpp
+|-- draw_route.h
+|-- map_drawing.cpp
+|-- map_drawing.h
+|-- serial_handling.cpp
+|-- serial_handling.h
+|-- lcd_image.cpp
+|-- lcd_image.h
+|-- Makefile
++ server/
+|-- + include/
+|   | -- digraph.h
+|   | -- dijkstra.h
+|   | -- heap.h
+|   | -- readgraph.h
+|   | -- serialport.h
+|   | -- wdigraph.h
+|-- + obj/
+|   |-- (empty by default, 
+|   |-- object files will be placed here)
+|-- + src/
+|   |-- digraph.cpp
+|   |-- dijkstra.cpp
+|   |-- readgraph.cpp
+|   |-- serialport.cpp
+|   |-- server.cpp
+|   + edmonton-roads-2.0.1.txt
+|   + Makefile
 + README
 
-Running Instructions:
-1. Open the terminal on the cmput274 virtual machine. Navigate to the directory.
+Wiring Instructions (from instructions.txt):
+| Mount the TFT display on the Arduino just like with Assignment 1
+|
+| Joystick (same as with assignment 1)
+| VRx <--> A8
+| VRy <--> A9
+| SW  <--> Digital Pin 53
+| GND <--> GND
+| +5V <--> 5V
+|
+| Two pushbuttons for zoom. They are initialized in the code with internal pullup
+| resistors. So for each, one side is connected to GND and the other to a digital
+| pin.
+|
+| Zoom Out Button <--> Digital Pin 47
+| Zoom In Button  <--> Digital Pin 45
+
+Running Instructions (client):
+1. Open the terminal on the cmput274 virtual machine. Navigate to client/.
+2. Type "make upload" on the command line to compile the program and flash to the Arduino.
+4. When done, type "make clean" to remove the build-mega2560 directory.
+
+Running Instructions (server):
+1. Open the terminal on the cmput274 virtual machine. Navigate to server/.
 2. Type "make" on the command line to compile the server executable.
-3. Type "./server" on the command line to test the program.
-4. Type "make clean" to remove the executables and compiled objects.
+3. Type "./server" on the command line to start the route server.
+4. When done, type "make clean" to remove the executables and compiled objects.
 
 Implemented Functions:
 
+Server Source Files:
 + in dijkstra.cpp:
 |-- void dijkstra(const WDigraph& graph, int startVertex,
 |                 std::unordered_map<int, PIL>& tree)  
@@ -42,10 +78,10 @@ Implemented Functions:
 |     - Returns a search tree of the path 
 |
 + in readgraph.cpp:
-|-- vector<string> split(string& str, string delim = ",")
-|     - Splits a string by the delimiter ("," by default)
+|-- vector<string> splitStr(string& str, string delim)
+|     - Splits a string by the delimiter
 |     - Returns a vector of strings that contains 
-|         all the tokens of the string
+|       all the tokens of the string
 |
 |-- ll manhattan(const Point& pt1, const Point& pt2)
 |     - Calculates the Manhattan distance between two Point structs
@@ -60,19 +96,57 @@ Implemented Functions:
 |     - Returns the vertex that is closest to the given Point struct
 |
 |-- PII request(ptMap& points)
-|     - Takes in the requested coordinates from stdin
+|     - Parses the request message from Serial
 |     - Returns the vertices closest to those coordinates
 |
 |-- list<int> createPath(PII endPts, unordered_map<int,PIL> &tree)
 |     - Returns a list of the path's vertices from a given search tree
 |
-|-- void waitForAcknowledge()
-|     - Halts all operations until an acknowledge is received from stdin
+|-- void waitForAck(SerialPort& Serial)
+|     - Waits for an acknowledge from Serial for 1 second
 |
-|-- void sendWaypoints(list<int>& path, ptMap& points)
+|-- void sendWaypoints(list<int>& path, ptMap& points, SerialPort& Serial)
 |     - Sends the waypoints from the requested start point to the end point
+|
+|-- void sendToSerial(const string& message, SerialPort& Serial)
+|     - Sends a message through Serial with an appended newline character
+
+Client Source Files:
++ in draw_route.cpp:
+|-- void draw_route()
+|     - Draws a route in the map with the given waypoints
++ in serial_handling.cpp:
+|-- void send_request(const lon_lat_32& start, const lon_lat_32& end)
+|     - Sends request message over Serial
+|
+|-- bool process_line(char *buff, uint32_t timeout)
+|     - Reads a line until newline character from Serial
+|     - Returns true after a successful read
+|
+|-- bool get_num()
+|     - Gets the number of waypoints from Serial
+|     - Returns true after a successful read
+|
+|-- bool process_waypoint(int16_t index)
+|     - Reads a single waypoint from Serial and stores in array
+|     - Returns true after a successful read
+|
+|-- uint8_t get_waypoints(const lon_lat_32& start, const lon_lat_32& end)
+|     - "Main" function to get waypoints from server
+|     - Returns 1 after a successful exchange or if no path was found
+|     - Returns 0 if the communication fails at any point
 
 Notes and Assumptions:
-This server-side program assumes that the Arduino will communicate 
-in the way that it was described in the assignment description.
-Otherwise, this program will not behave as expected or may stop being functional.
+This route finder implementation assumes that all messages
+follow the format in the assignment description. For example, 
+most of the functions that involve reading through the serial
+port assume a certain number of digits will be received.
+Using a different CSV city graph will cause the Arduino to
+not read the coordinates properly.
+
+One thing to take note of is that when taking a request,
+the server has to send the number of waypoints twice before
+a successful exchange happens. This might be caused by the
+serial processing of the Arduino not being in sync with the
+desktop server. However, this is not a huge problem since the
+server just starts over with reading the request.

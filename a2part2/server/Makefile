@@ -2,7 +2,7 @@
 # Name : Charles Ancheta and Poulomi Ganguly
 # CMPUT 275 , Winter 2020
 # 
-# Assignment 2, Part 1: Driving Route Finder (server)
+# Assignment 2, Part 2: Driving Route Finder (server)
 # ---------------------------------------------------
 
 CC := g++
@@ -16,7 +16,7 @@ OBJ := $(SRC:src/%.cpp=obj/%.o)
 CFLAGS := -Wall -O2 -std=c++11 -Iinclude
 
 # links all objects into the executable server
-server: $(OBJ)
+server: obj | $(OBJ)
 	$(CC) $(OBJ) -o server
 
 # compiles all source files from src/ into object files
@@ -32,10 +32,13 @@ obj/digraph.o: src/digraph.cpp
 
 obj/readgraph.o: src/readgraph.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
-
+# new serial port object for serial communication
 obj/serialport.o: src/serialport.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
+# creates obj directory if not yet created
+obj:
+	mkdir obj
 # removes all object files and the executable
 clean:
 	@rm $(OBJ) server

@@ -2,7 +2,7 @@
 // Name : Charles Ancheta and Poulomi Ganguly
 // CMPUT 275 , Winter 2020
 // 
-// Assignment 2, Part 1: Driving Route Finder (server)
+// Assignment 2, Part 2: Driving Route Finder (server)
 // ---------------------------------------------------
 
 #include "readgraph.h"
@@ -60,6 +60,7 @@ void readGraph(string filename, WDigraph& graph,
       points[node].lat = static_cast<ll>(stod(splitLine[2]) * 100000);
       points[node].lon = static_cast<ll>(stod(splitLine[3]) * 100000);
       graph.addVertex(node);
+
     } else if (splitLine[0] == "E") {
 
       //calculate the cost between the two vertices

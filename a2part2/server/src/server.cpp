@@ -2,7 +2,7 @@
 // Name : Charles Ancheta and Poulomi Ganguly
 // CMPUT 275 , Winter 2020
 // 
-// Assignment 2, Part 1: Driving Route Finder (server)
+// Assignment 2, Part 2: Driving Route Finder (server)
 // ---------------------------------------------------
 
 #include <list>
@@ -19,6 +19,7 @@ int findClosest(Point point, ptMap& points) {
   // use BinaryHeap because we only care about the minimum distance
   // use long long as key because that's how we'll sort the heap
   BinaryHeap<int,ll> dist;
+
   for (auto it = points.begin(); it != points.end(); it++) {
     // calculate distance between points and insert in heap
     ll distance = manhattan(point, it->second);
@@ -38,9 +39,10 @@ PII request(ptMap& points, string req) {
   start.lon = stoll(splitLine[2]);
   end.lat = stoll(splitLine[3]); 
   end.lon = stoll(splitLine[4]);
-  PII vertices;
+
   // finds the starting and ending vertices
   // closest to the given coordinates
+  PII vertices;
   vertices.first = findClosest(start, points);
   vertices.second = findClosest(end, points);
   return vertices;
@@ -62,6 +64,7 @@ list<int> createPath(PII endPts, unordered_map<int,PIL> &tree) {
 // waits for acknowledge from Serial
 // returns false if no A is received
 bool waitForAck(SerialPort& Serial) {
+  // timeout is 1 second
   string ack = Serial.readline(1000);
   return ack[0] == 'A'; 
 }
@@ -74,11 +77,14 @@ void sendToSerial(const string& message, SerialPort& Serial) {
 
 // sends the coordinates of each waypoint of the route
 void sendWaypoints(const list<int>& path, ptMap& points, SerialPort& Serial) {
-  // sends the number of waypoints
-  // if path size exceeds 500, send N 0 and restart
-  if (path.size() < 500 || path.empty()) {
+  
+  // send N 0 and restart if path size exceeds 500
+  if (path.size() < 500 && !path.empty()) {
+    
+    // sends the number of waypoints
     string numWaypoints = "N " + to_string(path.size());
     sendToSerial(numWaypoints, Serial);
+
     // always wait for acknowledge before continuing
     if (waitForAck(Serial)) {
       // sends the coordinates of each waypoint
@@ -87,7 +93,8 @@ void sendWaypoints(const list<int>& path, ptMap& points, SerialPort& Serial) {
         string lat = to_string(points[it].lat);
         string lon = to_string(points[it].lon);
         string wp = "W " + lat + " " + lon;
-        sendToSerial(wp, Serial); // send waypoint to serial      
+        sendToSerial(wp, Serial); // send waypoint to serial  
+
         // wait to not overflow buffer
         // return to waiting for request
         // if acknowledgement is not received

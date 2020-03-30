@@ -2,7 +2,7 @@
 // Name : Charles Ancheta and Poulomi Ganguly
 // CMPUT 275 , Winter 2020
 // 
-// Assignment 2, Part 1: Driving Route Finder (server)
+// Assignment 2, Part 2: Driving Route Finder (server)
 // ---------------------------------------------------
 
 #include "dijkstra.h"
