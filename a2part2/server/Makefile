@@ -42,3 +42,4 @@ obj:
 # removes all object files and the executable
 clean:
 	@rm $(OBJ) server
+	@rmdir obj

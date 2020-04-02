@@ -78,8 +78,8 @@ void sendToSerial(const string& message, SerialPort& Serial) {
 // sends the coordinates of each waypoint of the route
 void sendWaypoints(const list<int>& path, ptMap& points, SerialPort& Serial) {
   
-  // send N 0 and restart if path size exceeds 500
-  if (path.size() < 500 && !path.empty()) {
+  // send N 0 and restart if there is no path
+  if (!path.empty()) {
     
     // sends the number of waypoints
     string numWaypoints = "N " + to_string(path.size());

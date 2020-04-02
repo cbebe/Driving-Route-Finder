@@ -99,9 +99,11 @@ uint8_t get_waypoints(const lon_lat_32& start, const lon_lat_32& end) {
   if (!get_num()) {return 0;}
 
   // let user choose a new route if no path was found 
-  if (shared.num_waypoints == 0) {
+  // or if waypoints exceed 500
+  // delay for 2 seconds to let the server time out
+  if (shared.num_waypoints == 0 || shared.num_waypoints > 500) {
     status_message("No path found!");
-    delay(1000);
+    delay(2000);
     return 1;
   }
 
