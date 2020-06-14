@@ -7,9 +7,11 @@
 #include <stdlib.h>
 #include <time.h>
 
-SerialPort::SerialPort(const char *portName) {
+SerialPort::SerialPort(const char *portName)
+{
   fd = open(portName, O_RDWR | O_NOCTTY);
-  if (fd == -1) {
+  if (fd == -1)
+  {
     printf("Error opening device %s\n", portName);
     exit(-1);
   }
@@ -30,14 +32,16 @@ SerialPort::SerialPort(const char *portName) {
   tcsetattr(fd, TCSADRAIN, &newtio);
 }
 
-SerialPort::~SerialPort() {
+SerialPort::~SerialPort()
+{
   // restore old termio settings before closing
   tcsetattr(fd, TCSANOW, &oldtio);
 
   close(fd);
 }
 
-string SerialPort::readline(int timeout) {
+string SerialPort::readline(int timeout)
+{
   string line = "";
   int avail;
   char c;
@@ -45,12 +49,15 @@ string SerialPort::readline(int timeout) {
   clock_t start = clock();
 
   // loop until '\n' is read
-  do {
+  do
+  {
     // loop until a character is available, or timeout
-    do {
+    do
+    {
       clock_t cur = clock();
-      int ms_waited((cur-start)*1000.0/CLOCKS_PER_SEC);
-      if (timeout > 0 && ms_waited > timeout) {
+      int ms_waited((cur - start) * 1000.0 / CLOCKS_PER_SEC);
+      if (timeout > 0 && ms_waited > timeout)
+      {
         // timeout!
         return "";
       }
@@ -60,7 +67,8 @@ string SerialPort::readline(int timeout) {
     } while (avail == 0);
 
     // read a character
-    if (read(fd, &c, 1) == 0) {
+    if (read(fd, &c, 1) == 0)
+    {
       continue; // probably doesn't happen
     }
     line += c;
@@ -69,6 +77,7 @@ string SerialPort::readline(int timeout) {
   return line;
 }
 
-bool SerialPort::writeline(const string& line) {
+bool SerialPort::writeline(const string &line)
+{
   return write(fd, line.c_str(), line.length());
 }

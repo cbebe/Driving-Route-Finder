@@ -10,9 +10,9 @@
 // typedef introduces a synonym (alias)
 // for the type specified
 typedef std::pair<int, ll> PIL;
-typedef std::pair<int,int> PII;
+typedef std::pair<int, int> PII;
 
-void dijkstra(const WDigraph& graph, int startVertex,
-              std::unordered_map<int, PIL>& tree);
+void dijkstra(const WDigraph &graph, int startVertex,
+              std::unordered_map<int, PIL> &tree);
 
 #endif

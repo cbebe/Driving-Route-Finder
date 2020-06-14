@@ -13,14 +13,16 @@ typedef long long ll;
   Weights are of type long long.
 */
 
-class WDigraph : public Digraph {
+class WDigraph : public Digraph
+{
 public:
   // No constructor or destructor are necessary this time.
   // A new instance will be an empty graph with no nodes.
 
   // returns the cost/weight of an edge
   // if it does not exist, returns error
-  ll getCost(int u, int v) const {
+  ll getCost(int u, int v) const
+  {
     // uses .at because there is no const operator[]
     // for unordered maps
     return cost.at(u).at(v);
@@ -28,7 +30,8 @@ public:
 
   // adds a weighted edge
   // if the edge already existed, does nothing
-  void addEdge(int u, int v, ll w){
+  void addEdge(int u, int v, ll w)
+  {
     // use Digraph's addEdge method
     Digraph::addEdge(u, v);
     cost[u][v] = w;

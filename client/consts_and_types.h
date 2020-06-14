@@ -19,14 +19,16 @@
 #include "lcd_image.h"
 
 // the name emphasizes the fact that lon is the first field
-struct lon_lat_32 {
+struct lon_lat_32
+{
   int32_t lon, lat;
   lon_lat_32(int32_t lon1 = 0, int32_t lat1 = 0) : lon(lon1), lat(lat1) {}
 };
 
 // a handy pair to store two signed 16-bit integers
 // used frequently in many places
-struct xy_pos {
+struct xy_pos
+{
   int16_t x, y;
   xy_pos(int16_t x1 = 0, int16_t y1 = 0) : x(x1), y(y1) {}
 };
@@ -36,7 +38,8 @@ struct xy_pos {
 const int16_t max_waypoints = 500;
 
 // all the variables shared between various files of the project
-struct shared_vars {
+struct shared_vars
+{
   // the upper-left corner of the current .lcd being displayed
   xy_pos map_coords;
 
@@ -48,7 +51,7 @@ struct shared_vars {
   xy_pos cursor_map;
 
   // the tft display
-  MCUFRIEND_kbv* tft;
+  MCUFRIEND_kbv *tft;
 
   // joystick calibration data
   xy_pos joy_centre;
@@ -66,7 +69,8 @@ struct shared_vars {
 };
 
 // collect all pins in a namespace
-namespace clientpins {
+namespace clientpins
+{
   // Pins for sd card
   const uint8_t sd_cs = 10;
 
@@ -80,10 +84,11 @@ namespace clientpins {
 
   // joystick button pin
   const uint8_t joy_button_pin = 53;
-}
+} // namespace clientpins
 
 // constants related to the display
-namespace displayconsts {
+namespace displayconsts
+{
   // physical dimensions of the tft display
   const int16_t tft_width = 480;
   const int16_t tft_height = 320;
@@ -101,82 +106,113 @@ namespace displayconsts {
   // unless we are near the boundary of the map itself)
   const int16_t padding = 5;
 
-
   // the minimum and maximum display coordinates we allow the
   // cursor to occupy, anything outside this should nudge the screen
   const int16_t min_x = padding;
   const int16_t max_x = display_width - padding;
   const int16_t min_y = padding;
   const int16_t max_y = display_height - padding;
-};
+}; // namespace displayconsts
 
 // struct to store the geographic coordinates of the corners of some map
-struct map_box_t {
-    int32_t N;  // lattitude of NW corner
-    int32_t W;  // longitude of NW corner
-    int32_t S;  // lattitude of SE corner
-    int32_t E;  // longitude of SE corner
+struct map_box_t
+{
+  int32_t N; // lattitude of NW corner
+  int32_t W; // longitude of NW corner
+  int32_t S; // lattitude of SE corner
+  int32_t E; // longitude of SE corner
 };
 
 // mostly all constants related to the .lcd maps
-namespace mapdata {
+namespace mapdata
+{
   // maybe a bit out of place here, but it is related
   const int16_t dot_radius = 3;
 
   // the x and y coordinate limits for each map (in pixels)
-  const int16_t map_x_limit[6] = { 511, 1023, 2047, 4095, 8191, 16383};
-  const int16_t map_y_limit[6] = { 511, 1023, 2047, 4095, 8191, 16383};
+  const int16_t map_x_limit[6] = {511, 1023, 2047, 4095, 8191, 16383};
+  const int16_t map_y_limit[6] = {511, 1023, 2047, 4095, 8191, 16383};
 
   // data for the various edmonton images:
   // file name, pixel_height, pixel_width
   const lcd_image_t map_tiles[] = {
-    { "yeg-1.lcd",  512, 512, },
-    { "yeg-2.lcd",  1024, 1024, },
-    { "yeg-3.lcd",  2048, 2048, },
-    { "yeg-4.lcd",  4096, 4096, },
-    { "yeg-5.lcd",  8192, 8192, },
-    { "yeg-6.lcd",  16384, 16384, },
+      {
+          "yeg-1.lcd",
+          512,
+          512,
+      },
+      {
+          "yeg-2.lcd",
+          1024,
+          1024,
+      },
+      {
+          "yeg-3.lcd",
+          2048,
+          2048,
+      },
+      {
+          "yeg-4.lcd",
+          4096,
+          4096,
+      },
+      {
+          "yeg-5.lcd",
+          8192,
+          8192,
+      },
+      {
+          "yeg-6.lcd",
+          16384,
+          16384,
+      },
   };
 
   // geographic coordinates of the corners of each map
   const map_box_t map_box[] = {
-    { // map 0 zoom 11
-      (int32_t)     5364463,    //   53.6446378248565
-      (int32_t)   -11373047,    // -113.73046875
-      (int32_t)     5343572,    //   53.4357192066942
-      (int32_t)   -11337891,    // -113.37890625
-    },
-    { // map 1 zoom 12
-      (int32_t)     5364464,    //   53.6446378248565
-      (int32_t)   -11373047,    // -113.73046875
-      (int32_t)     5343572,    //   53.4357192066942
-      (int32_t)   -11337891,    // -113.37890625
-    },
-    { // map 2 zoom 13
-      (int32_t)     5361858,    //   53.6185793648952
-      (int32_t)   -11368652,    // -113.6865234375
-      (int32_t)     5340953,    //   53.4095318530864 S
-      (int32_t)   -11333496,    // -113.3349609375 E
-    },
-    { // map 3 zoom 14
-      (int32_t)     5360554,    //   53.605544099238
-      (int32_t)   -11368652,    // -113.6865234375
-      (int32_t)     5339643,    //   53.396432127096
-      (int32_t)   -11333496,    // -113.3349609375
-    },
-    { // map 4 zoom 15
-      (int32_t)     5360554,    //   53.605544099238
-      (int32_t)   -11367554,    // -113.675537109375
-      (int32_t)     5339643,    //   53.396432127096
-      (int32_t)   -11332397,    // -113.323974609375
-    },
-    { // map 5 zoom 16
-      (int32_t)     5360228,    //   53.6022846540113
-      (int32_t)   -11367554,    // -113.675537109375
-      (int32_t)     5339316,    //   53.3931565653804
-      (int32_t)   -11332397,    // -113.323974609375
-    },
+      {
+          // map 0 zoom 11
+          (int32_t)5364463,   //   53.6446378248565
+          (int32_t)-11373047, // -113.73046875
+          (int32_t)5343572,   //   53.4357192066942
+          (int32_t)-11337891, // -113.37890625
+      },
+      {
+          // map 1 zoom 12
+          (int32_t)5364464,   //   53.6446378248565
+          (int32_t)-11373047, // -113.73046875
+          (int32_t)5343572,   //   53.4357192066942
+          (int32_t)-11337891, // -113.37890625
+      },
+      {
+          // map 2 zoom 13
+          (int32_t)5361858,   //   53.6185793648952
+          (int32_t)-11368652, // -113.6865234375
+          (int32_t)5340953,   //   53.4095318530864 S
+          (int32_t)-11333496, // -113.3349609375 E
+      },
+      {
+          // map 3 zoom 14
+          (int32_t)5360554,   //   53.605544099238
+          (int32_t)-11368652, // -113.6865234375
+          (int32_t)5339643,   //   53.396432127096
+          (int32_t)-11333496, // -113.3349609375
+      },
+      {
+          // map 4 zoom 15
+          (int32_t)5360554,   //   53.605544099238
+          (int32_t)-11367554, // -113.675537109375
+          (int32_t)5339643,   //   53.396432127096
+          (int32_t)-11332397, // -113.323974609375
+      },
+      {
+          // map 5 zoom 16
+          (int32_t)5360228,   //   53.6022846540113
+          (int32_t)-11367554, // -113.675537109375
+          (int32_t)5339316,   //   53.3931565653804
+          (int32_t)-11332397, // -113.323974609375
+      },
   };
-}
+} // namespace mapdata
 
 #endif

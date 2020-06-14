@@ -6,7 +6,6 @@
   Ideas adapted from https://www.cmrr.umn.edu/~strupp/serial.html#config
 */
 
-
 #ifndef _SERIALPORT_H_
 #define _SERIALPORT_H_
 
@@ -17,7 +16,8 @@
 
 using namespace std;
 
-class SerialPort {
+class SerialPort
+{
 public:
   // on my Mac, it shows up as /dev/tty.usbmodem1411
   SerialPort(const char *portName = "/dev/ttyACM0");
@@ -31,7 +31,7 @@ public:
 
   // Writes the string with no additional '\n'.
   // Returns success if all characters were written.
-  bool writeline(const string& line);
+  bool writeline(const string &line);
 
 private:
   int fd;

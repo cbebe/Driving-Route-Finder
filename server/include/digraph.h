@@ -13,7 +13,8 @@ using namespace std;
   Represents a graph using an adjacency list representation.
   Vertices are assumed to be integers.
 */
-class Digraph {
+class Digraph
+{
 public:
   // No constructor or destructor are necessary this time.
   // A new instance will be an empty graph with no nodes.

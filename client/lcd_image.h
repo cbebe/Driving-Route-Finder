@@ -7,7 +7,8 @@
 
 #include <MCUFRIEND_kbv.h>
 
-typedef struct {
+typedef struct
+{
   char file_name[50];
   uint16_t ncols;
   uint16_t nrows;
@@ -22,8 +23,8 @@ typedef struct {
  * width, height : controls the size of the patch drawn.
  */
 void lcd_image_draw(const lcd_image_t *img, MCUFRIEND_kbv *tft,
-		    uint16_t icol, uint16_t irow,
-		    uint16_t scol, uint16_t srow,
-		    uint16_t width, uint16_t height);
+                    uint16_t icol, uint16_t irow,
+                    uint16_t scol, uint16_t srow,
+                    uint16_t width, uint16_t height);
 
 #endif

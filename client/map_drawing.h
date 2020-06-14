@@ -32,10 +32,10 @@ void draw_cursor();
 
 // given x/y values, shift the display over that many "units"
 // e.g. if shift is (1, 0) will shift over by half of a screen
-void shift_map_display(const xy_pos& shift);
+void shift_map_display(const xy_pos &shift);
 
 // print a message to the bottom of the screen
-void status_message(const char* mst);
+void status_message(const char *mst);
 
 // return the geographic coordinates of the cursor
 lon_lat_32 get_cursor_lonlat();
@@ -48,7 +48,7 @@ void zoom_map(int16_t change);
 // returns 1 if the map has to be redrawn, otherwise 0
 // will set the "redraw flag" in sharing if the map shifted
 // assumes you will redraw the cursor either way
-void move_cursor(const xy_pos& delta);
+void move_cursor(const xy_pos &delta);
 
 // constrains the cursor to lie within the padding of the current map
 // useful for a couple of functions
