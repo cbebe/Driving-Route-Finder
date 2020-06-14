@@ -24,7 +24,7 @@
 - Send number of waypoints
 - Send each coordinate
 
-### Part 2 - Client - in progress
+### Part 2 - Client - done
 
 #### Route Finding Request - done
 
