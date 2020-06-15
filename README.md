@@ -1,6 +1,6 @@
 # Driving Route Finder
 
-Created by: [Charles Ancheta](https://github.com/charlesancheta) and [Poulomi Ganguly](https://github.com/poulomi-g)
+Created by: [Charles Ancheta](https://github.com/cbebe) and [Poulomi Ganguly](https://github.com/poulomi-g)
 
 An Arduino/CMPUT 275 VM application that finds the shortest driving route between two locations using Dijkstra's algorithm
 
