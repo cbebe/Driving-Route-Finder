@@ -1,6 +1,13 @@
 ######################################################
 # Arduino UA Child Makefile (UPDATED: 31/07/2017)
 #
+ifndef MCU
+MCU = atmega2560
+endif
+
+ifndef F_CPU
+F_CPU = 1000000
+endif
 
 # Arduino UA Directory
 ifndef ARDUINO_UA_DIR
